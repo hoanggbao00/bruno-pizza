@@ -1,0 +1,140 @@
+'use server';
+
+import { createAdminClient, createSessionClient } from '@/lib/appwrite';
+import { appwriteConfig } from '@/lib/appwrite/config';
+import { Query, ID } from 'node-appwrite';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { avatarPlaceholderUrl } from '@/shared/constants';
+
+const isEmailExists = async (email: string) => {
+	const { databases } = await createAdminClient();
+
+	const result = await databases.listDocuments(
+		appwriteConfig.databaseId,
+		appwriteConfig.usersCollectionId,
+		[Query.equal('email', [email]), Query.select(['email'])]
+	);
+
+	return result.total > 0 ? true : false;
+};
+
+// Đăng ký người dùng
+export const signUp = async (
+	email: string,
+	password: string,
+	fullName: string
+) => {
+	try {
+		// Kiểm tra email đã tồn tại hay chưa
+		const existingUser = await isEmailExists(email);
+		if (existingUser) {
+			throw new Error('Email đã tồn tại');
+		}
+
+		// Tạo mới user
+		const { databases, account } = await createAdminClient();
+		const user = await databases.createDocument(
+			appwriteConfig.databaseId,
+			appwriteConfig.usersCollectionId,
+			ID.unique(),
+			{
+				email,
+				fullName,
+				avatar: avatarPlaceholderUrl,
+			}
+		);
+
+		// Tạo mới account
+		const accountData = await account.create(
+			ID.unique(),
+			email,
+			password,
+			fullName
+		);
+
+		// Update user
+		await databases.updateDocument(
+			appwriteConfig.databaseId,
+			appwriteConfig.usersCollectionId,
+			user.$id,
+			{
+				accountId: accountData.$id,
+			}
+		);
+
+		return user.$id;
+	} catch (error: any) {
+		console.log(error);
+		if ((error.message as string)?.includes('same')) {
+			throw new Error('Email đã tồn tại');
+		}
+
+		throw new Error('Có lỗi xảy ra khi đăng ký');
+	}
+};
+
+// Đăng nhập
+export const login = async (email: string, password: string) => {
+	const { account, databases } = await createAdminClient();
+
+	try {
+		const data = await databases.listDocuments(
+			appwriteConfig.databaseId,
+			appwriteConfig.usersCollectionId,
+			[Query.equal('email', email)]
+		);
+
+		if (data.total <= 0) {
+			throw new Error('Email hoặc mật khẩu không đúng');
+		}
+		const user: IUser = {
+			id: data.documents[0].$id,
+			email: data.documents[0].email,
+			fullName: data.documents[0].fullName,
+			avatar: data.documents[0].avatar,
+			role: data.documents[0].role,
+		};
+
+		(await cookies()).set('user', JSON.stringify(user));
+
+		const session = await account.createEmailPasswordSession(email, password);
+
+		// Tạo cookies
+		(await cookies()).set('appwrite-session', session.secret, {
+			path: '/',
+			httpOnly: true,
+			sameSite: 'strict',
+			secure: true,
+		});
+
+		return user
+	} catch (error: any) {
+		console.log(error)
+		throw new Error('Tài khoản hoặc mật khẩu không đúng');
+	}
+};
+
+export const signOutUser = async () => {
+	const { account } = await createSessionClient();
+
+	try {
+		await account.deleteSession('current');
+		(await cookies()).delete('appwrite-session');
+	} catch (error: any) {
+		console.log(error);
+		throw new Error(error);
+	} finally {
+		redirect('/login');
+	}
+};
+
+export const getServerSession = async () => {
+	const user = (await cookies()).get('user')?.value;
+
+	if (!user) {
+		return null;
+	}
+
+	return JSON.parse(user) as IUser;
+};
