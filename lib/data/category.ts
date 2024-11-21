@@ -1,7 +1,8 @@
-export const categories = [
-	{ name: 'All', slug: 'all' },
-	{ name: 'Hot Deal', slug: 'hot-deal' },
-	{ name: 'Sea Food', slug: 'sea-food' },
-	{ name: 'Special', slug: 'special' },
-	{ name: 'Pizza Custom', slug: 'custom' },
+export const categories: ICategory[] = [
+	{ name: 'All', slug: 'all', $id: 'all' },
+	{ name: 'Hot Deals', slug: 'hot-deals', $id: 'hot-deals' },
+	{ name: 'Seafood', slug: 'sea-food', $id: 'sea-food' },
+	{ name: 'Specials', slug: 'specials', $id: 'specials' },
+	{ name: 'Custom Pizza', slug: 'custom-pizza', $id: 'custom-pizza' },
 ];
+

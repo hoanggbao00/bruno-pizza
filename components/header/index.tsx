@@ -10,32 +10,13 @@ import {
 	SheetTrigger,
 } from '@/components/ui/sheet';
 import { Menu, PhoneCall } from 'lucide-react';
-import { APP_NAME, PHONE_NUMBER } from '@/shared/constants';
+import { APP_NAME, PHONE_CONTACT, ROUTES } from '@/shared/constants';
 import UserDropdown from './user-dropdown';
 import { useAuthStore } from '@/lib/stores/use-auth-store';
 import CartHeader from './cart-header';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-
-const ROUTES = [
-	{
-		label: 'Home',
-		href: '/',
-	},
-	{
-		label: 'Menu',
-		href: '/menu',
-	},
-	{
-		label: 'Pizza Builder',
-		href: '/pizza-builder',
-	},
-	{
-		label: 'About Us',
-		href: '/about',
-	},
-];
 
 export default function Header() {
 	const [isOpen, setIsOpen] = useState(false);
@@ -79,7 +60,7 @@ export default function Header() {
 				<div className='flex items-center gap-4'>
 					{!user && <CartHeader />}
 					<UserDropdown />
-					<Link href={`tel:${PHONE_NUMBER}`}>
+					<Link href={`tel:${PHONE_CONTACT}`}>
 						<Button className='hidden md:inline-flex bg-brand text-white hover:bg-brand/90 rounded-full px-6'>
 							<PhoneCall /> Contact
 						</Button>

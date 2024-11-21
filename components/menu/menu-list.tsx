@@ -4,6 +4,7 @@ import { useState } from 'react';
 import PizzaCard from '../pizza-card';
 import { Button } from '../ui/button';
 import { Loader2 } from 'lucide-react';
+import { IPizza } from '@/types/pizza';
 
 interface Props {
 	initialData: IPizza[];
@@ -17,7 +18,7 @@ export default function MenuList({ initialData }: Props) {
 		<div className='space-y-6'>
 			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
 				{data.map((item) => (
-					<PizzaCard pizza={item} key={item.id} />
+					<PizzaCard pizza={item} key={item.$id} />
 				))}
 			</div>
 			<div className='flex-center'>

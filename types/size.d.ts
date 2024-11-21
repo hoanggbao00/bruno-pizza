@@ -1,5 +1,5 @@
 interface IPizzaSize {
-  id: string,
+  $id: string,
   name: string;
   price: number;
 }

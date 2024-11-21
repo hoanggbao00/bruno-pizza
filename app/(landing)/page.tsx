@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { Facebook, Instagram, Youtube } from 'lucide-react';
 import Image from 'next/image';
 import LandingCard from '@/components/landing/landing-card';
 import UserRatingPreview from '@/components/landing/user-rateing-preview';

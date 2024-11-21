@@ -4,7 +4,6 @@ import { createAdminClient, createSessionClient } from '@/lib/appwrite';
 import { appwriteConfig } from '@/lib/appwrite/config';
 import { Query, ID } from 'node-appwrite';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 import { avatarPlaceholderUrl } from '@/shared/constants';
 
 const isEmailExists = async (email: string) => {
@@ -77,6 +76,7 @@ export const signUp = async (
 // Đăng nhập
 export const login = async (email: string, password: string) => {
 	const { account, databases } = await createAdminClient();
+	const cookieStore = await cookies();
 
 	try {
 		const data = await databases.listDocuments(
@@ -88,44 +88,47 @@ export const login = async (email: string, password: string) => {
 		if (data.total <= 0) {
 			throw new Error('Email hoặc mật khẩu không đúng');
 		}
-		const user: IUser = {
-			id: data.documents[0].$id,
+		const user: Omit<IUser, '$createdAt' | '$updatedAt' | 'accountId'> = {
+			$id: data.documents[0].$id,
 			email: data.documents[0].email,
 			fullName: data.documents[0].fullName,
-			avatar: data.documents[0].avatar,
 			role: data.documents[0].role,
 		};
-
-		(await cookies()).set('user', JSON.stringify(user));
 
 		const session = await account.createEmailPasswordSession(email, password);
 
 		// Tạo cookies
-		(await cookies()).set('appwrite-session', session.secret, {
+		cookieStore.set('appwrite-session', session.secret, {
 			path: '/',
 			httpOnly: true,
-			sameSite: 'strict',
+			sameSite: 'lax',
 			secure: true,
+			expires: new Date(session.expire),
+		});
+		cookieStore.set('pizza-userId', JSON.stringify(user.$id), {
+			expires: new Date(session.expire),
 		});
 
-		return user
+		return user;
 	} catch (error: any) {
-		console.log(error)
+		console.log(error);
 		throw new Error('Tài khoản hoặc mật khẩu không đúng');
 	}
 };
 
 export const signOutUser = async () => {
 	const { account } = await createSessionClient();
+	const cookieStore = await cookies();
+	cookieStore.delete('appwrite-session');
+	cookieStore.delete('pizza-userId');
 
 	try {
 		await account.deleteSession('current');
-		(await cookies()).delete('appwrite-session');
 	} catch (error: any) {
 		console.log(error);
 		throw new Error(error);
 	} finally {
-		return true
+		return true;
 	}
 };
 

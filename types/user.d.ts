@@ -1,12 +1,15 @@
 enum USER_ROLE {
-	USER,
-	ADMIN,
+	USER = 'USER',
+	ADMIN = 'ADMIN',
 }
 
 interface IUser {
-	id: string;
+	$id: string;
 	email: string;
-	avatar: string;
 	fullName: string;
 	role: USER_ROLE;
+	accountId: string
+
+	$createdAt: Date;
+	$updatedAt: Date;
 }

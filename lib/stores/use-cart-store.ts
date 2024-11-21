@@ -1,120 +1,147 @@
+import { ICartItem } from '@/types/cart-item';
+import { ITopping } from '@/types/topping';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-type UpdateType = 'increase' | 'decrease';
+export type StoreCartItem = Omit<ICartItem, '$id'> & {
+	listToppings: ITopping[];
+};
 
-export interface ICartItem {
-	id: string;
-	name: string;
-	images: string[];
-	size: IPizzaSize;
-	price: number;
-	quantity: number;
-	toppings: ITopping[];
-	listTopping: ITopping[];
-}
-
-export interface ICartStore {
-	items: ICartItem[];
-	updateCart: (type: UpdateType, item: ICartItem, quantity?: number) => void;
-	removeCart: (item: ICartItem) => void;
+interface CartStore {
+	items: StoreCartItem[];
+	addItem: (item: StoreCartItem) => void;
+	removeItem: (item: StoreCartItem) => void;
+	updateItemQuantity: (item: StoreCartItem, quantity: number) => void;
 	clearCart: () => void;
+	updateItemToppings: (item: StoreCartItem, toppings: ITopping[]) => void;
+	updateItemSize: (item: StoreCartItem, sizeId: IPizzaSize) => void;
 	getTotalPrice: () => number;
-	updateTopping: (
-		type: 'add' | 'remove',
-		item: ICartItem,
-		topping: ITopping
-	) => void;
 }
 
-export const useCartStore = create(
-	persist<ICartStore>(
+const useCartStore = create(
+	persist<CartStore>(
 		(set, get) => ({
 			items: [],
-			updateCart: (type, item, quantity = 1) => {
-				const foundItem = get().items.find(
-					(cartItem) =>
-						cartItem.id === item.id &&
-						cartItem.size.id === item.size.id &&
-						cartItem.toppings.length == item.toppings.length &&
-						cartItem.toppings.every((topping) =>
-							item.toppings.find((t) => t.id === topping.id)
-						)
+			addItem: (newItem) =>
+				set((state) => {
+					const existingItemIndex = state.items.findIndex(
+						(item) =>
+							item.pizza.$id === newItem.pizza.$id &&
+							item.selectedSize.$id === newItem.selectedSize.$id &&
+							JSON.stringify(item.selectedToppings) ===
+								JSON.stringify(newItem.selectedToppings)
+					);
+
+					if (existingItemIndex > -1) {
+						const updatedItems = [...state.items];
+						updatedItems[existingItemIndex].quantity += newItem.quantity;
+						return { items: updatedItems };
+					}
+
+					return { items: [...state.items, newItem] };
+				}),
+
+			removeItem: (newItem) => {
+				const existingItemIndex = get().items.findIndex(
+					(item) =>
+						item.pizza.$id === newItem.pizza.$id &&
+						item.selectedSize.$id === newItem.selectedSize.$id &&
+						JSON.stringify(item.selectedToppings) ===
+							JSON.stringify(newItem.selectedToppings)
 				);
 
-				if (foundItem) {
-					set((state) => ({
-						items: state.items.map((cartItem) =>
-							cartItem.id === item.id &&
-							cartItem.size.id === item.size.id &&
-							cartItem.toppings.length == item.toppings.length &&
-							cartItem.toppings.every((topping) =>
-								item.toppings.find((t) => t.id === topping.id)
-							)
-								? {
-										...cartItem,
-										quantity:
-											type === 'increase'
-												? cartItem.quantity + quantity
-												: cartItem.quantity - quantity,
-								  }
-								: cartItem
-						),
-					}));
-				} else {
-					set((state) => ({
-						items: [...state.items, { ...item, quantity: 1 }],
-					}));
+
+				if (existingItemIndex > -1) {
+					const updatedItems = [...get().items];
+					updatedItems.splice(existingItemIndex, 1);
+					return set({ items: [...updatedItems] });
 				}
 			},
-			removeCart: (item) => {
-				set((state) => ({
-					items: state.items.filter((cartItem) => {
-						return (
-							cartItem.id == item.id &&
-							cartItem.size.id == item.size.id &&
-							!cartItem.toppings.every((topping) =>
-								item.toppings.find((t) => t.id === topping.id)
-							)
-						);
-					}),
-				}));
-			},
-			clearCart: () => {
-				set({ items: [] });
-			},
-			updateTopping: (type: 'add' | 'remove', item, topping) => {
-				set((state) => ({
-					items: state.items.map((cartItem) => {
-						if (
-							cartItem.id === item.id &&
-							cartItem.size === item.size &&
-							cartItem.toppings.every((topping) =>
-								item.toppings.includes(topping)
-							)
-						) {
-							if (type === 'add') {
-								cartItem.toppings.push(topping);
-							} else {
-								cartItem.toppings = cartItem.toppings.filter(
-									(t) => t.id !== topping.id
-								);
-							}
-						}
-						return cartItem;
-					}),
-				}));
-			},
+
+			updateItemQuantity: (newItem, quantity) =>
+				set((state) => {
+					const existingItemIndex = state.items.findIndex(
+						(item) =>
+							item.pizza.$id === newItem.pizza.$id &&
+							item.selectedSize.$id === newItem.selectedSize.$id &&
+							JSON.stringify(item.selectedToppings) ===
+								JSON.stringify(newItem.selectedToppings)
+					);
+
+					if (existingItemIndex > -1) {
+						const updatedItems = [...state.items];
+						updatedItems[existingItemIndex].quantity = quantity;
+						return { items: updatedItems };
+					} else {
+						return { items: [...state.items, newItem] };
+					}
+				}),
+			updateItemSize: (newItem, size) =>
+				set((state) => {
+					const existingItemIndex = state.items.findIndex(
+						(item) =>
+							item.pizza.$id === newItem.pizza.$id &&
+							item.selectedSize.$id === newItem.selectedSize.$id &&
+							JSON.stringify(item.selectedToppings) ===
+								JSON.stringify(newItem.selectedToppings)
+					);
+
+					if (existingItemIndex > -1) {
+						const updatedItems = [...state.items];
+						updatedItems[existingItemIndex].selectedSize = size;
+						return { items: updatedItems };
+					} else {
+						return { items: [...state.items, newItem] };
+					}
+				}),
+			updateItemToppings: (newItem, toppings) =>
+				set((state) => {
+					const existingItemIndex = state.items.findIndex(
+						(item) =>
+							item.pizza.$id === newItem.pizza.$id &&
+							item.selectedSize.$id === newItem.selectedSize.$id &&
+							JSON.stringify(item.selectedToppings) ===
+								JSON.stringify(newItem.selectedToppings)
+					);
+
+					if (existingItemIndex > -1) {
+						const updatedItems = [...state.items];
+						updatedItems[existingItemIndex].selectedToppings = toppings;
+						return { items: updatedItems };
+					} else {
+						return { items: [...state.items] };
+					}
+				}),
+
+			clearCart: () => set({ items: [] }),
+
 			getTotalPrice: () => {
-				return get().items.reduce(
-					(total, item) => total + item.price * item.quantity,
-					0
-				);
+				const totalItems = get().items;
+
+				// tính tổng tiền
+				const totalPrice = totalItems.reduce((total, item) => {
+					// Tính tổng tièn topping
+					const toppingsPrice = item.selectedToppings.reduce(
+						(toppingTotal, topping) => toppingTotal + topping.price,
+						0
+					);
+
+					// (tiền + tổng topping + size) * số lượng
+					return (
+						total +
+						(item.pizza.price + toppingsPrice + item.selectedSize.price) *
+							item.quantity
+					);
+				}, 0);
+
+				return totalPrice;
 			},
 		}),
 		{
-			name: 'cart-storage',
+			name: 'pizza-cart-storage',
 			storage: createJSONStorage(() => localStorage),
 		}
 	)
 );
+
+export default useCartStore;

@@ -1,5 +1,4 @@
 'use client';
-import { ICartItem, useCartStore } from '@/lib/stores/use-cart-store';
 import { currency } from '@/shared/constants';
 import { ArrowRight, ShoppingCartIcon, Star } from 'lucide-react';
 import Link from 'next/link';
@@ -12,6 +11,9 @@ import { useRouter } from 'nextjs-toploader/app';
 import { Badge } from './ui/badge';
 import SelectSize from './select-size';
 import SelectTopping from './select-topping';
+import { IPizza } from '@/types/pizza';
+import useCartStore, { StoreCartItem } from '@/lib/stores/use-cart-store';
+import { ITopping } from '@/types/topping';
 
 interface Props {
 	pizza: IPizza;
@@ -19,7 +21,7 @@ interface Props {
 
 export default function PizzaCard({ pizza }: Props) {
 	const [selectedSize, setSelectedSize] = useState<IPizzaSize>(pizza.sizes[0]);
-	const { updateCart } = useCartStore();
+	const { addItem } = useCartStore();
 	const [toppingSelected, setToppingSelected] = useState<ITopping[]>([]);
 	const router = useRouter();
 
@@ -35,24 +37,16 @@ export default function PizzaCard({ pizza }: Props) {
 	}, [pizza.price, toppingSelected, selectedSize]);
 
 	const handleAddToCart = () => {
-		const finalPizza: ICartItem = {
-			id: pizza.id,
-			name: pizza.name,
-			price: pizza.price,
-			images: pizza.images,
-			size: selectedSize,
+		const finalPizza: StoreCartItem = {
+			pizza: pizza,
+			selectedSize: selectedSize,
+			selectedToppings: toppingSelected,
 			quantity: 1,
-			toppings: toppingSelected.map((t) => ({
-				id: t.id,
-				name: t.name,
-				price: t.price,
-				description: t.description,
-				image: t.image,
-			})),
-			listTopping: pizza.toppings,
+			totalPrice: finalPrice,
+			listToppings: pizza.toppings,
 		};
 
-		updateCart('increase', finalPizza, 1);
+		addItem(finalPizza);
 		toast.success('Đã thêm vào giỏ hàng', {
 			action: {
 				label: 'Đến giỏ hàng',
@@ -66,7 +60,7 @@ export default function PizzaCard({ pizza }: Props) {
 
 	return (
 		<Card
-			key={pizza.id}
+			key={pizza.$id}
 			className='bg-white rounded-3xl p-4 relative group md:rounded-tr-[8rem] md:rounded-tl-[8rem] rounded-tr-[10rem] rounded-tl-[10rem] hover:scale-105 hover:motion-preset-flomoji-🚀 hover:motion-duration-500 transition-all hover:shadow-drop-1 hover:bg-brand/20 group'
 		>
 			{isBestSeller && (
@@ -113,7 +107,7 @@ export default function PizzaCard({ pizza }: Props) {
 
 			<CardFooter className='justify-between gap-2 px-0 pb-0'>
 				<Link
-					href={`/pizza/${pizza.id}`}
+					href={`/pizza/${pizza.$id}`}
 					className='rounded-full bg-gray-300 hover:bg-gray-300/90 size-10 flex-center text-white'
 				>
 					<ArrowRight className='h-5 w-5' />

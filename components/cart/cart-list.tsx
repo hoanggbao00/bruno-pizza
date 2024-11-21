@@ -1,9 +1,9 @@
 'use client';
 
-import { useCartStore } from '@/lib/stores/use-cart-store';
 import { currency } from '@/shared/constants';
 import CartEmpty from './cart-empty';
 import CartItem from './cart-item';
+import useCartStore from '@/lib/stores/use-cart-store';
 
 export default function CartList() {
 	const { items, clearCart, getTotalPrice } = useCartStore();
@@ -13,9 +13,13 @@ export default function CartList() {
 	) : (
 		<div>
 			<div className='space-y-4'>
-				{items.map((item, index) => (
-					<CartItem item={item} key={item.id+''+index} />
-				))}
+				{items.map((item) => {
+					const itemKey = `${item.pizza.$id}-${
+						item.selectedSize.name
+					}-${item.selectedToppings.map((t) => t.name).join('-')}`;
+
+					return <CartItem item={item} key={itemKey} />;
+				})}
 			</div>
 			<div className='h-[1px] bg-gray-200 mt-8 mb-1' />
 			<div className='flex justify-end items-center mb-1'>

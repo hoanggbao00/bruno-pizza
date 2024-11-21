@@ -1,5 +1,6 @@
 'use client';
 
+import { ITopping } from '@/types/topping';
 import { useEffect, useState } from 'react';
 
 interface Props {
@@ -17,7 +18,7 @@ export default function SelectTopping({
 
 	const handleUpdateTopping = (topping: ITopping) => {
 		if (selectedTopping.includes(topping)) {
-			setSelectedTopping(selectedTopping.filter((t) => t.id !== topping.id));
+			setSelectedTopping(selectedTopping.filter((t) => t.$id !== topping.$id));
 		} else {
 			setSelectedTopping([...selectedTopping, topping]);
 		}
@@ -33,7 +34,7 @@ export default function SelectTopping({
 		<div className='flex gap-2 mb-4 flex-wrap'>
 			{toppings.map((topping) => (
 				<button
-					key={topping.id}
+					key={topping.$id}
 					onClick={() => handleUpdateTopping(topping)}
 					className={`px-3 py-1 rounded-full text-sm transition-colors ${
 						selectedTopping.includes(topping)

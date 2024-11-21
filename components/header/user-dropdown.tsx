@@ -17,9 +17,9 @@ export default function UserDropdown() {
 	const { user, setUser } = useAuthStore();
 
 	const handleLogout = async () => {
+		setUser(null);
 		await signOutUser();
 		toast.success('Đăng xuất thành công.');
-		setUser(null);
 	};
 
 	return (

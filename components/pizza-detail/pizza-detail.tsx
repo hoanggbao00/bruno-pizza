@@ -12,21 +12,22 @@ import {
 import { ChevronLeft, Pizza } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useMemo, useState } from 'react';
-import { ICartItem, useCartStore } from '@/lib/stores/use-cart-store';
 import { toast } from 'sonner';
 import { useRouter } from 'nextjs-toploader/app';
 import { currency } from '@/shared/constants';
 import Link from 'next/link';
+import { IPizza } from '@/types/pizza';
+import useCartStore, { StoreCartItem } from '@/lib/stores/use-cart-store';
+import { ITopping } from '@/types/topping';
 
 interface Props {
-	id: string;
 	pizza: IPizza;
 }
 
-export default function PizzaDetail({ id, pizza }: Props) {
+export default function PizzaDetail({ pizza }: Props) {
 	const [selectedSize, setSelectedSize] = useState<IPizzaSize>(pizza.sizes[0]);
 	const [toppingSelected, setToppingSelected] = useState<ITopping[]>([]);
-	const { updateCart } = useCartStore();
+	const { addItem } = useCartStore();
 	const router = useRouter();
 
 	const finalPrice = useMemo(() => {
@@ -38,24 +39,16 @@ export default function PizzaDetail({ id, pizza }: Props) {
 	}, [pizza.price, toppingSelected, selectedSize]);
 
 	const handleAddToCart = () => {
-		const finalPizza: ICartItem = {
-			id: pizza.id,
-			name: pizza.name,
-			price: pizza.price,
-			images: pizza.images,
-			size: selectedSize,
+		const finalPizza: StoreCartItem = {
+			pizza: pizza,
+			selectedSize: selectedSize,
+			selectedToppings: toppingSelected,
 			quantity: 1,
-			toppings: toppingSelected.map((t) => ({
-				id: t.id,
-				name: t.name,
-				price: t.price,
-				description: t.description,
-				image: t.image,
-			})),
-			listTopping: pizza.toppings,
+			totalPrice: finalPrice,
+			listToppings: pizza.toppings,
 		};
 
-		updateCart('increase', finalPizza, 1);
+		addItem(finalPizza);
 		toast.success('Đã thêm vào giỏ hàng', {
 			action: {
 				label: 'Đến giỏ hàng',

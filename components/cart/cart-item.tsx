@@ -1,55 +1,66 @@
 'use client';
 
-import { ICartItem, useCartStore } from '@/lib/stores/use-cart-store';
 import { currency } from '@/shared/constants';
 import { TrashIcon } from 'lucide-react';
 import { useMemo } from 'react';
 import ToppingDropdown from './topping-dropdown';
+import useCartStore, { StoreCartItem } from '@/lib/stores/use-cart-store';
+import { ITopping } from '@/types/topping';
 
 interface Props {
-	item: ICartItem;
+	item: StoreCartItem;
 }
 
 export default function CartItem({ item }: Props) {
-	const { updateCart, removeCart, updateTopping } = useCartStore();
+	const { updateItemQuantity, removeItem, updateItemToppings } = useCartStore();
 
-	const handlePlus = (item: ICartItem) => {
-		updateCart('increase', item, 1);
+	const handlePlus = (item: StoreCartItem) => {
+		updateItemQuantity(item, item.quantity + 1);
 	};
 
-	const handleMinus = (item: ICartItem) => {
-		updateCart('decrease', item, 1);
+	const handleMinus = (item: StoreCartItem) => {
+		if (item.quantity == 1) return removeItem(item);
+		updateItemQuantity(item, item.quantity - 1);
 	};
 
-	const handleRemoveToping = (item: ICartItem, topping: ITopping) => {
-		updateTopping('remove', item, topping);
+	const handleRemoveToping = (item: StoreCartItem, topping: ITopping) => {
+		const newToppings = item.selectedToppings.filter(
+			(t) => t.$id !== topping.$id
+		);
+		updateItemToppings(item, newToppings);
 	};
 
 	const finalPrice = useMemo(() => {
-		return (
-			item.price * item.quantity +
-			item.toppings.reduce((total, topping) => total + topping.price, 0)
+		const toppingsPrice = item.selectedToppings.reduce(
+			(total, t) => total + t.price,
+			0
 		);
-	}, [item.price, item.quantity, item.toppings]);
+		return (
+			(item.pizza.price + toppingsPrice + item.selectedSize.price) *
+			item.quantity
+		);
+	}, [
+		item.pizza.price,
+		item.selectedSize.price,
+		item.quantity,
+		item.selectedToppings,
+	]);
 
 	return (
-		<div
-			key={`${item.id}-${item.size}`}
-			className='bg-white p-4 rounded-lg shadow flex flex-col justify-between gap-2 relative'
-		>
+		<div className='bg-white p-4 rounded-lg shadow flex flex-col justify-between gap-2 relative'>
 			<div>
 				<h3 className='font-bold text-xl'>
-					{item.name} ({item.size.name})
+					{item.pizza.name} ({item.selectedSize.name})
 				</h3>
 				<p className='text-gray-500'>
-					{item.price.toLocaleString()} {currency}
+					{item.pizza.price.toLocaleString()} {currency}
 				</p>
 
 				<div className='space-y-1'>
 					<p className='text-gray-500'>
 						Toppings: <ToppingDropdown item={item} />
 					</p>
-					{item.toppings.map((topping) => (
+					{item.selectedToppings.map((topping) => (
 						<p key={topping.id} className='text-gray-500 text-sm'>
 							- {topping.name}{' '}
 							<span className='text-xs rounded-full p-0.5 px-1 bg-gray-400/30'>
@@ -74,7 +85,9 @@ export default function CartItem({ item }: Props) {
 				>
 					-
 				</button>
-				<span className='text-center text-lg font-semibold'>{item.quantity}</span>
+				<span className='text-center text-lg font-semibold'>
+					{item.quantity}
+				</span>
 				<button
 					onClick={() => handlePlus(item)}
 					className='size-5 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200'
@@ -88,7 +101,7 @@ export default function CartItem({ item }: Props) {
 			</p>
 			<div className='absolute top-2 right-2'>
 				<button
-					onClick={() => removeCart(item)}
+					onClick={() => removeItem(item)}
 					className='text-gray-400 hover:text-brand transition-colors'
 				>
 					<TrashIcon className='h-5 w-5' />

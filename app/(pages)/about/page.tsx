@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, PhoneCall, Pizza, ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
-import { PHONE_NUMBER } from '@/shared/constants';
+import { PHONE_CONTACT } from '@/shared/constants';
 
 export default function Component() {
 	return (
@@ -106,10 +106,10 @@ export default function Component() {
 							>
 								<ShoppingCart /> Order Now
 							</Link>
-							<Link href={`tel:${PHONE_NUMBER}`}>
+							<Link href={`tel:${PHONE_CONTACT}`}>
 								<Button variant='outline' className='rounded-full group'>
 									<PhoneCall className='group-hover:animate-ping duration-200' />{' '}
-									{PHONE_NUMBER}
+									{PHONE_CONTACT}
 								</Button>
 							</Link>
 						</div>

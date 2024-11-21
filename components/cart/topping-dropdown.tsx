@@ -5,20 +5,25 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { ICartItem, useCartStore } from '@/lib/stores/use-cart-store';
+import useCartStore, { StoreCartItem } from '@/lib/stores/use-cart-store';
+import { ITopping } from '@/types/topping';
 
 interface Props {
-	item: ICartItem;
+	item: StoreCartItem;
 }
 
 export default function ToppingDropdown({ item }: Props) {
-	const { updateTopping } = useCartStore();
+	const { updateItemToppings } = useCartStore();
 
 	const handleUpdateTopping = (topping: ITopping) => {
-		if (item.toppings.includes(topping)) {
-			updateTopping('remove', item, topping);
+		const isFound = item.selectedToppings.find((t) => t.$id === topping.$id);
+		if (isFound) {
+			updateItemToppings(
+				item,
+				item.selectedToppings.filter((t) => t.$id !== topping.$id)
+			);
 		} else {
-			updateTopping('add', item, topping);
+			updateItemToppings(item, [...item.selectedToppings, topping]);
 		}
 	};
 
@@ -30,15 +35,15 @@ export default function ToppingDropdown({ item }: Props) {
 				</button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>
-				{item.listTopping.map((topping) => (
+				{item.listToppings.map((topping) => (
 					<DropdownMenuItem
-						key={topping.id}
+						key={topping.$id}
 						onClick={() => handleUpdateTopping(topping)}
 						asChild
 					>
 						<div className={`flex items-center gap-2`}>
 							<span>
-								{item.toppings.find((t) => t.id === topping.id) && '✓ '}
+								{item.selectedToppings.find((t) => t.$id === topping.$id) && '✓ '}
 								{topping.name}
 							</span>
 						</div>

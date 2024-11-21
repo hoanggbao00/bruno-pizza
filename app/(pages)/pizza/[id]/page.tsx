@@ -7,7 +7,7 @@ interface Props {
 
 export default async function Page({ params }: Props) {
 	const id = (await params).id;
-	const pizza = pizzas.find((p) => p.id === id);
+	const pizza = pizzas.find((p) => p.$id === id);
 
-	return pizza ? <PizzaDetail id={id} pizza={pizza} /> : <div>Not found</div>;
+	return pizza ? <PizzaDetail pizza={pizza} /> : <div>Not found</div>;
 }

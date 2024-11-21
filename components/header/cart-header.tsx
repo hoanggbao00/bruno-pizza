@@ -1,4 +1,4 @@
-import { useCartStore } from '@/lib/stores/use-cart-store';
+import useCartStore from '@/lib/stores/use-cart-store';
 import { ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
 
