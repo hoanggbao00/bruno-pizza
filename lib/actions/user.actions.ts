@@ -125,7 +125,7 @@ export const signOutUser = async () => {
 		console.log(error);
 		throw new Error(error);
 	} finally {
-		redirect('/login');
+		return true
 	}
 };
 

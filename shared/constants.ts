@@ -2,6 +2,7 @@ export const APP_NAME = 'Pizza Shop'
 export const APP_SUBTITLE = 'More of Pizza Shop'
 export const APP_DESCRIPTION = 'There is a place where you can feel your coolest pizza'
 export const currency = '₫'
+export const PHONE_NUMBER = '0362555555'
 
 export const actionsDropdownItems = [
   {

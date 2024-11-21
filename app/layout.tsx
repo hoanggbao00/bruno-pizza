@@ -4,7 +4,6 @@ import './globals.css';
 import { APP_NAME, APP_SUBTITLE } from '@/shared/constants';
 import NextTopLoader from 'nextjs-toploader';
 import dynamic from 'next/dynamic';
-import Header from '@/components/header';
 
 const Toaster = dynamic(() =>
 	import('@/components/ui/sonner').then((m) => m.Toaster)
@@ -39,7 +38,6 @@ export default async function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<Header />
 				{children}
 				<NextTopLoader height={5} />
 				<Toaster duration={2000} richColors position='top-center' />

@@ -10,7 +10,7 @@ import {
 	SheetTrigger,
 } from '@/components/ui/sheet';
 import { Menu, PhoneCall } from 'lucide-react';
-import { APP_NAME } from '@/shared/constants';
+import { APP_NAME, PHONE_NUMBER } from '@/shared/constants';
 import UserDropdown from './user-dropdown';
 import { useAuthStore } from '@/lib/stores/use-auth-store';
 import CartHeader from './cart-header';
@@ -43,14 +43,19 @@ export default function Header() {
 	const pathname = usePathname();
 
 	return (
-		<header className={cn('px-4 md:container h-20 flex items-center fixed z-50 inset-x-0', {
-			'bg-white': pathname != '/'
-		})}>
-			<nav className='ml-auto flex items-center gap-4 sm:gap-6 justify-between flex-1'>
+		<header
+			className={cn('px-4 h-20 flex items-center fixed z-50 inset-x-0', {
+				'bg-white': pathname != '/',
+			})}
+		>
+			<nav className='md:container ml-auto flex items-center gap-4 sm:gap-6 justify-between flex-1'>
 				<Link
-					className={cn('relative flex items-center justify-center h-16 w-28 ', {
-						'bg-brand/30': pathname === '/',
-					})}
+					className={cn(
+						'relative flex items-center justify-center h-16 w-28 ',
+						{
+							'bg-brand/30': pathname === '/',
+						}
+					)}
 					href='/'
 				>
 					<Image
@@ -74,9 +79,11 @@ export default function Header() {
 				<div className='flex items-center gap-4'>
 					{!user && <CartHeader />}
 					<UserDropdown />
-					<Button className='hidden md:inline-flex bg-brand text-white hover:bg-brand/90 rounded-full px-6'>
-						<PhoneCall /> Contact
-					</Button>
+					<Link href={`tel:${PHONE_NUMBER}`}>
+						<Button className='hidden md:inline-flex bg-brand text-white hover:bg-brand/90 rounded-full px-6'>
+							<PhoneCall /> Contact
+						</Button>
+					</Link>
 					<Sheet open={isOpen} onOpenChange={setIsOpen}>
 						<SheetTrigger asChild>
 							<Button variant='ghost' size='icon' className='md:hidden'>

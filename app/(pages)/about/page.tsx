@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, PhoneCall, ShoppingCart } from 'lucide-react';
+import { ArrowRight, PhoneCall, Pizza, ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
+import { PHONE_NUMBER } from '@/shared/constants';
 
 export default function Component() {
 	return (
@@ -69,15 +70,17 @@ export default function Component() {
 						</p>
 						<div className='flex gap-4 items-center'>
 							<Link
-								href='/menu'
+								href='/pizza-builder'
 								className='bg-brand text-white hover:bg-brand/90 rounded-full py-4 px-6 text-xl flex gap-2'
 							>
-								<ShoppingCart /> Order Now
+								<Pizza /> Build Now
 							</Link>
-							<Button variant='outline' className='rounded-full gap-2 group'>
-								Find More
-								<ArrowRight className='h-4 w-4' />
-							</Button>
+							<Link href={'/menu'}>
+								<Button variant='outline' className='rounded-full gap-2 group'>
+									Find More
+									<ArrowRight className='h-4 w-4' />
+								</Button>
+							</Link>
 						</div>
 					</div>
 				</div>
@@ -103,10 +106,12 @@ export default function Component() {
 							>
 								<ShoppingCart /> Order Now
 							</Link>
-							<Button variant='outline' className='rounded-full group'>
-								<PhoneCall className='group-hover:animate-ping duration-200' />{' '}
-								0362554000
-							</Button>
+							<Link href={`tel:${PHONE_NUMBER}`}>
+								<Button variant='outline' className='rounded-full group'>
+									<PhoneCall className='group-hover:animate-ping duration-200' />{' '}
+									{PHONE_NUMBER}
+								</Button>
+							</Link>
 						</div>
 					</div>
 					<div className='grid grid-cols-2 gap-4'>

@@ -69,7 +69,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
 					: 'Đăng nhập thành công!'
 			);
 
-			router.push(type == 'sign-in' ? '/pizza' : '/login');
+			router.push(type == 'sign-in' ? '/menu' : '/login');
 		} catch (error: any) {
 			toast.error(error.message || 'Có lỗi xảy ra!');
 		} finally {

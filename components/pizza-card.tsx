@@ -67,7 +67,7 @@ export default function PizzaCard({ pizza }: Props) {
 	return (
 		<Card
 			key={pizza.id}
-			className='bg-white rounded-3xl p-4 relative group md:rounded-tr-[8rem] md:rounded-tl-[8rem] rounded-tr-[10rem] rounded-tl-[10rem] hover:scale-105 hover:motion-preset-flomoji-🚀 hover:motion-duration-500 transition-all hover:shadow-drop-1 hover:bg-brand/50 group hover:border-brand hover:border-2'
+			className='bg-white rounded-3xl p-4 relative group md:rounded-tr-[8rem] md:rounded-tl-[8rem] rounded-tr-[10rem] rounded-tl-[10rem] hover:scale-105 hover:motion-preset-flomoji-🚀 hover:motion-duration-500 transition-all hover:shadow-drop-1 hover:bg-brand/20 group'
 		>
 			{isBestSeller && (
 				<div className='absolute top-[15%] -right-9 z-10'>
