@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import LandingCard from '@/components/landing/landing-card';
-import UserRatingPreview from '@/components/landing/user-rateing-preview';
+import LandingCard from '@/components/pages/landing/landing-card';
+import UserRatingPreview from '@/components/pages/landing/user-rateing-preview';
 import Header from '@/components/header';
 
 export default function Page() {

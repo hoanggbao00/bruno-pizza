@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import { Card } from '@/components/ui/card';
 import { Star } from 'lucide-react';
-import HowToBuild from '@/components/pizza-builder/how-to-build';
-import BuildNow from '@/components/pizza-builder/build-now';
+import HowToBuild from '@/components/pages/pizza-builder/how-to-build';
+import BuildNow from '@/components/pages/pizza-builder/build-now';
 
 export default function Page() {
 	return (

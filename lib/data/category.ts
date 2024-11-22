@@ -1,3 +1,5 @@
+import { ICategory } from "@/types/category";
+
 export const categories: ICategory[] = [
 	{ name: 'All', slug: 'all', $id: 'all' },
 	{ name: 'Hot Deals', slug: 'hot-deals', $id: 'hot-deals' },

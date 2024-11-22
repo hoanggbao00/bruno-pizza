@@ -14,6 +14,7 @@ import SelectTopping from './select-topping';
 import { IPizza } from '@/types/pizza';
 import useCartStore, { StoreCartItem } from '@/lib/stores/use-cart-store';
 import { ITopping } from '@/types/topping';
+import { IPizzaSize } from '@/types/size';
 
 interface Props {
 	pizza: IPizza;

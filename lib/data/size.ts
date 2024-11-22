@@ -1,3 +1,5 @@
+import { IPizzaSize } from "@/types/size";
+
 export const mockSize: IPizzaSize[] = [
 	{ $id: '1', name: 'Small', price: 15000 },
 	{ $id: '2', name: 'Medium', price: 30000 },

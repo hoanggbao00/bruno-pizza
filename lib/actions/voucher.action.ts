@@ -1,3 +1,5 @@
+'use server'
+
 import { IVoucher } from '@/types/voucher';
 import { createAdminClient } from '../appwrite';
 import { appwriteConfig } from '../appwrite/config';
@@ -5,7 +7,7 @@ import { ID, Query } from 'node-appwrite';
 
 export const createVoucher = async (
 	voucher: Omit<IVoucher, '$id' | '$createdAt' | '$updatedAt'>
-) => {
+): Promise<IVoucher> => {
 	try {
 		const { databases } = await createAdminClient();
 
@@ -16,7 +18,21 @@ export const createVoucher = async (
 			voucher
 		);
 
-		return newVoucher;
+		return {
+			$id: newVoucher.$id,
+			name: newVoucher.name,
+			code: newVoucher.code,
+			startDate: newVoucher.startDate,
+			endDate: newVoucher.endDate,
+			isActive: newVoucher.isActive,
+			$createdAt: newVoucher.$createdAt,
+			$updatedAt: newVoucher.$updatedAt,
+			type: newVoucher.type,
+			value: newVoucher.value,
+			maxUsageCount: newVoucher.maxUsageCount,
+			currentUsageCount: newVoucher.currentUsageCount,
+			description: newVoucher.description,
+		};
 	} catch (error) {
 		console.error('Error creating voucher:', error);
 		throw error;

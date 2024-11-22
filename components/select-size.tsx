@@ -1,5 +1,6 @@
 'use client';
 
+import { IPizzaSize } from '@/types/size';
 import { useEffect, useState } from 'react';
 
 interface Props {

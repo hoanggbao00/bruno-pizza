@@ -1,3 +1,5 @@
+import { ICategory } from "./category";
+import { IPizzaSize } from "./size";
 import { ITopping } from "./topping";
 
 // Enum for Pizza Stock Status

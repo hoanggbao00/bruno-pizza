@@ -1,6 +1,9 @@
-import { ID } from 'node-appwrite';
+'use server';
+
+import { ID, Query } from 'node-appwrite';
 import { createAdminClient } from '../appwrite';
 import { appwriteConfig } from '../appwrite/config';
+import { ICategory } from '@/types/category';
 
 // Create a new category
 export const createCategory = async (category: Omit<ICategory, '$id'>) => {
@@ -43,7 +46,9 @@ export const getCategories = async (): Promise<ICategory[]> => {
 };
 
 // Get a single category by ID
-export const getCategoryById = async (categoryId: string): Promise<ICategory> => {
+export const getCategoryById = async (
+	categoryId: string
+): Promise<ICategory> => {
 	try {
 		const { databases } = await createAdminClient();
 
@@ -54,10 +59,10 @@ export const getCategoryById = async (categoryId: string): Promise<ICategory> =>
 		);
 
 		return {
-      $id: category.$id,
-      name: category.name,
-      slug: category.slug,
-    };
+			$id: category.$id,
+			name: category.name,
+			slug: category.slug,
+		};
 	} catch (error) {
 		console.error('Error fetching category:', error);
 		throw error;

@@ -1,7 +1,7 @@
 import { pizzas } from '@/lib/data/pizza';
-import CategoryFilter from '@/components/menu/category-filter';
-import { categories } from '@/lib/data/category';
-import MenuList from '@/components/menu/menu-list';
+import CategoryFilter from '@/components/pages/menu/category-filter';
+import MenuList from '@/components/pages/menu/menu-list';
+import { getCategories } from '@/lib/actions/category.action';
 
 interface Props {
 	searchParams: Promise<{
@@ -11,6 +11,9 @@ interface Props {
 
 export default async function Page({ searchParams }: Props) {
 	const s = await searchParams;
+
+	const categories = await getCategories();
+
 	return (
 		<div className='min-h-screen px-4 md:px-6'>
 			<div className='container mx-auto max-w-6xl pb-10'>

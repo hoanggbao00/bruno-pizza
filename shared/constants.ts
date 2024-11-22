@@ -3,6 +3,7 @@ export const APP_SUBTITLE = 'More of Pizza Shop'
 export const APP_DESCRIPTION = 'There is a place where you can feel your coolest pizza'
 export const currency = '₫'
 export const PHONE_CONTACT = '0362555555'
+export const DEFAULT_IMAGE = '/assets/images/photo-1628840042765-356cda07504e.png'
 
 export const ROUTES = [
 	{

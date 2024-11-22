@@ -1,4 +1,4 @@
-import PizzaDetail from '@/components/pizza-detail/pizza-detail';
+import PizzaDetail from '@/components/pages/pizza-detail/pizza-detail';
 import { pizzas } from '@/lib/data/pizza';
 
 interface Props {

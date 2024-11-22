@@ -5,6 +5,7 @@ import { appwriteConfig } from '@/lib/appwrite/config';
 import { Query, ID } from 'node-appwrite';
 import { cookies } from 'next/headers';
 import { avatarPlaceholderUrl } from '@/shared/constants';
+import { IUser } from '@/types/user';
 
 const isEmailExists = async (email: string) => {
 	const { databases } = await createAdminClient();

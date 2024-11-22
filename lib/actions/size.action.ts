@@ -1,6 +1,9 @@
+'use server'
+
 import { ID } from 'node-appwrite';
 import { createAdminClient } from '../appwrite';
 import { appwriteConfig } from '../appwrite/config';
+import { IPizzaSize } from '@/types/size';
 
 // Create a new pizza size
 export const createPizzaSize = async (pizzaSize: Omit<IPizzaSize, '$id'>) => {

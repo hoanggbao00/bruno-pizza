@@ -1,4 +1,5 @@
 import { ICartItem } from '@/types/cart-item';
+import { IPizzaSize } from '@/types/size';
 import { ITopping } from '@/types/topping';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
