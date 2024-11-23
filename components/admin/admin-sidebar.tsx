@@ -11,6 +11,7 @@ import {
 	HomeIcon,
 	Donut,
 	Menu,
+	Home,
 } from 'lucide-react';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '../ui/sheet';
 import { Button } from '../ui/button';
@@ -32,9 +33,13 @@ export const Sidebar = () => {
 
 	return (
 		<>
-			<aside className='hidden md:block w-64 bg-white border-r border-gray-200'>
-				<div className='p-4'>
-					<h1 className='text-2xl font-bold text-gray-800'>Admin Panel</h1>
+			<aside className='hidden xl:block w-64 bg-white border-r border-gray-200'>
+				<div className='p-4 flex items-center justify-between'>
+					<Link href={'/admin'}>
+						<h1 className='text-2xl font-bold text-gray-800 text-center'>
+							Admin Panel
+						</h1>
+					</Link>
 				</div>
 				<nav className='mt-4'>
 					{menuItems.map((item) => {
@@ -59,14 +64,18 @@ export const Sidebar = () => {
 			<Sheet open={isOpen} onOpenChange={setIsOpen}>
 				<SheetTrigger asChild>
 					<div className='absolute top-[3.5%]'>
-						<Button variant='ghost' size='icon' className='md:hidden'>
+						<Button variant='ghost' size='icon' className='xl:hidden'>
 							<Menu className='' />
 							<span className='sr-only'>Toggle menu</span>
 						</Button>
 					</div>
 				</SheetTrigger>
 				<SheetContent side='left' className='w-[300px] sm:w-[400px]'>
-					<SheetTitle>ADMIN PANEL</SheetTitle>
+					<SheetTitle>
+						<Link href={'/admin'} className='text-center'>
+							ADMIN PANEL
+						</Link>
+					</SheetTitle>
 					<nav className='flex flex-col gap-4 mt-2'>
 						{menuItems.map((route) => (
 							<Link

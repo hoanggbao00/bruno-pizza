@@ -1,4 +1,5 @@
 import { ICartItem } from '@/types/cart-item';
+import { EOrderStatus } from '@/types/order';
 import { IPizzaSize } from '@/types/size';
 import { ITopping } from '@/types/topping';
 import { create } from 'zustand';
@@ -9,6 +10,7 @@ export type StoreCartItem = Omit<ICartItem, '$id'> & {
 };
 
 interface CartStore {
+	cartStatus: EOrderStatus | null;
 	items: StoreCartItem[];
 	addItem: (item: StoreCartItem) => void;
 	removeItem: (item: StoreCartItem) => void;
@@ -17,17 +19,19 @@ interface CartStore {
 	updateItemToppings: (item: StoreCartItem, toppings: ITopping[]) => void;
 	updateItemSize: (item: StoreCartItem, sizeId: IPizzaSize) => void;
 	getTotalPrice: () => number;
+	setCartStatus: (status: EOrderStatus) => void;
 }
 
 const useCartStore = create(
 	persist<CartStore>(
 		(set, get) => ({
+			cartStatus: null,
 			items: [],
 			addItem: (newItem) =>
 				set((state) => {
 					const existingItemIndex = state.items.findIndex(
 						(item) =>
-							item.pizza.$id === newItem.pizza.$id &&
+							item.pizzas.$id === newItem.pizzas.$id &&
 							item.selectedSize.$id === newItem.selectedSize.$id &&
 							JSON.stringify(item.selectedToppings) ===
 								JSON.stringify(newItem.selectedToppings)
@@ -45,12 +49,11 @@ const useCartStore = create(
 			removeItem: (newItem) => {
 				const existingItemIndex = get().items.findIndex(
 					(item) =>
-						item.pizza.$id === newItem.pizza.$id &&
+						item.pizzas.$id === newItem.pizzas.$id &&
 						item.selectedSize.$id === newItem.selectedSize.$id &&
 						JSON.stringify(item.selectedToppings) ===
 							JSON.stringify(newItem.selectedToppings)
 				);
-
 
 				if (existingItemIndex > -1) {
 					const updatedItems = [...get().items];
@@ -63,7 +66,7 @@ const useCartStore = create(
 				set((state) => {
 					const existingItemIndex = state.items.findIndex(
 						(item) =>
-							item.pizza.$id === newItem.pizza.$id &&
+							item.pizzas.$id === newItem.pizzas.$id &&
 							item.selectedSize.$id === newItem.selectedSize.$id &&
 							JSON.stringify(item.selectedToppings) ===
 								JSON.stringify(newItem.selectedToppings)
@@ -81,7 +84,7 @@ const useCartStore = create(
 				set((state) => {
 					const existingItemIndex = state.items.findIndex(
 						(item) =>
-							item.pizza.$id === newItem.pizza.$id &&
+							item.pizzas.$id === newItem.pizzas.$id &&
 							item.selectedSize.$id === newItem.selectedSize.$id &&
 							JSON.stringify(item.selectedToppings) ===
 								JSON.stringify(newItem.selectedToppings)
@@ -99,7 +102,7 @@ const useCartStore = create(
 				set((state) => {
 					const existingItemIndex = state.items.findIndex(
 						(item) =>
-							item.pizza.$id === newItem.pizza.$id &&
+							item.pizzas.$id === newItem.pizzas.$id &&
 							item.selectedSize.$id === newItem.selectedSize.$id &&
 							JSON.stringify(item.selectedToppings) ===
 								JSON.stringify(newItem.selectedToppings)
@@ -130,13 +133,15 @@ const useCartStore = create(
 					// (tiền + tổng topping + size) * số lượng
 					return (
 						total +
-						(item.pizza.price + toppingsPrice + item.selectedSize.price) *
+						(item.pizzas.price + toppingsPrice + item.selectedSize.price) *
 							item.quantity
 					);
 				}, 0);
 
 				return totalPrice;
 			},
+
+			setCartStatus: (status) => set({ cartStatus: status }),
 		}),
 		{
 			name: 'pizza-cart-storage',

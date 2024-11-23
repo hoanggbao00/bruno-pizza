@@ -12,9 +12,11 @@ import { User } from 'lucide-react';
 import { useAuthStore } from '@/lib/stores/use-auth-store';
 import { signOutUser } from '@/lib/actions/user.actions';
 import { toast } from 'sonner';
+import { useHistoryOrder } from '@/lib/stores/use-history-order';
 
 export default function UserDropdown() {
 	const { user, setUser } = useAuthStore();
+	const { ids } = useHistoryOrder();
 
 	const handleLogout = async () => {
 		setUser(null);
@@ -32,6 +34,11 @@ export default function UserDropdown() {
 			<DropdownMenuContent>
 				{!user && (
 					<>
+						{ids && ids.length > 0 && (
+							<DropdownMenuItem asChild>
+								<Link href='/history'>Lịch sử mua hàng</Link>
+							</DropdownMenuItem>
+						)}
 						<DropdownMenuItem asChild>
 							<Link href='/login'>Đăng nhập</Link>
 						</DropdownMenuItem>

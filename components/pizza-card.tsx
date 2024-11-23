@@ -23,11 +23,10 @@ interface Props {
 export default function PizzaCard({ pizza }: Props) {
 	const [selectedSize, setSelectedSize] = useState<IPizzaSize>(pizza.sizes[0]);
 	const { addItem } = useCartStore();
-	const [toppingSelected, setToppingSelected] = useState<ITopping[]>([]);
+	const [toppingSelected, setToppingSelected] = useState<ITopping[]>(
+		pizza.category.slug == 'custom' ? pizza.toppings : []
+	);
 	const router = useRouter();
-
-	// * Edit here
-	const isBestSeller = true;
 
 	const finalPrice = useMemo(() => {
 		return (
@@ -39,7 +38,7 @@ export default function PizzaCard({ pizza }: Props) {
 
 	const handleAddToCart = () => {
 		const finalPizza: StoreCartItem = {
-			pizza: pizza,
+			pizzas: pizza,
 			selectedSize: selectedSize,
 			selectedToppings: toppingSelected,
 			quantity: 1,
@@ -64,7 +63,7 @@ export default function PizzaCard({ pizza }: Props) {
 			key={pizza.$id}
 			className='bg-white rounded-3xl p-4 relative group md:rounded-tr-[8rem] md:rounded-tl-[8rem] rounded-tr-[10rem] rounded-tl-[10rem] hover:scale-105 hover:motion-preset-flomoji-🚀 hover:motion-duration-500 transition-all hover:shadow-drop-1 hover:bg-brand/20 group'
 		>
-			{isBestSeller && (
+			{pizza.isBestSeller && (
 				<div className='absolute top-[15%] -right-9 z-10'>
 					<Badge className='bg-brand rotate-90 hover:bg-brand cursor-default'>
 						<Star
@@ -77,7 +76,7 @@ export default function PizzaCard({ pizza }: Props) {
 					</Badge>
 				</div>
 			)}
-			<Link href={`/pizza/${pizza.$id}`} >
+			<Link href={`/pizza/${pizza.$id}`}>
 				<div className='aspect-square relative mb-4'>
 					<Image
 						src={pizza.images[0] ?? ''}
@@ -88,7 +87,9 @@ export default function PizzaCard({ pizza }: Props) {
 				</div>
 			</Link>
 			<div>
-				<h3 className='text-xl font-semibold mb-1 line-clamp-2'>{pizza.name}</h3>
+				<h3 className='text-xl font-semibold mb-1 line-clamp-2'>
+					{pizza.name}
+				</h3>
 				<p className='text-lg font-semibold mb-1 text-brand'>
 					{finalPrice.toLocaleString()}
 					{currency}
@@ -107,6 +108,7 @@ export default function PizzaCard({ pizza }: Props) {
 				onChange={setToppingSelected}
 				selectedValue={toppingSelected}
 				isMultiple={false}
+				isCustom={pizza.category.slug === 'custom'}
 			/>
 
 			<CardFooter className='justify-between gap-2 px-0 pb-0'>

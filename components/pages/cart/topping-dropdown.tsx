@@ -16,22 +16,14 @@ export default function ToppingDropdown({ item }: Props) {
 	const { updateItemToppings } = useCartStore();
 
 	const handleUpdateTopping = (topping: ITopping) => {
-		const isFound = item.selectedToppings.find((t) => t.$id === topping.$id);
-		if (isFound) {
-			updateItemToppings(
-				item,
-				item.selectedToppings.filter((t) => t.$id !== topping.$id)
-			);
-		} else {
-			updateItemToppings(item, [...item.selectedToppings, topping]);
-		}
+		updateItemToppings(item, [topping]);
 	};
 
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<button className='px-1.5 inline-block rounded-full bg-gray-300/50 hover:bg-gray-300'>
-					+
+				<button className='text-xs px-1.5 inline-block rounded-full bg-gray-300/50 hover:bg-gray-300'>
+					Thay đổi
 				</button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>
@@ -43,7 +35,8 @@ export default function ToppingDropdown({ item }: Props) {
 					>
 						<div className={`flex items-center gap-2`}>
 							<span>
-								{item.selectedToppings.find((t) => t.$id === topping.$id) && '✓ '}
+								{item.selectedToppings.find((t) => t.$id === topping.$id) &&
+									'✓ '}
 								{topping.name}
 							</span>
 						</div>

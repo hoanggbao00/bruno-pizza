@@ -36,11 +36,11 @@ export default function CartItem({ item }: Props) {
 			0
 		);
 		return (
-			(item.pizza.price + toppingsPrice + item.selectedSize.price) *
+			(item.pizzas.price + toppingsPrice + item.selectedSize.price) *
 			item.quantity
 		);
 	}, [
-		item.pizza.price,
+		item.pizzas.price,
 		item.selectedSize.price,
 		item.quantity,
 		item.selectedToppings,
@@ -50,15 +50,15 @@ export default function CartItem({ item }: Props) {
 		<div className='bg-white p-4 rounded-lg shadow flex flex-col justify-between gap-2 relative'>
 			<div>
 				<h3 className='font-bold text-xl'>
-					{item.pizza.name} ({item.selectedSize.name})
+					{item.pizzas.name} ({item.selectedSize.name})
 				</h3>
 				<p className='text-gray-500'>
-					{item.pizza.price.toLocaleString()} {currency}
+					{item.pizzas.price.toLocaleString()} {currency}
 				</p>
 
 				<div className='space-y-1'>
 					<p className='text-gray-500'>
-						Toppings: <ToppingDropdown item={item} />
+						Loại đế: <ToppingDropdown item={item} />
 					</p>
 					{item.selectedToppings.map((topping) => (
 						<p key={topping.$id} className='text-gray-500 text-sm'>

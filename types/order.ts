@@ -31,19 +31,21 @@ export enum EDeliveryType {
 
 export interface IOrder  {
   $id: string;
-  user: IUser | null;
+  name?: string | null
+  user?: IUser | null;
   items: ICartItem[];
   totalPrice: number;
-  discountPrice: number | null;
+  discountPrice?: number | null;
   finalPrice: number;
-  appliedVoucher: IVoucher | null;
+  appliedVoucher?: IVoucher | null;
   status: EOrderStatus;
   paymentStatus: EPaymentStatus;
-  $createdAt: Date;
-  $updatedAt: Date;
+  phoneNumber?: string | null
+  $createdAt?: Date | string |null;
+  $updatedAt?: Date | string |null;
   
   // Existing optional fields
   deliveryType: EDeliveryType;
-  deliveryAddress: string | null;
+  deliveryAddress?: string | null;
   paymentMethod: EPaymentMethod;
 };

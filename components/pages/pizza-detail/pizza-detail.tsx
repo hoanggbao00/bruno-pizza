@@ -41,7 +41,7 @@ export default function PizzaDetail({ pizza }: Props) {
 
 	const handleAddToCart = () => {
 		const finalPizza: StoreCartItem = {
-			pizza: pizza,
+			pizzas: pizza,
 			selectedSize: selectedSize,
 			selectedToppings: toppingSelected,
 			quantity: 1,
@@ -113,6 +113,7 @@ export default function PizzaDetail({ pizza }: Props) {
 								onChange={setToppingSelected}
 								selectedValue={toppingSelected}
 								isMultiple={false}
+								isCustom={pizza.category.name === 'custom'}
 							/>
 						</div>
 					</CardContent>

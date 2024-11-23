@@ -69,13 +69,29 @@ export default function Page() {
 	const handleChangeStatus = async (voucherId: string, isActive: boolean) => {
 		setLoading(true);
 		try {
-			await updateVoucher(voucherId, { isActive });
-			setListVoucher((prev) =>
-				prev.map((item) =>
-					item.$id === voucherId ? { ...item, isActive } : item
-				)
-			);
-			toast.success('Đã thay đổi trạng thái');
+			const voucher = listVoucher.find((item) => item.$id === voucherId)!;
+			if (
+				isActive &&
+				new Date(voucher.endDate).getTime() < new Date().getTime()
+			) {
+				await updateVoucher(voucherId, { isActive, endDate: new Date() });
+				setListVoucher((prev) =>
+					prev.map((item) =>
+						item.$id === voucherId
+							? { ...item, isActive, endDate: new Date() }
+							: item
+					)
+				);
+			} else {
+				await updateVoucher(voucherId, { isActive });
+				setListVoucher((prev) =>
+					prev.map((item) =>
+						item.$id === voucherId ? { ...item, isActive } : item
+					)
+				);
+			}
+
+			toast.success('Đã thay đổi trạng thái voucher');
 		} catch (error) {
 			console.log(error);
 			toast.error('Có lỗi xảy ra khi cập nhật trạng thái.');
@@ -106,7 +122,9 @@ export default function Page() {
 							#
 						</TableHead>
 						<TableHead className='text-center font-semibold w-[150px]'>
-							{loading && <Loader2 className='animate-spin mr-1 inline-block size-4' />}
+							{loading && (
+								<Loader2 className='animate-spin mr-1 inline-block size-4' />
+							)}
 							Trạng thái
 						</TableHead>
 						<TableHead className='text-center font-semibold'>Mã</TableHead>

@@ -238,7 +238,7 @@ const MultiSelectorTrigger = forwardRef<
 			)}
 			{...props}
 		>
-			{value.map((item, index) => (
+			{value && value.map((item, index) => (
 				<Badge
 					key={item}
 					className={cn(
@@ -352,7 +352,7 @@ const MultiSelectorItem = forwardRef<
 		e.stopPropagation();
 	}, []);
 
-	const isIncluded = Options.includes(value);
+	const isIncluded = Options?.includes(value) ?? false;
 	return (
 		<CommandItem
 			ref={ref}

@@ -46,7 +46,7 @@ import { getPizzaSizes } from '@/lib/actions/size.action';
 import { getToppings } from '@/lib/actions/topping.action';
 import { getCategories } from '@/lib/actions/category.action';
 import { IPizza } from '@/types/pizza';
-import { deleteImage, uploadImage } from '@/lib/actions/upload.action';
+import { uploadImage } from '@/lib/actions/upload.action';
 import { createPizza, updatePizza } from '@/lib/actions/pizza.action';
 
 const formSchema = z.object({
@@ -190,7 +190,6 @@ export default function PizzaForm({
 					name: size.name,
 				}));
 
-				console.log(values);
 				//@ts-expect-error refactor
 				const res = await createPizza(values);
 				setList((prev) => [...prev, res]);

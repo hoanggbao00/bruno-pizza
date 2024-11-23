@@ -23,8 +23,8 @@ export interface IPizza {
 	stockStatus: EPizzaStockStatus;
 	currentStockQuantity: number;
 
-	isBestSeller: boolean;
-	isAvailable: boolean;
+	isBestSeller?: boolean;
+	isAvailable?: boolean;
 	$createdAt: string;
 	$updatedAt: string;
 }

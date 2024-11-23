@@ -1,4 +1,4 @@
-'use server'
+'use server';
 
 import { IVoucher } from '@/types/voucher';
 import { createAdminClient } from '../appwrite';
@@ -48,6 +48,23 @@ export const getVouchers = async (): Promise<IVoucher[]> => {
 			appwriteConfig.vouchersCollectionId
 		);
 
+		const vouchersExpired = vouchersList.documents.filter((voucher) => {
+			const now = new Date();
+			return now > new Date(voucher.endDate);
+		});
+
+		await Promise.all(
+			vouchersExpired.map(
+				async (voucher) =>
+					await databases.updateDocument(
+						appwriteConfig.databaseId,
+						appwriteConfig.vouchersCollectionId,
+						voucher.$id,
+						{ isActive: false }
+					)
+			)
+		);
+
 		return vouchersList.documents.map((voucher) => ({
 			$id: voucher.$id,
 			name: voucher.name,
@@ -55,7 +72,9 @@ export const getVouchers = async (): Promise<IVoucher[]> => {
 			discount: voucher.discount,
 			startDate: voucher.startDate,
 			endDate: voucher.endDate,
-			isActive: voucher.isActive,
+			isActive: vouchersExpired.find((v) => v.$id === voucher.$id)
+				? false
+				: voucher.isActive,
 			$createdAt: voucher.$createdAt,
 			$updatedAt: voucher.$updatedAt,
 			type: voucher.type,
@@ -110,7 +129,7 @@ export const getVoucherByCode = async (
 		const result = await databases.listDocuments(
 			appwriteConfig.databaseId,
 			appwriteConfig.vouchersCollectionId,
-			[Query.equal('code', [code])]
+			[Query.equal('code', [code]), Query.equal('isActive', true)]
 		);
 
 		return result.documents.length > 0
