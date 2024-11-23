@@ -77,17 +77,19 @@ export default function PizzaCard({ pizza }: Props) {
 					</Badge>
 				</div>
 			)}
-			<div className='aspect-square relative mb-4'>
-				<Image
-					src={pizza.images[0] ?? ''}
-					alt={pizza.name}
-					fill
-					className='object-cover rounded-full'
-				/>
-			</div>
+			<Link href={`/pizza/${pizza.$id}`} >
+				<div className='aspect-square relative mb-4'>
+					<Image
+						src={pizza.images[0] ?? ''}
+						alt={pizza.name}
+						fill
+						className='object-cover rounded-full hover:motion-preset-confetti'
+					/>
+				</div>
+			</Link>
 			<div>
-				<h3 className='text-xl font-semibold mb-1'>{pizza.name}</h3>
-				<p className='text-sm font-semibold mb-1 text-brand'>
+				<h3 className='text-xl font-semibold mb-1 line-clamp-2'>{pizza.name}</h3>
+				<p className='text-lg font-semibold mb-1 text-brand'>
 					{finalPrice.toLocaleString()}
 					{currency}
 				</p>
@@ -98,12 +100,13 @@ export default function PizzaCard({ pizza }: Props) {
 				onChange={setSelectedSize}
 				selectedValue={selectedSize}
 			/>
-			<p className='font-semibold text-sm mb-0.5'>Topping</p>
+			<p className='font-semibold text-sm mb-0.5'>Loại đế</p>
 
 			<SelectTopping
 				toppings={pizza.toppings}
 				onChange={setToppingSelected}
 				selectedValue={toppingSelected}
+				isMultiple={false}
 			/>
 
 			<CardFooter className='justify-between gap-2 px-0 pb-0'>

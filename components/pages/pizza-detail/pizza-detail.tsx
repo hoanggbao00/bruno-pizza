@@ -89,13 +89,15 @@ export default function PizzaDetail({ pizza }: Props) {
 							<Pizza size={32} />
 							Delicious <span className='text-brand'>{pizza.name}</span>
 						</CardTitle>
-						<CardDescription className=''>{pizza.description}</CardDescription>
+						<CardDescription className=''>
+							Thông tin thêm: {pizza.description}
+						</CardDescription>
 					</CardHeader>
 
 					<CardContent className='space-y-6'>
 						{/* Size Selection */}
 						<div>
-							<h3 className='text-lg font-semibold mb-3'>Choose Size</h3>
+							<h3 className='text-lg font-semibold mb-3'>Kích thước</h3>
 							<SelectSize
 								sizes={pizza.sizes}
 								onChange={setSelectedSize}
@@ -105,18 +107,19 @@ export default function PizzaDetail({ pizza }: Props) {
 
 						{/* Toppings Selection */}
 						<div>
-							<h3 className='text-lg font-semibold mb-3'>Select Toppings</h3>
+							<h3 className='text-lg font-semibold mb-3'>Loại đế</h3>
 							<SelectTopping
 								toppings={pizza.toppings}
 								onChange={setToppingSelected}
 								selectedValue={toppingSelected}
+								isMultiple={false}
 							/>
 						</div>
 					</CardContent>
 
 					<CardFooter className='flex flex-col space-y-4'>
 						<div className='text-xl font-bold'>
-							Total: {finalPrice.toLocaleString()}
+							Tổng tiền: {finalPrice.toLocaleString()}
 							{currency}
 						</div>
 						<Button
@@ -124,7 +127,7 @@ export default function PizzaDetail({ pizza }: Props) {
 							size='lg'
 							onClick={handleAddToCart}
 						>
-							Add to Cart
+							Thêm vào giỏ hàng
 						</Button>
 					</CardFooter>
 				</Card>

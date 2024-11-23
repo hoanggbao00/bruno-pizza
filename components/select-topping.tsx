@@ -7,20 +7,26 @@ interface Props {
 	toppings: ITopping[];
 	selectedValue?: ITopping[];
 	onChange?: (size: ITopping[]) => void;
+	isMultiple?: boolean;
 }
 
 export default function SelectTopping({
 	toppings,
 	selectedValue,
 	onChange,
+	isMultiple,
 }: Props) {
 	const [selectedTopping, setSelectedTopping] = useState(selectedValue ?? []);
 
 	const handleUpdateTopping = (topping: ITopping) => {
-		if (selectedTopping.includes(topping)) {
-			setSelectedTopping(selectedTopping.filter((t) => t.$id !== topping.$id));
+		if(isMultiple) {
+			if (selectedTopping.includes(topping)) {
+				setSelectedTopping(selectedTopping.filter((t) => t.$id !== topping.$id));
+			} else {
+				setSelectedTopping([...selectedTopping, topping]);
+			}
 		} else {
-			setSelectedTopping([...selectedTopping, topping]);
+			setSelectedTopping([topping]);
 		}
 	};
 
@@ -42,7 +48,7 @@ export default function SelectTopping({
 							: 'bg-gray-100 text-gray-800 hover:bg-brand/70 hover:text-white'
 					}`}
 				>
-					{topping.name}
+					{topping.name} {selectedTopping.includes(topping) && `+ ${topping.price.toLocaleString()}đ`}
 				</button>
 			))}
 		</div>

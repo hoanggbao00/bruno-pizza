@@ -151,7 +151,7 @@ export default function BuildNowForm() {
 									loop
 									className='max-w-xs'
 								>
-									<MultiSelectorTrigger>
+									<MultiSelectorTrigger label={['React', 'Vue', 'Svelte']}>
 										<MultiSelectorInput placeholder='Select your ingredients' />
 									</MultiSelectorTrigger>
 									<MultiSelectorContent>

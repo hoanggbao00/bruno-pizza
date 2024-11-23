@@ -1,6 +1,6 @@
 'use server';
 
-import { ID, Query } from 'node-appwrite';
+import { ID } from 'node-appwrite';
 import { createAdminClient } from '../appwrite';
 import { appwriteConfig } from '../appwrite/config';
 import { ICategory } from '@/types/category';

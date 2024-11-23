@@ -1,5 +1,5 @@
 import PizzaDetail from '@/components/pages/pizza-detail/pizza-detail';
-import { pizzas } from '@/lib/data/pizza';
+import { getPizzaById } from '@/lib/actions/pizza.action';
 
 interface Props {
 	params: Promise<{ id: string }>;
@@ -7,7 +7,7 @@ interface Props {
 
 export default async function Page({ params }: Props) {
 	const id = (await params).id;
-	const pizza = pizzas.find((p) => p.$id === id);
+	const pizza = await getPizzaById(id);
 
 	return pizza ? <PizzaDetail pizza={pizza} /> : <div>Not found</div>;
 }

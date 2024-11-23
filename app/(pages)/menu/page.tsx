@@ -1,4 +1,3 @@
-import { pizzas } from '@/lib/data/pizza';
 import CategoryFilter from '@/components/pages/menu/category-filter';
 import MenuList from '@/components/pages/menu/menu-list';
 import { getCategories } from '@/lib/actions/category.action';
@@ -30,7 +29,7 @@ export default async function Page({ searchParams }: Props) {
 				<CategoryFilter searchParams={s} categories={categories} />
 
 				{/* Menu Grid */}
-				<MenuList initialData={pizzas} />
+				<MenuList slug={s.category} />
 			</div>
 		</div>
 	);

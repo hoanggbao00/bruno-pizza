@@ -18,9 +18,10 @@ interface Props {
 	pizza: IPizza | null;
 	isOpen: boolean;
 	handleClose: (open: boolean) => void;
+	setList: React.Dispatch<React.SetStateAction<IPizza[]>>;
 }
 
-export default function PizzaDialog({ pizza, isOpen, handleClose }: Props) {
+export default function PizzaDialog({ pizza, isOpen, handleClose, setList }: Props) {
 	return (
 		<Dialog open={isOpen || !!pizza} onOpenChange={handleClose}>
 			<DialogTrigger asChild>
@@ -33,7 +34,7 @@ export default function PizzaDialog({ pizza, isOpen, handleClose }: Props) {
 					<DialogTitle>{pizza ? 'Chỉnh sửa' : 'Thêm mới danh mục'}</DialogTitle>
 				</DialogHeader>
 				<div>
-					<PizzaForm pizza={pizza} />
+					<PizzaForm pizza={pizza} handleClose={handleClose} setList={setList}/>
 				</div>
 			</DialogContent>
 		</Dialog>

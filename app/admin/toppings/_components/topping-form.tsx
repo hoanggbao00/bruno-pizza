@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -14,7 +14,7 @@ import {
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form';
-import { CloudUpload, Paperclip } from 'lucide-react';
+import { CloudUpload, Loader2, Paperclip } from 'lucide-react';
 
 import { Input } from '@/components/ui/input';
 import {
@@ -32,6 +32,8 @@ import {
 	FileUploaderItem,
 } from '@/components/ui/file-upload';
 import { EToppingType, ITopping } from '@/types/topping';
+import { createTopping, updateTopping } from '@/lib/actions/topping.action';
+import { uploadImage } from '@/lib/actions/upload.action';
 
 const formSchema = z.object({
 	image: z.string(),
@@ -45,15 +47,26 @@ const formSchema = z.object({
 
 interface Props {
 	topping: ITopping | null;
+	handleClose: (value: boolean) => void;
+	setListTopping: React.Dispatch<React.SetStateAction<ITopping[]>>;
 }
 
-export default function ToppingForm({ topping }: Props) {
+export default function ToppingForm({
+	topping,
+	handleClose,
+	setListTopping,
+}: Props) {
 	const [files, setFiles] = useState<File[] | null>(null);
+	const [imageUrl, setImageUrl] = useState(topping?.image || '');
+	const [loading, setLoading] = useState(false);
 
 	const dropZoneConfig = {
 		maxFiles: 5,
 		maxSize: 1024 * 1024 * 4,
 		multiple: true,
+		accept: {
+			'image/*': ['.jpg', '.jpeg', '.png'],
+		},
 	};
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -66,19 +79,50 @@ export default function ToppingForm({ topping }: Props) {
 		},
 	});
 
-	function onSubmit(values: z.infer<typeof formSchema>) {
+	async function onSubmit(values: z.infer<typeof formSchema>) {
+		setLoading(true);
 		try {
-			console.log(values);
-			toast(
-				<pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-					<code className='text-white'>{JSON.stringify(values, null, 2)}</code>
-				</pre>
-			);
+			if (topping) {
+				if (files && files.length > 0) {
+					const img = await uploadImage(files![0]);
+					values.image = img;
+				}
+
+				await updateTopping(topping.$id, values);
+				setListTopping((prev) =>
+					prev.map((item) => {
+						if (item.$id === topping.$id) {
+							return { ...item, ...values };
+						}
+						return item;
+					})
+				);
+			} else {
+				if (!files || files.length === 0)
+					return toast.error('Vui lý chọn tải lên ít nhất 1 ảnh');
+				const img = await uploadImage(files![0]);
+				values.image = img;
+				const res = await createTopping(values);
+				setListTopping((prev) => [...prev, res]);
+			}
+
+			toast.success(`${topping ? 'Cập nhật' : 'Thêm'} Topping thành công!`);
+			handleClose(false);
 		} catch (error) {
 			console.error('Form submission error', error);
-			toast.error('Failed to submit the form. Please try again.');
+			toast.error(
+				`Có lỗi xảy ra khi ${topping ? 'cập nhật' : 'thêm mới'} Topping!`
+			);
+		} finally {
+			setLoading(false);
 		}
 	}
+
+	useEffect(() => {
+		if (files && files.length > 0) {
+			setImageUrl(URL.createObjectURL(files[0]));
+		}
+	}, [files]);
 
 	return (
 		<Form {...form}>
@@ -103,15 +147,30 @@ export default function ToppingForm({ topping }: Props) {
 										id='fileInput'
 										className='outline-dashed outline-1 outline-slate-500'
 									>
-										<div className='flex items-center justify-center flex-col p-8 w-full '>
-											<CloudUpload className='text-gray-500 w-10 h-10' />
-											<p className='mb-1 text-sm text-gray-500 dark:text-gray-400'>
-												<span className='font-semibold'>Click to upload</span>
-												&nbsp; or drag and drop
-											</p>
-											<p className='text-xs text-gray-500 dark:text-gray-400'>
-												SVG, PNG, JPG or GIF
-											</p>
+										<div className='flex items-center justify-center flex-col p-8 w-full relative'>
+											<div
+												className={`${
+													files && files.length
+														? 'opacity-0'
+														: 'flex items-center justify-center flex-col p-8 w-full'
+												}`}
+											>
+												<CloudUpload className='text-gray-500 w-10 h-10' />
+												<p className='mb-1 text-sm text-gray-500 dark:text-gray-400'>
+													<span className='font-semibold'>Tải ảnh lên</span>
+													&nbsp; or drag and drop
+												</p>
+												<p className='text-xs text-gray-500 dark:text-gray-400'>
+													SVG, PNG, JPG or GIF
+												</p>
+											</div>
+											{imageUrl && (
+												<img
+													src={imageUrl}
+													alt={field.name}
+													className='absolute size-full object-contain'
+												/>
+											)}
 										</div>
 									</FileInput>
 									<FileUploaderContent>
@@ -145,9 +204,7 @@ export default function ToppingForm({ topping }: Props) {
 									</SelectTrigger>
 								</FormControl>
 								<SelectContent>
-									<SelectItem value={EToppingType.NORMAL}>
-										Pizza bình thường
-									</SelectItem>
+									<SelectItem value={EToppingType.NORMAL}>Mặc định</SelectItem>
 									<SelectItem value={EToppingType.CUSTOM}>
 										Pizza Custom
 									</SelectItem>
@@ -198,14 +255,22 @@ export default function ToppingForm({ topping }: Props) {
 						<FormItem>
 							<FormLabel>Đơn giá</FormLabel>
 							<FormControl>
-								<Input placeholder='Nhập giá' type='number' {...field} />
+								<Input
+									placeholder='Nhập giá'
+									type='number'
+									{...field}
+									onChange={(e) => field.onChange(Number(e.target.value))}
+								/>
 							</FormControl>
 
 							<FormMessage />
 						</FormItem>
 					)}
 				/>
-				<Button type='submit'>Submit</Button>
+				<Button type='submit' disabled={loading}>
+					{loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+					{topping ? 'Cập nhật' : 'Thêm'} Topping
+				</Button>
 			</form>
 		</Form>
 	);

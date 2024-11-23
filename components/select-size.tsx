@@ -30,7 +30,7 @@ export default function SelectSize({ sizes, selectedValue, onChange }: Props) {
 							: 'bg-gray-100 text-gray-800 hover:bg-brand/70 hover:text-white'
 					}`}
 				>
-					{size.name}
+					{size.name} {selectedSize?.$id === size.$id && `+ ${size.price.toLocaleString()}đ`}
 				</button>
 			))}
 		</div>

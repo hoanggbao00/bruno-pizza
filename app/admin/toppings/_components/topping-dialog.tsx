@@ -18,9 +18,15 @@ interface Props {
 	topping: ITopping | null;
 	isOpen: boolean;
 	handleClose: (open: boolean) => void;
+	setListTopping: React.Dispatch<React.SetStateAction<ITopping[]>>;
 }
 
-export default function ToppingDialog({ topping, isOpen, handleClose }: Props) {
+export default function ToppingDialog({
+	topping,
+	isOpen,
+	handleClose,
+	setListTopping,
+}: Props) {
 	return (
 		<Dialog open={isOpen || !!topping} onOpenChange={handleClose}>
 			<DialogTrigger asChild>
@@ -30,10 +36,16 @@ export default function ToppingDialog({ topping, isOpen, handleClose }: Props) {
 			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>{topping ? 'Chỉnh sửa' : 'Thêm mới Topping'}</DialogTitle>
+					<DialogTitle>
+						{topping ? 'Chỉnh sửa' : 'Thêm mới Topping'}
+					</DialogTitle>
 				</DialogHeader>
 				<div>
-					<ToppingForm topping={topping} />
+					<ToppingForm
+						topping={topping}
+						setListTopping={setListTopping}
+						handleClose={handleClose}
+					/>
 				</div>
 			</DialogContent>
 		</Dialog>

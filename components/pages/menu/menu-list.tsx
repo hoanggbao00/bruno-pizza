@@ -1,18 +1,30 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PizzaCard from '../../pizza-card';
 import { Button } from '../../ui/button';
 import { Loader2 } from 'lucide-react';
 import { IPizza } from '@/types/pizza';
+import { getPizzasByCatSlug } from '@/lib/actions/pizza.action';
 
 interface Props {
-	initialData: IPizza[];
+	slug: string | undefined;
 }
 
-export default function MenuList({ initialData }: Props) {
-	const [data, setData] = useState(initialData);
+export default function MenuList({ slug }: Props) {
+	const [data, setData] = useState<IPizza[]>([]);
 	const [isLoading, setLoading] = useState(false);
+
+	const fetchPizzas = async () => {
+		setLoading(true);
+		const pizzas = await getPizzasByCatSlug(slug ?? 'all');
+		setData(pizzas);
+		setLoading(false);
+	};
+
+	useEffect(() => {
+		fetchPizzas();
+	}, [slug]);
 
 	return (
 		<div className='space-y-6'>
@@ -20,8 +32,13 @@ export default function MenuList({ initialData }: Props) {
 				{data.map((item) => (
 					<PizzaCard pizza={item} key={item.$id} />
 				))}
+				{data.length === 0 && (
+					<p className='text-center text-2xl text-gray-400 col-span-4'>
+						No pizzas found.
+					</p>
+				)}
 			</div>
-			<div className='flex-center'>
+			{data.length != 0 && <div className='flex-center'>
 				<Button
 					variant='outline'
 					className='!font-medium border-brand rounded-full border-2 group relative !bg-transparent hover:text-white overflow-hidden text-lg'
@@ -34,7 +51,7 @@ export default function MenuList({ initialData }: Props) {
 						? 'Bruno Pizzeria is serving you...'
 						: 'I want more Pizzas!'}
 				</Button>
-			</div>
+			</div>}
 		</div>
 	);
 }
