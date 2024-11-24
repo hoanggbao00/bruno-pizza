@@ -6,6 +6,11 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
+.duration-5000 {
+	animation-duration: 5000ms;
+	transition-duration: 5000ms;
+}
+
 @layer base {
 	:root {
 		--radius: 0.5rem;

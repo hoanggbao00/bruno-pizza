@@ -3,6 +3,7 @@ import Image from 'next/image';
 import LandingCard from '@/components/pages/landing/landing-card';
 import UserRatingPreview from '@/components/pages/landing/user-rateing-preview';
 import Header from '@/components/header';
+import { ShoppingCart } from 'lucide-react';
 
 export default function Page() {
 	return (
@@ -29,9 +30,9 @@ export default function Page() {
 									<div className='flex flex-col gap-2 min-[400px]:flex-row'>
 										<Link
 											href={'/menu'}
-											className='bg-brand text-white hover:bg-brand/90 rounded-full text-3xl py-4 px-8 animate-bounce duration-700'
+											className='bg-brand flex gap-2 items-center text-white hover:bg-brand/90 rounded-full text-3xl py-4 px-8 animate-bounce duration-700'
 										>
-											Order Now
+											<ShoppingCart /> Order Now
 										</Link>
 									</div>
 									<div className='flex gap-4 mt-6'>
@@ -69,13 +70,13 @@ export default function Page() {
 									<LandingCard />
 								</div>
 								<div className='relative flex items-center justify-center'>
-									<div className='relative w-full aspect-square'>
+									<div className='relative w-full aspect-square overflow-hidden'>
 										<div className='absolute inset-0 rounded-full bg-brand/20' />
 										<Image
 											src='/assets/images/photo-1628840042765-356cda07504e.png'
 											alt='Delicious Pizza'
 											fill
-											className='z-10 rounded-full'
+											className='z-10 rounded-full animate-spin duration-5000'
 										/>
 									</div>
 									<UserRatingPreview />

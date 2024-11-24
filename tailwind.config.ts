@@ -9,6 +9,7 @@ export default {
 	],
 	theme: {
 		extend: {
+			
 			colors: {
 				brand: {
 					'100': '#EA6365',
