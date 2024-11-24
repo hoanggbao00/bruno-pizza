@@ -3,6 +3,7 @@ import { Card } from '@/components/ui/card';
 import { Star } from 'lucide-react';
 import HowToBuild from '@/components/pages/pizza-builder/how-to-build';
 import BuildNow from '@/components/pages/pizza-builder/build-now';
+import { APP_NAME } from '@/shared/constants';
 
 export default function Page() {
 	return (
@@ -13,14 +14,14 @@ export default function Page() {
 					<div className='space-y-8'>
 						<div className='space-y-4'>
 							<h1 className='text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight'>
-								Satisfy Your Cravings
-								<br />
-								With Our Pizza
+								Thỏa mãn nguồn cảm hứng vô tận với <span className='text-brand'>{APP_NAME}</span>
 							</h1>
 							<p className='text-lg text-gray-600 max-w-lg'>
-								From Classic Favorites To Creative New Combinations, We&apos;ve
-								Got Something For Every Pizza Lover. Join Us For A Slice Of
-								Heaven
+								Từ những sự yêu thích nhỏ bé đến những sự kết hợp mới mẻ đầy sáng
+								tạo!
+								<br />
+								Chúng tôi đã dành một thứ gì đó danh cho mọi người yêu thích
+								Pizza. Tham gia với chúng tôi với chúng tôi.
 							</p>
 						</div>
 
@@ -50,10 +51,10 @@ export default function Page() {
 									))}
 								</div>
 								<div>
-									<div className='font-semibold'>500+ Happy Customer</div>
+									<div className='font-semibold'>Hơn 500 con người hạnh phúc</div>
 									<div className='flex items-center gap-1 text-sm'>
 										<Star className='h-4 w-4 fill-yellow-400 text-yellow-400' />
-										<span>4.8 (420 Reviews)</span>
+										<span>4.8 (420 Khảo sát)</span>
 									</div>
 								</div>
 							</div>
@@ -62,15 +63,15 @@ export default function Page() {
 							<div className='grid grid-cols-3 gap-4'>
 								<Card className='p-4 text-center bg-white/80 backdrop-blur-sm'>
 									<div className='text-2xl font-bold'>1k+</div>
-									<div className='text-sm'>Feedback Loved</div>
-								</Card>
-								<Card className='p-4 text-center bg-white/80 backdrop-blur-sm'>
-									<div className='text-2xl font-bold'>20+</div>
-									<div className='text-sm'>Flavor</div>
+									<div className='text-sm'>Khách hàng yêu thích</div>
 								</Card>
 								<Card className='p-4 text-center bg-white/80 backdrop-blur-sm'>
 									<div className='text-2xl font-bold'>100+</div>
-									<div className='text-sm'>Ingredients</div>
+									<div className='text-sm'>Loại hương vị</div>
+								</Card>
+								<Card className='p-4 text-center bg-white/80 backdrop-blur-sm'>
+									<div className='text-2xl font-bold'>20+</div>
+									<div className='text-sm'>Loại Topping</div>
 								</Card>
 							</div>
 						</div>

@@ -17,11 +17,11 @@ export default async function Page({ searchParams }: Props) {
 		<div className='min-h-screen px-4 md:px-6'>
 			<div className='container mx-auto max-w-6xl pb-10'>
 				<div className='text-center mb-12'>
-					<h1 className='text-4xl md:text-5xl font-bold mb-4'>
-						<span className='text-[#FF7B6B]'>Menu</span> That{' '}
-						<span className='text-[#FF7B6B]'>Always</span>
+					<h1 className='text-4xl md:text-5xl font-bold mb-4 py-0.5'>
+						<span className='text-[#FF7B6B]'>Menu</span> khiến bạn{' '}
+						<span className='text-[#FF7B6B]'>Chìm đắm</span>
 						<br />
-						Make You Fall In <span className='text-[#FF7B6B]'>Love</span>
+						vào tình yêu với <span className='text-[#FF7B6B]'>Pizza</span>
 					</h1>
 				</div>
 

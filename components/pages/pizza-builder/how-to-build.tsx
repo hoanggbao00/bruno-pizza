@@ -5,6 +5,7 @@ import { Button } from '../../ui/button';
 import {
 	Dialog,
 	DialogContent,
+	DialogDescription,
 	DialogTitle,
 	DialogTrigger,
 } from '../../ui/dialog';
@@ -15,11 +16,12 @@ export default function HowToBuild() {
 			<DialogTrigger asChild>
 				<Button variant='outline' className='rounded-full gap-2'>
 					<Play className='h-4 w-4' />
-					How To Build
+					Hướng dẫn
 				</Button>
 			</DialogTrigger>
 			<DialogContent className='md:min-w-[80vw]'>
-				<DialogTitle>How to build your dream pizza</DialogTitle>
+				<DialogTitle>Làm sao để thực hiện hóa ý tưởng của bạn?</DialogTitle>
+				<DialogDescription>Xem hướng dẫn qua video dưới đây</DialogDescription>
 				<div className='w-full'>
 					<iframe
 						width='100%'

@@ -40,7 +40,7 @@ export default async function RootLayout({
 			>
 				{children}
 				<NextTopLoader height={5} />
-				<Toaster duration={2000} richColors position='top-center' />
+				<Toaster duration={2000} richColors position='bottom-right' />
 			</body>
 		</html>
 	);

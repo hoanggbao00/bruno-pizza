@@ -151,7 +151,7 @@ export default function BuildNowForm() {
 						name='images'
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>Ảnh</FormLabel>
+								<FormLabel>Ảnh minh họa</FormLabel>
 								<FormControl>
 									<FileUploader
 										value={files}

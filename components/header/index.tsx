@@ -12,7 +12,6 @@ import {
 import { Menu, PhoneCall } from 'lucide-react';
 import { APP_NAME, PHONE_CONTACT, ROUTES } from '@/shared/constants';
 import UserDropdown from './user-dropdown';
-import { useAuthStore } from '@/lib/stores/use-auth-store';
 import CartHeader from './cart-header';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -20,7 +19,6 @@ import { cn } from '@/lib/utils';
 
 export default function Header() {
 	const [isOpen, setIsOpen] = useState(false);
-	const { user } = useAuthStore();
 	const pathname = usePathname();
 
 	return (
@@ -62,7 +60,7 @@ export default function Header() {
 					<UserDropdown />
 					<Link href={`tel:${PHONE_CONTACT}`}>
 						<Button className='hidden md:inline-flex bg-brand text-white hover:bg-brand/90 rounded-full px-6'>
-							<PhoneCall /> Contact
+							<PhoneCall /> Liên hệ
 						</Button>
 					</Link>
 					<Sheet open={isOpen} onOpenChange={setIsOpen}>

@@ -25,13 +25,13 @@ export default function CartItem({ item }: Props) {
 		updateItemQuantity(item, item.quantity - 1);
 	};
 
-	const handleRemoveToping = (item: StoreCartItem, topping: ITopping) => {
-		if (isCustom) return;
-		const newToppings = item.selectedToppings.filter(
-			(t) => t.$id !== topping.$id
-		);
-		updateItemToppings(item, newToppings);
-	};
+	// const handleRemoveToping = (item: StoreCartItem, topping: ITopping) => {
+	// 	if (isCustom) return;
+	// 	const newToppings = item.selectedToppings.filter(
+	// 		(t) => t.$id !== topping.$id
+	// 	);
+	// 	updateItemToppings(item, newToppings);
+	// };
 
 	const finalPrice = useMemo(() => {
 		const toppingsPrice = item.selectedToppings.reduce(
@@ -70,12 +70,6 @@ export default function CartItem({ item }: Props) {
 								+ {topping.price.toLocaleString()}
 								{currency}
 							</span>
-							{!isCustom && <span
-								className='cursor-pointer text-xs rounded-md text-brand hover:bg-gray-400/30 inline-block px-1'
-								onClick={() => handleRemoveToping(item, topping)}
-							>
-								X
-							</span>}
 						</p>
 					))}
 				</div>

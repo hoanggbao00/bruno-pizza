@@ -11,7 +11,7 @@ import { useMemo, useState } from 'react';
 import { EVoucherType } from '@/types/voucher';
 import { getVoucherByCode } from '@/lib/actions/voucher.action';
 import { toast } from 'sonner';
-import { Banknote, Check, DollarSign, Landmark, Loader2 } from 'lucide-react';
+import { Check, DollarSign, Landmark, Loader2 } from 'lucide-react';
 import {
 	EDeliveryType,
 	EOrderStatus,
@@ -67,6 +67,9 @@ export default function CartList() {
 	}, [items, discount]);
 
 	const handleCheckVoucher = async () => {
+		if(!voucher) {
+			return toast.error('Mã voucher trống')
+		}
 		setLoading({ ...isLoading, checkVoucher: true });
 		try {
 			const res = await getVoucherByCode(voucher);
@@ -356,7 +359,7 @@ export default function CartList() {
 						? 'Đang giao hàng'
 						: cartStatus === EOrderStatus.PENDING
 						? 'Đang đợi duyệt'
-						: 'Thanh toán'}
+						: 'Đặt hàng'}
 				</button>
 			</div>
 		</div>

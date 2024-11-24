@@ -11,7 +11,6 @@ import {
 	HomeIcon,
 	Donut,
 	Menu,
-	Home,
 } from 'lucide-react';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '../ui/sheet';
 import { Button } from '../ui/button';
