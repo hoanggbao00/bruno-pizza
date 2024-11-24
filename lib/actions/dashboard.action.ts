@@ -3,6 +3,7 @@
 import { Query } from 'node-appwrite';
 import { createAdminClient } from '../appwrite';
 import { appwriteConfig } from '../appwrite/config';
+import { formatDate } from 'date-fns';
 
 export const getTotalData = async () => {
 	try {
@@ -27,11 +28,13 @@ export const getTotalData = async () => {
 			[Query.equal('isActive', true)]
 		);
 
+		const today = formatDate(new Date(), 'yyyy-MM-dd') + 'T00:00:00.000Z';
+
 		// Get total orders today
 		const orders = await databases.listDocuments(
 			appwriteConfig.databaseId,
 			appwriteConfig.ordersCollectionId,
-			[Query.greaterThanEqual('$createdAt', new Date().toISOString())]
+			[Query.greaterThanEqual('$createdAt', today)]
 		);
 
 		return {

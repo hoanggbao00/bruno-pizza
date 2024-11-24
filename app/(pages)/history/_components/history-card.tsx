@@ -2,19 +2,23 @@ import CartStatusRender from '@/components/admin/cart-status.render';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { CATEGORY_CUSTOM, currency } from '@/shared/constants';
-import { IOrder } from '@/types/order';
+import { EPaymentMethod, EPaymentStatus, IOrder } from '@/types/order';
 import { formatDate } from 'date-fns';
 
 interface Props {
 	order: IOrder;
 	setOrder: React.Dispatch<React.SetStateAction<IOrder | null>>;
+	setQrCode: React.Dispatch<
+		React.SetStateAction<{ cartId: string; price: number }>
+	>;
 }
 
-export default function HistoryCard({ order, setOrder }: Props) {
+export default function HistoryCard({ order, setOrder, setQrCode }: Props) {
 	const date = new Date(order.$createdAt!);
+
 	return (
 		<div className='w-full p-2 rounded-md border'>
-			{order.items[0].pizzas.category.$id === CATEGORY_CUSTOM && (
+			{order.items[0].pizzas.category?.$id === CATEGORY_CUSTOM && (
 				<div className='mb-1'>
 					<Badge className='bg-brand hover:!bg-brand'>Pizza Custom</Badge>
 				</div>
@@ -53,7 +57,18 @@ export default function HistoryCard({ order, setOrder }: Props) {
 				</span>
 			</p>
 			<div className='h-[2px] w-full bg-gray-300 my-2' />
-			<div className='flex items-center justify-end'>
+			<div className='flex items-center justify-end gap-2'>
+				{order.paymentMethod === EPaymentMethod.BANKING &&
+					order.paymentStatus === EPaymentStatus.UNPAID && (
+						<Button
+							onClick={() =>
+								setQrCode({ cartId: order.$id, price: order.finalPrice })
+							}
+							variant='outline'
+						>
+							Nhấn để thanh toán
+						</Button>
+					)}
 				<Button onClick={() => setOrder(order)} variant='outline'>
 					Xem chi tiết
 				</Button>

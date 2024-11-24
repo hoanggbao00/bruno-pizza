@@ -35,7 +35,7 @@ export default function QRDialog({ qrCode, setQrCode }: Props) {
 		if (!qrCode.cartId) return;
 		setChecking(true);
 		try {
-			const res = await checkPaid(qrCode.cartId);
+			const res = await checkPaid(qrCode.price);
 			console.log(res)
 		} catch (error) {
 			console.log(error);

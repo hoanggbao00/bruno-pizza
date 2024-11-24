@@ -10,12 +10,17 @@ import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Loader2, RefreshCcw } from 'lucide-react';
 import Link from 'next/link';
+import QRDialog from '@/components/pages/cart/qr-dialog';
 
 export default function Page() {
 	const [listOrder, setListOrder] = useState<IOrder[]>([]);
 	const [order, setOrder] = useState<IOrder | null>(null);
 	const { ids } = useHistoryOrder();
 	const [loading, setLoading] = useState(true);
+	const [qrCode, setQrCode] = useState({
+		cartId: '',
+		price: 0,
+	});
 
 	const fetchOrders = async () => {
 		setLoading(true);
@@ -60,8 +65,14 @@ export default function Page() {
 					</div>
 				)}
 				{listOrder.map((item) => (
-					<HistoryCard key={item.$id} order={item} setOrder={setOrder} />
+					<HistoryCard
+						key={item.$id}
+						order={item}
+						setOrder={setOrder}
+						setQrCode={setQrCode}
+					/>
 				))}
+				<QRDialog qrCode={qrCode} setQrCode={setQrCode} />
 			</div>
 			{order && <OrderDetail order={order} setOrder={setOrder} />}
 		</main>
