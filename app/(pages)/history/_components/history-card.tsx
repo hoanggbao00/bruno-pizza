@@ -22,9 +22,11 @@ interface Props {
 export default function HistoryCard({ order, setOrder, setQrCode }: Props) {
 	const date = new Date(order.$createdAt!);
 
+	console.log(order.items)
+
 	return (
 		<div className='w-full p-2 rounded-md border'>
-			{order.items[0].pizzas.category?.$id === CATEGORY_CUSTOM && (
+			{order.items[0].selectedSize?.name === 'Custom' && (
 				<div className='mb-1'>
 					<Badge className='bg-brand hover:!bg-brand'>Pizza Custom</Badge>
 				</div>

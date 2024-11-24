@@ -8,7 +8,7 @@ export const DEFAULT_IMAGE =
 	'/assets/images/photo-1628840042765-356cda07504e.png';
 export const CATEGORY_CUSTOM = `6741e9b5003ad4b26ca4`
 export const SIZE_CUSTOM = `6741fc5b00201060dd7f`
-export const DEFAULT_CUSTOM_PRICE = 180000
+export const DEFAULT_CUSTOM_PRICE = 150000
 
 export const ROUTES = [
 	{

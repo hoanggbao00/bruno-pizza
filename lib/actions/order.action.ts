@@ -1,6 +1,6 @@
 'use server';
 
-import { IOrder } from '@/types/order';
+import { EPaymentStatus, IOrder } from '@/types/order';
 import { createAdminClient } from '../appwrite';
 import { appwriteConfig } from '../appwrite/config';
 import { ID, Query } from 'node-appwrite';
@@ -141,6 +141,26 @@ export const getOrderByListId = async (listId: string[]): Promise<IOrder[]> => {
 			$updatedAt: order.$updatedAt,
 			name: order.name,
 		}));
+	} catch (error) {
+		console.error('Error getting order:', error);
+		throw error;
+	}
+};
+
+export const checkOrderPaid = async (cartId: string) => {
+	try {
+		const { databases } = await createAdminClient();
+
+		const order = await databases.listDocuments(
+			appwriteConfig.databaseId,
+			appwriteConfig.ordersCollectionId,
+			[
+				Query.equal('$id', cartId),
+				Query.equal('paymentStatus', EPaymentStatus.PAID),
+			]
+		);
+
+		return order.total > 0 ? true : false;
 	} catch (error) {
 		console.error('Error getting order:', error);
 		throw error;

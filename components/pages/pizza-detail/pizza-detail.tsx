@@ -20,14 +20,18 @@ import { IPizza } from '@/types/pizza';
 import useCartStore, { StoreCartItem } from '@/lib/stores/use-cart-store';
 import { ITopping } from '@/types/topping';
 import { IPizzaSize } from '@/types/size';
+import Image from 'next/image';
 
 interface Props {
 	pizza: IPizza;
 }
 
 export default function PizzaDetail({ pizza }: Props) {
+	const isCustom = pizza.sizes[0].name === 'Custom';
 	const [selectedSize, setSelectedSize] = useState<IPizzaSize>(pizza.sizes[0]);
-	const [toppingSelected, setToppingSelected] = useState<ITopping[]>([]);
+	const [toppingSelected, setToppingSelected] = useState<ITopping[]>(
+		isCustom ? pizza.toppings : []
+	);
 	const { addItem } = useCartStore();
 	const router = useRouter();
 
@@ -73,11 +77,13 @@ export default function PizzaDetail({ pizza }: Props) {
 			<div className='grid md:grid-cols-2 gap-6'>
 				{/* Left Column - Pizza Image */}
 				<div className='h-full flex items-center justify-center'>
-					<div className='relative'>
-						<img
+					<div className='relative w-full aspect-square'>
+						<Image
 							src={pizza.images[0] ?? '/assets/images/photo.png'}
 							alt='Pizza'
+							objectFit='cover'
 							className='rounded-md shadow-2xl'
+							fill
 						/>
 					</div>
 				</div>
@@ -113,7 +119,7 @@ export default function PizzaDetail({ pizza }: Props) {
 								onChange={setToppingSelected}
 								selectedValue={toppingSelected}
 								isMultiple={false}
-								isCustom={pizza.category.name === 'custom'}
+								isCustom={isCustom}
 							/>
 						</div>
 					</CardContent>

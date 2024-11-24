@@ -6,6 +6,7 @@ import { useMemo } from 'react';
 import ToppingDropdown from './topping-dropdown';
 import useCartStore, { StoreCartItem } from '@/lib/stores/use-cart-store';
 import { ITopping } from '@/types/topping';
+import Link from 'next/link';
 
 interface Props {
 	item: StoreCartItem;
@@ -13,6 +14,7 @@ interface Props {
 
 export default function CartItem({ item }: Props) {
 	const { updateItemQuantity, removeItem, updateItemToppings } = useCartStore();
+	const isCustom = item.selectedSize?.name === 'Custom';
 
 	const handlePlus = (item: StoreCartItem) => {
 		updateItemQuantity(item, item.quantity + 1);
@@ -24,6 +26,7 @@ export default function CartItem({ item }: Props) {
 	};
 
 	const handleRemoveToping = (item: StoreCartItem, topping: ITopping) => {
+		if (isCustom) return;
 		const newToppings = item.selectedToppings.filter(
 			(t) => t.$id !== topping.$id
 		);
@@ -49,17 +52,17 @@ export default function CartItem({ item }: Props) {
 	return (
 		<div className='bg-white p-4 rounded-lg shadow flex flex-col justify-between gap-2 relative'>
 			<div>
-				<h3 className='font-bold text-xl'>
+				<Link href={`/pizza/${item.pizzas.$id}`} className='font-bold text-xl hover:underline'>
 					{item.pizzas.name} ({item.selectedSize.name})
-				</h3>
+				</Link>
 				<p className='text-gray-500'>
 					{item.pizzas.price.toLocaleString()} {currency}
 				</p>
 
 				<div className='space-y-1'>
-					<p className='text-gray-500'>
+					{!isCustom && <p className='text-gray-500'>
 						Loại đế: <ToppingDropdown item={item} />
-					</p>
+					</p>}
 					{item.selectedToppings.map((topping) => (
 						<p key={topping.$id} className='text-gray-500 text-sm'>
 							- {topping.name}{' '}
@@ -67,12 +70,12 @@ export default function CartItem({ item }: Props) {
 								+ {topping.price.toLocaleString()}
 								{currency}
 							</span>
-							<span
+							{!isCustom && <span
 								className='cursor-pointer text-xs rounded-md text-brand hover:bg-gray-400/30 inline-block px-1'
 								onClick={() => handleRemoveToping(item, topping)}
 							>
 								X
-							</span>
+							</span>}
 						</p>
 					))}
 				</div>

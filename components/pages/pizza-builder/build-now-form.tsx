@@ -31,13 +31,14 @@ import {
 	FileUploaderContent,
 	FileUploaderItem,
 } from '@/components/ui/file-upload';
-import { Loader2, Paperclip } from 'lucide-react';
+import { CloudUpload, Loader2, Paperclip } from 'lucide-react';
 import QRDialog from '../cart/qr-dialog';
 import { createCustomPizza } from '@/lib/actions/pizza.action';
 import { uploadImage } from '@/lib/actions/upload.action';
 import { useHistoryOrder } from '@/lib/stores/use-history-order';
 import { Button } from '@/components/ui/button';
 import { useAuthStore } from '@/lib/stores/use-auth-store';
+import { currency, DEFAULT_CUSTOM_PRICE } from '@/shared/constants';
 
 const formSchema = z.object({
 	name: z.string({ message: 'Vui lòng nhập tên Pizza' }),
@@ -88,6 +89,11 @@ export default function BuildNowForm() {
 			'image/*': ['.jpg', '.jpeg', '.png'],
 		},
 	};
+
+	const finalPrice = form.watch('toppings').reduce((acc, cur) => {
+		const topping = toppings.find((topping) => topping.$id === cur);
+		return acc + (topping?.price || 0);
+	}, DEFAULT_CUSTOM_PRICE);
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
 		if (files && files.length === 0)
@@ -140,35 +146,48 @@ export default function BuildNowForm() {
 					className='space-y-6'
 					id='pizza-form'
 				>
-					<div className='w-full aspect-video border border-dashed flex-center p-1 rounded-md'>
-						{!image && 'Your Pizza you want will generate here'}
-						{image && (
-							<div className='w-full h-full relative'>
-								<img
-									src={image}
-									alt='Pizza-builder'
-									className='absolute size-full object-cover rounded-md'
-								/>
-							</div>
-						)}
-					</div>
 					<FormField
 						control={form.control}
 						name='images'
 						render={({ field }) => (
 							<FormItem>
+								<FormLabel>Ảnh</FormLabel>
 								<FormControl>
 									<FileUploader
 										value={files}
 										onValueChange={setFiles}
 										dropzoneOptions={dropZoneConfig}
-										className='flex items-center w-full py-1'
+										className='relative bg-background rounded-lg p-2'
 									>
 										<FileInput
 											id='fileInput'
-											className='border-sky-300 hover:bg-sky-300/80 outline-1 border py-1 w-fit px-2'
+											className='outline-dashed outline-1 outline-slate-500'
 										>
-											Tải ảnh lên
+											<div className='flex items-center justify-center flex-col p-8 w-full relative'>
+												<div
+													className={`${
+														files && files.length
+															? 'opacity-0'
+															: 'flex items-center justify-center flex-col p-8 w-full'
+													}`}
+												>
+													<CloudUpload className='text-gray-500 w-10 h-10' />
+													<p className='mb-1 text-sm text-gray-500 dark:tnt-sgray-400'>
+														<span className='font-semibold'>Tải ảnh lên</span>
+														&nbsp;hoặc kéo thả vào đây
+													</p>
+													<p className='text-xs text-gray-500 dark:text-gray-400'>
+														SVG, PNG, JPG or GIF
+													</p>
+												</div>
+												{image && (
+													<img
+														src={image}
+														alt={field.name}
+														className='absolute size-full object-contain'
+													/>
+												)}
+											</div>
 										</FileInput>
 										<FileUploaderContent>
 											{files &&
@@ -222,11 +241,17 @@ export default function BuildNowForm() {
 							name='toppings'
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Chọn nguyên liệu của bạn (max 5)</FormLabel>
+									<FormLabel>Chọn nguyên liệu của bạn (tối đa 5)</FormLabel>
 									<FormControl>
 										<MultiSelector
 											values={field.value}
-											onValuesChange={field.onChange}
+											onValuesChange={(value) => {
+												if (value.length > 5) {
+													toast.error('Tối đã 5 Topping');
+												} else {
+													field.onChange(value);
+												}
+											}}
 											loop
 										>
 											<MultiSelectorTrigger
@@ -257,6 +282,12 @@ export default function BuildNowForm() {
 							)}
 						/>
 					)}
+					<div className='flex justify-between'>
+						<p>Thành tiền:</p>
+						<p className='text-right font-semibold text-brand-100 text-2xl'>
+							{finalPrice.toLocaleString()} {currency}
+						</p>
+					</div>
 					<div className='flex justify-end'>
 						<Button className='bg-green hover:bg-green/80' disabled={isLoading}>
 							{isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}

@@ -4,6 +4,7 @@ import { Button } from '../../ui/button';
 import {
 	Dialog,
 	DialogContent,
+	DialogDescription,
 	DialogTitle,
 	DialogTrigger,
 } from '../../ui/dialog';
@@ -23,6 +24,8 @@ export default function BuildNow() {
 			</DialogTrigger>
 			<DialogContent>
 				<DialogTitle>Build Your Dream Pizza</DialogTitle>
+				<DialogDescription>Dịch vụ này chỉ áp dụng cho khách đến dùng tại quán hoặc đến lấy mang về.
+					Nếu muốn ship, vui lòng liên hệ của hàng.</DialogDescription>
 				<div className='max-h-[80vh] overflow-auto px-1'>
 					{user && <BuildNowForm />}
 					{!user && (

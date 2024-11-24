@@ -162,6 +162,7 @@ export default function PizzaForm({
 			} else {
 				if (!files || files.length === 0)
 					return toast.error('Vui lý chọn tải lên ít nhất 1 ảnh');
+				
 				const imageUrl = await uploadImage(files![0]);
 				//@ts-expect-error refactor
 				values.images = [imageUrl];

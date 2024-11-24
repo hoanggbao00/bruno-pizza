@@ -5,7 +5,8 @@ import {
 	DialogFooter,
 	DialogTitle,
 } from '@/components/ui/dialog';
-import { checkPaid, getQrCodeUrl } from '@/lib/actions/qr.action';
+import { checkOrderPaid } from '@/lib/actions/order.action';
+import { getQrCodeUrl } from '@/lib/actions/qr.action';
 import useCartStore from '@/lib/stores/use-cart-store';
 import { currency } from '@/shared/constants';
 import { Loader2 } from 'lucide-react';
@@ -35,8 +36,12 @@ export default function QRDialog({ qrCode, setQrCode }: Props) {
 		if (!qrCode.cartId) return;
 		setChecking(true);
 		try {
-			const res = await checkPaid(qrCode.price);
-			console.log(res)
+			const res = await checkOrderPaid(qrCode.cartId);
+			if(res) {
+				toast.success('Đã xác thực thanh toán, vui lòng kiểm tra tại lịch sử đơn hàng')
+			} else {
+				toast.info('Chưa xác thực thanh toán, vui lòng kiểm tra lại.')
+			}
 		} catch (error) {
 			console.log(error);
 			toast.error('Có lỗi xảy ra khi kiểm tra');
