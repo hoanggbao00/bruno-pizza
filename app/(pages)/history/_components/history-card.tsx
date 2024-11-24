@@ -1,8 +1,14 @@
 import CartStatusRender from '@/components/admin/cart-status.render';
+import PaymenStatus from '@/components/admin/payment-status';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { CATEGORY_CUSTOM, currency } from '@/shared/constants';
-import { EPaymentMethod, EPaymentStatus, IOrder } from '@/types/order';
+import {
+	EOrderStatus,
+	EPaymentMethod,
+	EPaymentStatus,
+	IOrder,
+} from '@/types/order';
 import { formatDate } from 'date-fns';
 
 interface Props {
@@ -58,7 +64,8 @@ export default function HistoryCard({ order, setOrder, setQrCode }: Props) {
 			</p>
 			<div className='h-[2px] w-full bg-gray-300 my-2' />
 			<div className='flex items-center justify-end gap-2'>
-				{order.paymentMethod === EPaymentMethod.BANKING &&
+				{order.status === EOrderStatus.PENDING &&
+					order.paymentMethod === EPaymentMethod.BANKING &&
 					order.paymentStatus === EPaymentStatus.UNPAID && (
 						<Button
 							onClick={() =>
@@ -68,6 +75,11 @@ export default function HistoryCard({ order, setOrder, setQrCode }: Props) {
 						>
 							Nhấn để thanh toán
 						</Button>
+					)}
+
+				{order.paymentMethod === EPaymentMethod.BANKING &&
+					order.paymentStatus === EPaymentStatus.PAID && (
+						<PaymenStatus status={order.paymentStatus} />
 					)}
 				<Button onClick={() => setOrder(order)} variant='outline'>
 					Xem chi tiết
