@@ -20,13 +20,14 @@ const headers = new Headers({
 const sepayUrl = `https://my.sepay.vn/userapi/transactions`;
 
 export const checkPaid = async (cartId: string) => {
-	const minDateStr = formatDate(new Date(), 'YYYY-MM-dd') + ' 00:00:000';
+	const minDateStr = formatDate(new Date(), 'yyyy-MM-dd') + ' 00:00:000';
 	try {
 		const res = await fetch(
 			`${sepayUrl}/list?transaction_date_min=${minDateStr}`,
 			{
 				method: 'GET',
 				headers,
+				mode: 'no-cors'
 			}
 		);
 

@@ -33,10 +33,13 @@ export const createPizza = async (
 			toppings: pizza.toppings.map((topping) => topping.$id),
 		};
 
+		const id = ID.unique();
+		console.log(id, values)
+
 		const newPizza = await databases.createDocument(
 			appwriteConfig.databaseId,
 			appwriteConfig.pizzasCollectionId,
-			ID.unique(),
+			id,
 			values
 		);
 
@@ -137,7 +140,10 @@ export const updatePizza = async (
 			appwriteConfig.databaseId,
 			appwriteConfig.pizzasCollectionId,
 			pizzaId,
-			updatedPizza
+			{
+				...updatedPizza,
+				images: [updatedPizza.images],
+			}
 		);
 
 		return {

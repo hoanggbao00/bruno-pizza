@@ -31,7 +31,7 @@ export default function PizzaDialog({ pizza, isOpen, handleClose, setList }: Pro
 			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>{pizza ? 'Chỉnh sửa' : 'Thêm mới danh mục'}</DialogTitle>
+					<DialogTitle>{pizza ? 'Chỉnh sửa' : 'Thêm mới Pizza'}</DialogTitle>
 				</DialogHeader>
 				<div>
 					<PizzaForm pizza={pizza} handleClose={handleClose} setList={setList}/>

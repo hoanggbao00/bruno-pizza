@@ -1,6 +1,6 @@
 'use client';
 import { currency } from '@/shared/constants';
-import { ArrowRight, ShoppingCartIcon, Star } from 'lucide-react';
+import { ArrowRight, Loader2, ShoppingCartIcon, Star } from 'lucide-react';
 import Link from 'next/link';
 import React, { useMemo, useState } from 'react';
 import { Card, CardFooter } from './ui/card';
@@ -78,6 +78,9 @@ export default function PizzaCard({ pizza }: Props) {
 			)}
 			<Link href={`/pizza/${pizza.$id}`}>
 				<div className='aspect-square relative mb-4'>
+					<div className='absolute inset-0 bg-gray-200 animate-pulse rounded-full grid place-items-center'>
+						<Loader2 size={48} className='animate-spin' />
+					</div>
 					<Image
 						src={pizza.images[0] ?? ''}
 						alt={pizza.name}

@@ -35,12 +35,12 @@ export default function AdminAuth({ isAdmin, setAdmin }: Props) {
 				<div>
 					<InputOTP maxLength={6} onChange={(value) => setValue(value)}>
 						<InputOTPGroup>
-							<InputOTPSlot index={0} className='size-[4.8rem] text-4xl'/>
-							<InputOTPSlot index={1} className='size-[4.8rem] text-4xl'/>
-							<InputOTPSlot index={2} className='size-[4.8rem] text-4xl'/>
-							<InputOTPSlot index={3} className='size-[4.8rem] text-4xl'/>
-							<InputOTPSlot index={4} className='size-[4.8rem] text-4xl'/>
-							<InputOTPSlot index={5} className='size-[4.8rem] text-4xl'/>
+							<InputOTPSlot index={0} className='size-[3.8rem] md:size-[4.8rem] text-4xl'/>
+							<InputOTPSlot index={1} className='size-[3.8rem] md:size-[4.8rem] text-4xl'/>
+							<InputOTPSlot index={2} className='size-[3.8rem] md:size-[4.8rem] text-4xl'/>
+							<InputOTPSlot index={3} className='size-[3.8rem] md:size-[4.8rem] text-4xl'/>
+							<InputOTPSlot index={4} className='size-[3.8rem] md:size-[4.8rem] text-4xl'/>
+							<InputOTPSlot index={5} className='size-[3.8rem] md:size-[4.8rem] text-4xl'/>
 						</InputOTPGroup>
 					</InputOTP>
 				</div>

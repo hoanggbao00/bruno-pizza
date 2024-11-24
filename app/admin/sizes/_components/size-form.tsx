@@ -22,7 +22,7 @@ import { Loader2 } from 'lucide-react';
 
 const formSchema = z.object({
 	name: z.string().min(1, 'Vui lòng nhập tên kích thước'),
-	price: z.number().min(1, 'Vui lòng nhập giá kích thước lớn hơn 1'),
+	price: z.number(),
 });
 
 interface Props {

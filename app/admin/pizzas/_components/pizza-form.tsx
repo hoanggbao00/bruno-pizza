@@ -437,10 +437,12 @@ export default function PizzaForm({
 						</FormItem>
 					)}
 				/>
+				<div className='flex justify-end'>
 				<Button type='submit' disabled={isLoading}>
 					{isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
 					{pizza ? 'Lưu' : 'Thêm mới'}
 				</Button>
+				</div>
 			</form>
 		</Form>
 	);
