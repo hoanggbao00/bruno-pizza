@@ -143,7 +143,7 @@ export default function PizzasPage() {
 							</TableCell>
 							<TableCell className='text-center'>{pizza.name}</TableCell>
 							<TableCell className='text-center'>
-								{pizza.category.name}
+								{pizza.category?.name}
 							</TableCell>
 							<TableCell className='text-right'>
 								{pizza.price.toLocaleString()} {currency}

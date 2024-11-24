@@ -52,11 +52,11 @@ import { createPizza, updatePizza } from '@/lib/actions/pizza.action';
 const formSchema = z.object({
 	images: z.string(),
 	name: z.string(),
-	category: z.string(),
+	category: z.string().min(1, 'Vui lòng chọn danh mục'),
 	description: z.string().optional(),
 	price: z.number(),
-	sizes: z.array(z.string()).nonempty('Please at least one item'),
-	toppings: z.array(z.string()).nonempty('Please at least one item'),
+	sizes: z.array(z.string()).nonempty('Vui lòng chọn ít nhất 1 item'),
+	toppings: z.array(z.string()).nonempty('Vui lòng chọn ít nhất 1 item'),
 });
 
 interface PizzaFormProps {
@@ -438,10 +438,10 @@ export default function PizzaForm({
 					)}
 				/>
 				<div className='flex justify-end'>
-				<Button type='submit' disabled={isLoading}>
-					{isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-					{pizza ? 'Lưu' : 'Thêm mới'}
-				</Button>
+					<Button type='submit' disabled={isLoading}>
+						{isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+						{pizza ? 'Lưu' : 'Thêm mới'}
+					</Button>
 				</div>
 			</form>
 		</Form>

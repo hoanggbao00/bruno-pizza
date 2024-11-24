@@ -11,7 +11,7 @@ import { useMemo, useState } from 'react';
 import { EVoucherType } from '@/types/voucher';
 import { getVoucherByCode } from '@/lib/actions/voucher.action';
 import { toast } from 'sonner';
-import { Banknote, Check, DollarSign, Loader2 } from 'lucide-react';
+import { Banknote, Check, DollarSign, Landmark, Loader2 } from 'lucide-react';
 import {
 	EDeliveryType,
 	EOrderStatus,
@@ -72,7 +72,7 @@ export default function CartList() {
 			const res = await getVoucherByCode(voucher);
 			if (!res?.$id) {
 				setDiscount((prev) => ({ ...prev, isValid: false }));
-				return toast.error('Voucher không tồn tại');
+				return toast.error('Voucher không khả dụng');
 			}
 			setDiscount({
 				isValid: true,
@@ -334,7 +334,7 @@ export default function CartList() {
 									}
 								)}
 							>
-								<Banknote size={40} />
+								<Landmark size={40} />
 								<span className='text-sm'>Banking</span>
 							</div>
 						</div>

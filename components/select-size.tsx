@@ -19,7 +19,7 @@ export default function SelectSize({ sizes, selectedValue, onChange }: Props) {
 	}, [selectedSize]);
 
 	return (
-		<div className='flex gap-2 mb-4'>
+		<div className='flex gap-2 mb-4 flex-wrap'>
 			{sizes.map((size) => (
 				<button
 					key={size.$id}
