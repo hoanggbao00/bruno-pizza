@@ -371,7 +371,12 @@ export default function PizzaForm({
 									onValuesChange={field.onChange}
 									loop
 								>
-									<MultiSelectorTrigger label={sizes.map((size) => size.name)}>
+									<MultiSelectorTrigger
+										label={sizes.map((size) => ({
+											value: size.$id,
+											label: size.name,
+										}))}
+									>
 										<MultiSelectorInput placeholder='Nhấn để chọn' />
 									</MultiSelectorTrigger>
 									<MultiSelectorContent>
@@ -406,7 +411,10 @@ export default function PizzaForm({
 									loop
 								>
 									<MultiSelectorTrigger
-										label={toppings.map((topping) => topping.name)}
+										label={toppings.map((topping) => ({
+											value: topping.$id,
+											label: topping.name,
+										}))}
 									>
 										<MultiSelectorInput placeholder='Nhấn để chọn' />
 									</MultiSelectorTrigger>

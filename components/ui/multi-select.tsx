@@ -217,7 +217,7 @@ const MultiSelector = ({
 
 const MultiSelectorTrigger = forwardRef<
 	HTMLDivElement,
-	React.HTMLAttributes<HTMLDivElement> & { label: string[] }
+	React.HTMLAttributes<HTMLDivElement> & { label: { value: any; label: any }[] }
 >(({ className, children, label, ...props }, ref) => {
 	const { value, onValueChange, activeIndex } = useMultiSelect();
 
@@ -238,28 +238,31 @@ const MultiSelectorTrigger = forwardRef<
 			)}
 			{...props}
 		>
-			{value && value.map((item, index) => (
-				<Badge
-					key={item}
-					className={cn(
-						'px-1 rounded-xl flex items-center gap-1',
-						activeIndex === index && 'ring-2 ring-muted-foreground '
-					)}
-					variant={'secondary'}
-				>
-					<span className='text-xs'>{label[index]}</span>
-					<button
-						aria-label={`Remove ${item} option`}
-						aria-roledescription='button to remove option'
-						type='button'
-						onMouseDown={mousePreventDefault}
-						onClick={() => onValueChange(item)}
+			{value &&
+				value.map((item, index) => (
+					<Badge
+						key={item}
+						className={cn(
+							'px-1 rounded-xl flex items-center gap-1',
+							activeIndex === index && 'ring-2 ring-muted-foreground '
+						)}
+						variant={'secondary'}
 					>
-						<span className='sr-only'>Remove {item} option</span>
-						<RemoveIcon className='h-4 w-4 hover:stroke-destructive' />
-					</button>
-				</Badge>
-			))}
+						<span className='text-xs'>
+							{label.find((l) => l.value === item)?.label}
+						</span>
+						<button
+							aria-label={`Remove ${item} option`}
+							aria-roledescription='button to remove option'
+							type='button'
+							onMouseDown={mousePreventDefault}
+							onClick={() => onValueChange(item)}
+						>
+							<span className='sr-only'>Remove {item} option</span>
+							<RemoveIcon className='h-4 w-4 hover:stroke-destructive' />
+						</button>
+					</Badge>
+				))}
 			{children}
 		</div>
 	);

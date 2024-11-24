@@ -10,17 +10,6 @@ export const CATEGORY_CUSTOM = `6741e9b5003ad4b26ca4`
 export const SIZE_CUSTOM = `6741fc5b00201060dd7f`
 export const DEFAULT_CUSTOM_PRICE = 180000
 
-// https://www.vietqr.io/en/danh-sach-api/link-tao-ma-nhanh/
-export const BANK_INFO = {
-	bankId: 970436, //Vietcombank
-	bankNumber: 1012560974,
-	bankName: 'NGUYEN HAI TIEN',
-	template: 'compact2',
-};
-
-export const getQRCode = (message: string, price: number) =>
-	`https://img.vietqr.io/image/${BANK_INFO.bankId}-${BANK_INFO.bankNumber}-${BANK_INFO.template}.png?amount=${price}&addInfo=${message}&accountName=${BANK_INFO.bankName}`;
-
 export const ROUTES = [
 	{
 		label: 'Home',

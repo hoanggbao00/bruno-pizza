@@ -229,7 +229,12 @@ export default function BuildNowForm() {
 											onValuesChange={field.onChange}
 											loop
 										>
-											<MultiSelectorTrigger label={toppings.map((t) => t.name)}>
+											<MultiSelectorTrigger
+												label={toppings.map((t) => ({
+													value: t.$id,
+													label: t.name,
+												}))}
+											>
 												<MultiSelectorInput placeholder='Chọn các Topping của bạn' />
 											</MultiSelectorTrigger>
 											<MultiSelectorContent>

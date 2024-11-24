@@ -5,8 +5,9 @@ import {
 	DialogFooter,
 	DialogTitle,
 } from '@/components/ui/dialog';
+import { checkPaid, getQrCodeUrl } from '@/lib/actions/qr.action';
 import useCartStore from '@/lib/stores/use-cart-store';
-import { currency, getQRCode } from '@/shared/constants';
+import { currency } from '@/shared/constants';
 import { Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -26,14 +27,16 @@ export default function QRDialog({ qrCode, setQrCode }: Props) {
 	const [qrUrl, setQrUrl] = useState('');
 	const { clearCart } = useCartStore();
 	const handleClose = () => {
-		setQrCode({ cartId: '', price: 0 })
-		clearCart()
+		setQrCode({ cartId: '', price: 0 });
+		clearCart();
 	};
 
 	const handleChecking = async () => {
+		if (!qrCode.cartId) return;
 		setChecking(true);
 		try {
-			toast.success('DEV:: Call api update');
+			const res = await checkPaid(qrCode.cartId);
+			console.log(res)
 		} catch (error) {
 			console.log(error);
 			toast.error('Có lỗi xảy ra khi kiểm tra');
@@ -44,7 +47,7 @@ export default function QRDialog({ qrCode, setQrCode }: Props) {
 
 	useEffect(() => {
 		if (qrCode.cartId) {
-			const url = getQRCode(qrCode.cartId, qrCode.price);
+			const url = getQrCodeUrl(qrCode.cartId, qrCode.price);
 			setQrUrl(url);
 		}
 	}, [qrCode]);
@@ -61,7 +64,7 @@ export default function QRDialog({ qrCode, setQrCode }: Props) {
 		>
 			<DialogContent>
 				<DialogTitle>Quét mã thanh toán cho đơn hàng</DialogTitle>
-				<div className='w-[300px] h-[350px] relative mx-auto'>
+				<div className='size-[300px] relative mx-auto'>
 					<div className='absolute inset-0 z-0 bg-gray-400 grid place-items-center animate-pulse'>
 						<Loader2 size={64} className='animate-spin' />
 					</div>
@@ -72,9 +75,16 @@ export default function QRDialog({ qrCode, setQrCode }: Props) {
 					/>
 				</div>
 				<div>
-					<p>Nội dung chuyển khoản: {qrCode.cartId}</p>
 					<p>
-						Số tiền chuyển: {qrCode.price.toLocaleString()} {currency}
+						Nội dung chuyển khoản:{' '}
+						<span className='font-semibold'>{qrCode.cartId}</span>
+					</p>
+					<p>
+						Số tiền chuyển:{' '}
+						<span className='font-semibold'>
+							{qrCode.price.toLocaleString()}
+							{currency}
+						</span>
 					</p>
 				</div>
 				<DialogFooter>
