@@ -97,7 +97,7 @@ export const getPizzas = async (): Promise<IPizza[]> => {
 	}
 };
 
-export const getPizzaById = async (pizzaId: string): Promise<IPizza> => {
+export const getPizzaById = async (pizzaId: string): Promise<IPizza | null> => {
 	try {
 		const { databases } = await createAdminClient();
 
@@ -125,7 +125,7 @@ export const getPizzaById = async (pizzaId: string): Promise<IPizza> => {
 		};
 	} catch (error) {
 		console.error('Error fetching pizza:', error);
-		throw error;
+		return null
 	}
 };
 

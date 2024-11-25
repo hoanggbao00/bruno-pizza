@@ -29,7 +29,7 @@ export default function ToppingsPage() {
 			setListTopping(res);
 		} catch (error) {
 			console.log(error);
-			toast.error('Có lỗi xảy ra khi lấy dữ liệu topping');
+			toast.error('Something went wrong!');
 		}
 	};
 
@@ -40,16 +40,16 @@ export default function ToppingsPage() {
 
 	const handleDelete = async (item: ITopping) => {
 		await confirm.danger(
-			`Bạn có chắc chắn muốn xóa ${item.name}?`,
+			`Are you sure to delete ${item.name}?`,
 			async () => {
 				try {
 					await deleteTopping(item.$id);
 
-					toast.success(`Đã xóa topping ${item.name}`);
+					toast.success(`Deleted ${item.name}`);
 					setListTopping((prev) => prev.filter((c) => c.$id !== item.$id));
 				} catch (error) {
 					console.log(error);
-					toast.error('Có lỗi xảy ra khi xóa!');
+					toast.error('Something went wrong!');
 				}
 			}
 		);

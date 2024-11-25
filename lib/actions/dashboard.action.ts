@@ -63,7 +63,7 @@ export const getChartData = async (
 			[Query.greaterThanEqual('$createdAt', startDate.toISOString())]
 		);
 		return orders.documents.map((order: any) => ({
-			date: new Date(order.createdAt).toLocaleDateString(),
+			date: new Date(order.$createdAt).toISOString().split('T')[0],
 			price: order.finalPrice,
 		}));
 	} catch (error) {

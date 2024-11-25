@@ -20,22 +20,24 @@ export default function BuildNow() {
 			<DialogTrigger asChild>
 				<Button className='bg-brand hover:bg-brand/90 text-white rounded-full gap-2'>
 					<ShoppingBag className='h-4 w-4' />
-					Tạo ý tưởng
+					Make you Pizza
 				</Button>
 			</DialogTrigger>
 			<DialogContent>
-				<DialogTitle>Xây dựng sự sáng tạo của bạn</DialogTitle>
+				<DialogTitle>Build your Dream Pizza</DialogTitle>
 				<DialogDescription>
-					Dịch vụ này chỉ áp dụng cho khách đến dùng tại quán hoặc đến lấy mang
-					về. Nếu muốn ship, vui lòng liên hệ của hàng.
+					This service is only available for logged in users that want to build
+					their own pizza. DELIVERY is not available.
 				</DialogDescription>
 				<div className='max-h-[80vh] overflow-auto px-1'>
 					{user && <BuildNowForm />}
 					{!user && (
 						<div className='text-2xl font-semibold flex-center text-center flex-col gap-2 text-red h-[30vh]'>
-							Vui lòng đăng nhập đề tiến hành build pizza
+							Please login to build your pizza
 							<Link href='/login'>
-								<Button className='bg-brand hover:bg-brand/80 rounded-full'>Đăng nhập ngay</Button>
+								<Button className='bg-brand hover:bg-brand/80 rounded-full'>
+									Login now
+								</Button>
 							</Link>
 						</div>
 					)}

@@ -1,7 +1,7 @@
 export const APP_NAME = 'Bruno Pizza';
-export const APP_SUBTITLE = 'Hơn cả Pizza Shop';
+export const APP_SUBTITLE = 'More than just a pizza';
 export const APP_DESCRIPTION =
-	'Nơi hiện thực hóa ý tưởng Pizza của bạn';
+	'Place that do you want to try the best pizza in the world';
 export const currency = '₫';
 export const PHONE_CONTACT = '0362555555';
 export const DEFAULT_IMAGE =
@@ -12,7 +12,7 @@ export const DEFAULT_CUSTOM_PRICE = 150000
 
 export const ROUTES = [
 	{
-		label: 'Trang chủ',
+		label: 'Home',
 		href: '/',
 	},
 	{
@@ -20,11 +20,11 @@ export const ROUTES = [
 		href: '/menu',
 	},
 	{
-		label: 'Pizza tự chọn',
+		label: 'Pizza Builder',
 		href: '/pizza-builder',
 	},
 	{
-		label: 'Về chúng tôi',
+		label: 'About Bruno',
 		href: '/about',
 	},
 ];

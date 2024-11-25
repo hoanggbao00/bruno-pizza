@@ -26,12 +26,12 @@ export default function VoucherDialog({ voucher, isOpen, handleClose, setListVou
 		<Dialog open={isOpen || !!voucher} onOpenChange={handleClose}>
 			<DialogTrigger asChild>
 				<Button className='bg-green hover:bg-green/60'>
-					<Plus className='mr-2 h-4 w-4' /> Thêm Voucher
+					<Plus className='mr-2 h-4 w-4' /> Add Voucher
 				</Button>
 			</DialogTrigger>
 			<DialogContent className='md:min-w-[600px]'>
 				<DialogHeader>
-					<DialogTitle>{voucher ? 'Chỉnh sửa' : 'Thêm mới Size'}</DialogTitle>
+					<DialogTitle>{voucher ? 'Update Voucher' : 'Add voucher'}</DialogTitle>
 				</DialogHeader>
 				<div>
 					<VoucherForm voucher={voucher} setListVoucher={setListVoucher} handleClose={handleClose}/>

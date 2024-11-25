@@ -21,18 +21,18 @@ const ConfirmDialog = () => {
 	const title = useMemo(() => {
 		switch (type) {
 			case 'danger':
-				return 'Xác nhận xoá';
+				return 'Delete';
 			default:
-				return 'Xác nhận';
+				return 'Confirm';
 		}
 	}, [type]);
 
 	const okText = useMemo(() => {
 		switch (type) {
 			case 'danger':
-				return 'Xoá';
+				return 'Delete';
 			default:
-				return 'Xác nhận';
+				return 'Confirm';
 		}
 	}, [type]);
 
@@ -82,7 +82,7 @@ const ConfirmDialog = () => {
 				</AlertDialogHeader>
 				<AlertDialogFooter>
 					{type !== 'alert' && (
-						<AlertDialogCancel onClick={handleCancel}>Hủy bỏ</AlertDialogCancel>
+						<AlertDialogCancel onClick={handleCancel}>Cancel</AlertDialogCancel>
 					)}
 					<AlertDialogAction
 						onClick={handleOk}
@@ -97,7 +97,7 @@ const ConfirmDialog = () => {
 						disabled={isLoading}
 					>
 						{isLoading && <Loader2 className='inline-block animate-spin' />}
-						{isLoading ? 'Đang thực thi' : okText}
+						{isLoading ? 'Processing...' : okText}
 					</AlertDialogAction>
 				</AlertDialogFooter>
 			</AlertDialogContent>

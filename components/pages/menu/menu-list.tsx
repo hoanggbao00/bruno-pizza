@@ -30,8 +30,7 @@ export default function MenuList({ slug }: Props) {
 		<div className='space-y-6'>
 			{isLoading && (
 				<div className='text-center text-2xl'>
-					<Loader2 className='animate-spin mr-2 inline-block' /> {APP_NAME} đang
-					tìm kiếm, chờ chút nhé...
+					<Loader2 className='animate-spin mr-2 inline-block' /> {APP_NAME} is serving please wait a sec...
 				</div>
 			)}
 			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
@@ -40,7 +39,7 @@ export default function MenuList({ slug }: Props) {
 				))}
 				{!isLoading && data.length === 0 && (
 					<p className='text-center text-2xl text-gray-400 col-span-4'>
-						Không tìm thấy pizza nào
+						Not found any pizzas yet!
 					</p>
 				)}
 			</div>

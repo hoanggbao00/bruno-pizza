@@ -12,17 +12,17 @@ export default function CartStatusRender({ status }: Props) {
 	const title = useMemo(() => {
 		switch (status) {
 			case EOrderStatus.PENDING:
-				return 'ĐANG CHỜ';
+				return 'PENDING';
 			case EOrderStatus.MAKING:
-				return 'ĐANG LÀM';
+				return 'MAKING';
 			case EOrderStatus.DELIVERING:
-				return 'ĐANG GIAO';
+				return 'DELIVERING';
 			case EOrderStatus.REJECTED:
-				return 'ĐÃ TỪ CHỐI';
+				return 'REJECTED';
 			case EOrderStatus.CANCELED:
-				return 'ĐÃ HỦY';
+				return 'CANCELED';
 			case EOrderStatus.DONE:
-				return 'HOÀN THÀNH';
+				return 'DONE';
 		}
 	}, [status]);
 

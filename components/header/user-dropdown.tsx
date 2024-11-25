@@ -21,7 +21,7 @@ export default function UserDropdown() {
 	const handleLogout = async () => {
 		setUser(null);
 		await signOutUser();
-		toast.success('Đăng xuất thành công.');
+		toast.success('Log out successfully');
 	};
 
 	return (
@@ -36,14 +36,14 @@ export default function UserDropdown() {
 					<>
 						{ids && ids.length > 0 && (
 							<DropdownMenuItem asChild>
-								<Link href='/history'>Lịch sử mua hàng</Link>
+								<Link href='/history'>Order History</Link>
 							</DropdownMenuItem>
 						)}
 						<DropdownMenuItem asChild>
-							<Link href='/login'>Đăng nhập</Link>
+							<Link href='/login'>Login</Link>
 						</DropdownMenuItem>
 						<DropdownMenuItem asChild>
-							<Link href='/sign-up'>Đăng ký</Link>
+							<Link href='/sign-up'>Sign Up</Link>
 						</DropdownMenuItem>
 					</>
 				)}
@@ -52,13 +52,13 @@ export default function UserDropdown() {
 					<>
 						<DropdownMenuLabel>{user.fullName}</DropdownMenuLabel>
 						<DropdownMenuItem asChild>
-							<Link href='/history'>Lịch sử đặt hàng</Link>
+							<Link href='/history'>Order History</Link>
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem asChild>
 							<form onSubmit={handleLogout}>
 								<button type='submit' className='text-brand'>
-									Đăng xuất
+									Logout
 								</button>
 							</form>
 						</DropdownMenuItem>

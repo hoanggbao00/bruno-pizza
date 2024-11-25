@@ -12,11 +12,11 @@ export default function PaymenStatus({ status }: Props) {
 	const title = useMemo(() => {
 		switch (status) {
 			case EPaymentStatus.UNPAID:
-				return 'Chưa thanh toán';
+				return 'UNPAID';
 			case EPaymentStatus.PAID:
-				return 'Đã thanh toán';
+				return 'PAID';
 			case EPaymentStatus.REFUNDED:
-				return 'Đã hoàn tiền';
+				return 'REFUNDED';
 		}
 	}, [status]);
 

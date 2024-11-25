@@ -1,8 +1,7 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, PhoneCall, Pizza, ShoppingCart } from 'lucide-react';
+import { ArrowRight, Pizza, ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
-import { PHONE_CONTACT } from '@/shared/constants';
 
 export default function Component() {
 	return (
@@ -25,12 +24,13 @@ export default function Component() {
 					</div>
 					<div className='space-y-6'>
 						<h1 className='text-4xl md:text-5xl lg:text-6xl font-bold'>
-							Pizza độc đáo
+							Let&apos;s Discuss
 							<br />
-							<span className='text-brand'>Sáng tạo niềm vui</span>
+							<span className='text-brand'>Your Ideas</span>
 						</h1>
 						<p className='text-lg text-gray-700 max-w-lg'>
-							Cùng nhau xây dựng sự sáng tạo của các bạn với chúng tôi.
+							Let&apos;s Collaborate To Create Intuitive Interfaces That Leave A
+							Lasting Impact On Your Users And Achieve Your Business Goals.
 						</p>
 					</div>
 				</div>
@@ -57,25 +57,26 @@ export default function Component() {
 					</div>
 					<div className='space-y-6'>
 						<h2 className='text-4xl font-bold'>
-							<span className='text-brand'>Xây dựng kỉ niệm</span>
+							<span className='text-brand'>Crafting Flavorful</span>
 							<br />
-							về hương vị
+							Memories
 						</h2>
 						<p className='text-lg text-gray-700'>
-							Chúng tôi biết Pizza không chỉ có ý nghĩa về mặt lương thực. Nhưng
-							với chúng tôi, Pizza còn hơn thế nữa! Cùng với sự sáng tạo của các
-							bạn và sự không ngừng cải tiến của chúng tôi.
+							We know its a pizza advertisement but we deliver it&apos;s not
+							just food! It&apos;s an experience. Our pizzas are crafted with
+							passion, using the finest ingredients and time-tested recipes to
+							bring you a slice of perfection.
 						</p>
 						<div className='flex gap-4 items-center'>
 							<Link
 								href='/pizza-builder'
 								className='bg-brand text-white hover:bg-brand/90 rounded-full py-4 px-6 text-xl flex gap-2'
 							>
-								<Pizza /> Sáng tạo ngay
+								<Pizza /> Build Now
 							</Link>
 							<Link href={'/menu'}>
 								<Button variant='outline' className='rounded-full gap-2 group'>
-									Tìm hiểu thêm
+									Find More
 									<ArrowRight className='h-4 w-4' />
 								</Button>
 							</Link>
@@ -87,16 +88,23 @@ export default function Component() {
 				<div className='mt-24 grid lg:grid-cols-2 gap-12 items-center'>
 					<div className='space-y-6'>
 						<h2 className='text-4xl font-bold'>
-							<span className='text-brand'>Tuỳ tay mà chọn,</span>
+							<span className='text-brand'>Perfect Companions To</span>
 							<br />
-							ngon không phải bàn
+							Your Pizza Adventure
 						</h2>
+						<p className='text-lg text-gray-700'>
+							We know its a pizza advertisement but we deliver it&apos;s not
+							just food! It&apos;s an experience. Our pizzas are crafted with
+							passion, using the finest ingredients and time-tested recipes to
+							bring you a slice of perfection.
+						</p>
+
 						<div className='flex gap-4 items-center'>
 							<Link
 								href='/menu'
 								className='bg-brand text-white hover:bg-brand/90 rounded-full py-4 px-6 text-xl flex gap-2'
 							>
-								<ShoppingCart /> Khám phá ngay
+								<ShoppingCart /> Order Now
 							</Link>
 						</div>
 					</div>
@@ -119,9 +127,9 @@ export default function Component() {
 
 				{/* Contact Information */}
 				<div className='w-full h-[640px] relative'>
-					<h2 className='text-2xl font-bold text-brand'>Địa chỉ</h2>
+					<h2 className='text-2xl font-bold text-brand'>Address</h2>
 					<div className='absolute w-full h-[600px] bg-gray-300 rounded-md animate-pulse text-xl flex-center text-brand'>
-						Đang khởi tạo Google Maps....
+						Google Maps is Loading...
 					</div>
 					<iframe
 						src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5379.431685743236!2d-93.61791790192432!3d47.61221475437148!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x52ba6f20bfb64237%3A0x7c9f5b53d38d5e9b!2sLittle%20Dick%20Lake!5e0!3m2!1sen!2s!4v1732100714797!5m2!1sen!2s'
@@ -137,13 +145,9 @@ export default function Component() {
 				{/* Thank You Message */}
 				<div className='text-center mt-24'>
 					<h2 className='text-2xl md:text-3xl font-bold'>
-						Cảm ơn vì
+						Thank You For Your
 						<br />
-						<span className=' text-brand'>Tình yêu</span>
-						<br />
-						với
-						<br />
-						<span className=' text-brand'>Pizza</span>
+						<span className=' text-brand'>Love</span>
 					</h2>
 				</div>
 			</div>

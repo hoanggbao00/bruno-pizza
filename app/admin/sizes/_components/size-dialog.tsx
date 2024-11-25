@@ -26,12 +26,12 @@ export default function SizeDialog({ size, isOpen, handleClose, setList }: Props
 		<Dialog open={isOpen || !!size} onOpenChange={handleClose}>
 			<DialogTrigger asChild>
 				<Button className='bg-green hover:bg-green/60'>
-					<Plus className='mr-2 h-4 w-4' /> Thêm Kích thước
+					<Plus className='mr-2 h-4 w-4' /> Add Size
 				</Button>
 			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>{size ? 'Chỉnh sửa' : 'Thêm mới Kích thước'}</DialogTitle>
+					<DialogTitle>{size ? 'Update Size' : 'Add Size'}</DialogTitle>
 				</DialogHeader>
 				<div>
 					<SizeForm size={size} setList={setList} handleClose={handleClose}/>

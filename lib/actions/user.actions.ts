@@ -67,10 +67,10 @@ export const signUp = async (
 	} catch (error: any) {
 		console.log(error);
 		if ((error.message as string)?.includes('same')) {
-			throw new Error('Email đã tồn tại');
+			throw new Error('Email was exists');
 		}
 
-		throw new Error('Có lỗi xảy ra khi đăng ký');
+		throw new Error('Something wrong when sign up');
 	}
 };
 
@@ -87,7 +87,7 @@ export const login = async (email: string, password: string) => {
 		);
 
 		if (data.total <= 0) {
-			throw new Error('Email hoặc mật khẩu không đúng');
+			throw new Error('Email or Password not valid');
 		}
 		const user: Omit<IUser, '$createdAt' | '$updatedAt' | 'accountId'> = {
 			$id: data.documents[0].$id,
@@ -113,7 +113,7 @@ export const login = async (email: string, password: string) => {
 		return user;
 	} catch (error: any) {
 		console.log(error);
-		throw new Error('Tài khoản hoặc mật khẩu không đúng');
+		throw new Error('Email or Password not valid');
 	}
 };
 

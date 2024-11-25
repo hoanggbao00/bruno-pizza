@@ -37,17 +37,17 @@ import { useState } from 'react';
 
 const formSchema = z
 	.object({
-		code: z.string().min(1, 'Vui lòng nhập mã Voucher'),
-		name: z.string().min(1, 'Vui lòng nhập tên voucher'),
+		code: z.string().min(1, 'Please fill this field'),
+		name: z.string().min(1, 'Please fill this field'),
 		description: z.string().optional(),
-		value: z.number().min(1, 'Vui lòng nhập giá trị lớn hơn 1'),
+		value: z.number().min(1, 'Greater than 1'),
 		type: z.enum([EVoucherType.PERCENTAGE, EVoucherType.FIXED_AMOUNT]),
 		startDate: z.coerce.date(),
 		endDate: z.coerce.date(),
-		maxUsageCount: z.number().min(1, 'Vui lần nhập số lần sử dụng lớn hơn 1'),
+		maxUsageCount: z.number().min(1, 'Greater than 1'),
 	})
 	.refine((data) => data.endDate > data.startDate, {
-		message: 'Ngày kết thúc phải lớn hơn ngày bắt đầu',
+		message: 'End date must be after start date',
 		path: ['endDate'],
 	});
 
@@ -104,12 +104,12 @@ export default function VoucherForm({
 				const res = await createVoucher(newItem);
 				setListVoucher((prev) => [...prev, { $id: res.$id, ...newItem }]);
 			}
-			toast.success(`${voucher ? 'Cập nhật' : 'Thêm'} voucher thành công!`);
+			toast.success(`${voucher ? 'Update' : 'Create'} voucher success!`);
 			handleClose(false);
 		} catch (error) {
 			console.error('Form submission error', error);
 			toast.error(
-				`Có lỗi xảy ra khi ${voucher ? 'cập nhật' : 'thêm mới'} voucher!`
+				`Something went wrong when ${voucher ? 'update' : 'create'} voucher!`
 			);
 		} finally {
 			setLoading(false);
@@ -127,9 +127,9 @@ export default function VoucherForm({
 					name='code'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Mã Voucher</FormLabel>
+							<FormLabel>Code</FormLabel>
 							<FormControl>
-								<Input placeholder='Nhập mã voucher' type='text' {...field} />
+								<Input placeholder='Enter voucher code' type='text' {...field} />
 							</FormControl>
 
 							<FormMessage />
@@ -142,9 +142,9 @@ export default function VoucherForm({
 					name='name'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Tên voucher</FormLabel>
+							<FormLabel>Name</FormLabel>
 							<FormControl>
-								<Input placeholder='Tên voucher' type='text' {...field} />
+								<Input placeholder='Enter voucher name' type='text' {...field} />
 							</FormControl>
 
 							<FormMessage />
@@ -157,12 +157,12 @@ export default function VoucherForm({
 					name='description'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Chi tiết</FormLabel>
+							<FormLabel>Description</FormLabel>
 							<FormControl>
 								<Textarea placeholder='' className='resize-none' {...field} />
 							</FormControl>
 							<FormDescription>
-								Nhập chi tiết về voucher này (có thể bỏ trống)
+							You can skip this field	
 							</FormDescription>
 							<FormMessage />
 						</FormItem>
@@ -176,7 +176,7 @@ export default function VoucherForm({
 							name='value'
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Giá trị</FormLabel>
+									<FormLabel>Value</FormLabel>
 									<FormControl>
 										<Input
 											placeholder=''
@@ -198,7 +198,7 @@ export default function VoucherForm({
 							name='type'
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Dạng áp dụng</FormLabel>
+									<FormLabel>Discount type</FormLabel>
 									<Select
 										onValueChange={field.onChange}
 										defaultValue={field.value}
@@ -215,7 +215,7 @@ export default function VoucherForm({
 											</SelectItem>
 										</SelectContent>
 									</Select>
-									<FormDescription>% hoặc VND</FormDescription>
+									<FormDescription>% or VND</FormDescription>
 									<FormMessage />
 								</FormItem>
 							)}
@@ -230,7 +230,7 @@ export default function VoucherForm({
 							name='startDate'
 							render={({ field }) => (
 								<FormItem className='flex flex-col'>
-									<FormLabel>Ngày bắt đầu</FormLabel>
+									<FormLabel>Start date</FormLabel>
 									<Popover>
 										<PopoverTrigger asChild>
 											<FormControl>
@@ -244,7 +244,7 @@ export default function VoucherForm({
 													{field.value ? (
 														format(field.value, 'dd/MM/yyyy')
 													) : (
-														<span>Chọn ngày</span>
+														<span>Pick a date</span>
 													)}
 													<CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
 												</Button>
@@ -272,7 +272,7 @@ export default function VoucherForm({
 							name='endDate'
 							render={({ field }) => (
 								<FormItem className='flex flex-col'>
-									<FormLabel>Ngày kết thúc</FormLabel>
+									<FormLabel>End date</FormLabel>
 									<Popover>
 										<PopoverTrigger asChild>
 											<FormControl>
@@ -286,7 +286,7 @@ export default function VoucherForm({
 													{field.value ? (
 														format(field.value, 'dd/MM/yyyy')
 													) : (
-														<span>Chọn ngày</span>
+														<span>Pick a date</span>
 													)}
 													<CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
 												</Button>
@@ -314,7 +314,7 @@ export default function VoucherForm({
 					name='maxUsageCount'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Số lượng dùng tối đa</FormLabel>
+							<FormLabel>Max usage count</FormLabel>
 							<FormControl>
 								<Input
 									placeholder=''
@@ -324,7 +324,7 @@ export default function VoucherForm({
 								/>
 							</FormControl>
 							<FormDescription>
-								Cài đặt số lần dùng tối đa của voucher này
+								Setup max usage count for voucher
 							</FormDescription>
 							<FormMessage />
 						</FormItem>
@@ -332,7 +332,7 @@ export default function VoucherForm({
 				/>
 				<Button type='submit' disabled={loading}>
 					{loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-					{voucher ? 'Cập nhật' : 'Thêm mới'}
+					{voucher ? 'Update' : 'Create'}
 				</Button>
 			</form>
 		</Form>

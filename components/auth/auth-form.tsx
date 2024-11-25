@@ -26,11 +26,11 @@ type FormType = 'sign-in' | 'sign-up';
 
 const authFormSchema = (formType: FormType) => {
 	return z.object({
-		email: z.string().email('Vui lòng nhập email hợp lệ'),
-		password: z.string().min(8, 'Mật khẩu tối thiểu 8 ký tự').max(255),
+		email: z.string().email('Email is not valid'),
+		password: z.string().min(8, 'Password must be at least 8 characters').max(255),
 		fullName:
 			formType === 'sign-up'
-				? z.string().min(1, 'Vui lòng nhập tên đầy đủ')
+				? z.string().min(1, 'Please fill your full name')
 				: z.string().optional(),
 	});
 };
@@ -65,13 +65,13 @@ const AuthForm = ({ type }: { type: FormType }) => {
 			setRouting(true);
 			toast.success(
 				type === 'sign-up'
-					? 'Đăng ký thành công, vui lòng đăng nhập.'
-					: 'Đăng nhập thành công!'
+					? 'Registration successful!'
+					: 'Login successful!'
 			);
 
 			router.push(type == 'sign-in' ? '/menu' : '/login');
 		} catch (error: any) {
-			toast.error(error.message || 'Có lỗi xảy ra!');
+			toast.error(error.message || 'Something went wrong');
 		} finally {
 			setIsLoading(false);
 		}
@@ -87,7 +87,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className='auth-form'>
 					<h1 className='form-title'>
-						{type === 'sign-in' ? 'Đăng nhập' : 'Đăng ký'}
+						{type === 'sign-in' ? 'Login' : 'Sign up'}
 					</h1>
 					{type === 'sign-up' && (
 						<FormField
@@ -97,12 +97,12 @@ const AuthForm = ({ type }: { type: FormType }) => {
 								<FormItem>
 									<div className='shad-form-item'>
 										<FormLabel className='shad-form-label'>
-											Tên của bạn
+											Full name
 										</FormLabel>
 
 										<FormControl>
 											<Input
-												placeholder='Nhập tên của bạn'
+												placeholder='Your full name'
 												className='shad-input'
 												{...field}
 											/>
@@ -125,7 +125,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
 									<FormControl>
 										<Input
-											placeholder='Nhập email của bạn'
+											placeholder='Your email'
 											className='shad-input'
 											{...field}
 										/>
@@ -143,12 +143,11 @@ const AuthForm = ({ type }: { type: FormType }) => {
 						render={({ field }) => (
 							<FormItem>
 								<div className='shad-form-item'>
-									<FormLabel className='shad-form-label'>Mật khẩu</FormLabel>
+									<FormLabel className='shad-form-label'>Password</FormLabel>
 
 									<FormControl>
 										<Input
 											type='password'
-											placeholder='Nhập mật khẩu của bạn'
 											className='shad-input'
 											{...field}
 										/>
@@ -165,7 +164,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
 						className='form-submit-button !text-xl'
 						disabled={isLoading}
 					>
-						{type === 'sign-in' ? 'Đăng nhập' : 'Đăng ký'}
+						{type === 'sign-in' ? 'Login' : 'Sign up'}
 
 						{isLoading && (
 							<Image
@@ -180,15 +179,15 @@ const AuthForm = ({ type }: { type: FormType }) => {
 					<div className='body-2 flex justify-center'>
 						<p className='text-light-100'>
 							{type === 'sign-in'
-								? 'Bạn chưa có tài khoản?'
-								: 'Bạn đã có tài khoản?'}
+								? 'Don\'t have an account?'
+								: 'Already have an account?'}
 						</p>
 						<Link
 							href={type === 'sign-in' ? '/sign-up' : '/login'}
 							className='ml-1 font-medium text-brand hover:text-brand-100'
 						>
 							{' '}
-							{type === 'sign-in' ? 'Đăng ký' : 'Đăng nhập'}
+							{type === 'sign-in' ? 'Sign up' : 'Login'}
 						</Link>
 					</div>
 				</form>

@@ -72,14 +72,14 @@ export default function Page() {
 	const handleUpdateStatus = async (itemId: string, status: EOrderStatus) => {
 		setStatusLoading(true);
 		try {
-			const res = await updateOrder(itemId, { status });
+			await updateOrder(itemId, { status });
 			setListOrder((prev) =>
 				prev.map((item) => (item.$id === itemId ? { ...item, status } : item))
 			);
-			toast.success('Đã cập nhật trạng đơn hàng!');
+			toast.success('Status Updated');
 		} catch (error) {
 			console.log(error);
-			toast.error('Có lỗi xảy ra khi cập nhật trạng đơn hàng!');
+			toast.error('Something went wrong!');
 		} finally {
 			setStatusLoading(false);
 		}
@@ -97,10 +97,10 @@ export default function Page() {
 					item.$id === itemId ? { ...item, paymentStatus: status } : item
 				)
 			);
-			toast.success('Đã cập nhật trạng thái thanh toán!');
+			toast.success('Payment Status Updated');
 		} catch (error) {
 			console.log(error);
-			toast.error('Có lỗi xảy ra khi cập nhật trạng thanh toán!');
+			toast.error('Something went wrong!');
 		} finally {
 			setPaymentLoading(false);
 		}
@@ -114,14 +114,14 @@ export default function Page() {
 		<div>
 			{order && <OrderDetail key={order.$id} order={order} setOrder={setOrder} />}
 			<div className='flex justify-between items-center mb-6'>
-				<h1 className='text-3xl font-bold'>Đơn hàng</h1>
+				<h1 className='text-3xl font-bold'>Orders</h1>
 				<Button variant='outline' onClick={fetchOrders} disabled={loading}>
 					{loading ? (
 						<Loader2 size={16} className='animate-spin inline-block mr-2' />
 					) : (
 						<RefreshCcw />
 					)}{' '}
-					Làm mới
+					Refresh
 				</Button>
 			</div>
 			<Table>
@@ -131,30 +131,30 @@ export default function Page() {
 							#
 						</TableHead>
 						<TableHead className='text-center font-semibold'>
-							Mã đơn hàng
+							Order ID
 						</TableHead>
 						<TableHead className='text-center font-semibold'>
 							{statusLoading && (
 								<Loader2 size={16} className='animate-spin inline-block mr-2' />
 							)}
-							Trạng thái
+							Status
 						</TableHead>
 						<TableHead className='text-center font-semibold w-[150px]'>
-							Khách hàng
+							Customer
 						</TableHead>
 						<TableHead className='text-center font-semibold'>Giá trị</TableHead>
 						<TableHead className='text-center font-semibold'>
 							{paymentLoading && (
 								<Loader2 size={16} className='animate-spin inline-block mr-2' />
 							)}
-							Thanh toán
+							Payment
 						</TableHead>
 						<TableHead className='text-center font-semibold'>Voucher</TableHead>
 						<TableHead className='text-center font-semibold'>
-							Ngày tạo
+							Date Created
 						</TableHead>
 						<TableHead className='text-center font-semibold w-[150px]'>
-							Hành động
+							Actions
 						</TableHead>
 					</TableRow>
 				</TableHeader>
@@ -258,7 +258,7 @@ export default function Page() {
 								</DropdownMenu>
 							</TableCell>
 							<TableCell className='text-center'>
-								{item.appliedVoucher ? 'Có' : 'Không'}
+								{item.appliedVoucher ? item.appliedVoucher.code : 'None'}
 							</TableCell>
 							<TableCell className='text-center'>
 								{format(new Date(item.$createdAt!), 'HH:mm dd/MM/yyyy')}

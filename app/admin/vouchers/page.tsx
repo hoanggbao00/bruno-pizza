@@ -41,7 +41,7 @@ export default function Page() {
 			setListVoucher(res);
 		} catch (error) {
 			console.log(error);
-			toast.error('Có lỗi xảy ra khi lấy dữ liệu Voucher!');
+			toast.error('Something went wrong!');
 		}
 	};
 
@@ -52,15 +52,15 @@ export default function Page() {
 
 	const handleDelete = async (item: IVoucher) => {
 		await confirm.danger(
-			`Bạn có chắc chắn muốn xóa Voucher ${item.name}?`,
+			`Are you sure to delete ${item.name}?`,
 			async () => {
 				try {
 					await deleteVoucher(item.$id);
 					setListVoucher((prev) => prev.filter((c) => c.$id !== item.$id));
-					toast.success(`Đã xóa ${item.name}`);
+					toast.success(`Deleted ${item.name}`);
 				} catch (error) {
 					console.log(error);
-					toast.error('Có lỗi xảy ra khi xóa!');
+					toast.error('Something went wrong!');
 				}
 			}
 		);
@@ -91,10 +91,10 @@ export default function Page() {
 				);
 			}
 
-			toast.success('Đã thay đổi trạng thái voucher');
+			toast.success('Status Updated');
 		} catch (error) {
 			console.log(error);
-			toast.error('Có lỗi xảy ra khi cập nhật trạng thái.');
+			toast.error('Something went wrong!');
 		} finally {
 			setLoading(false);
 		}
@@ -125,23 +125,23 @@ export default function Page() {
 							{loading && (
 								<Loader2 className='animate-spin mr-1 inline-block size-4' />
 							)}
-							Trạng thái
+							Status
 						</TableHead>
 						<TableHead className='text-center font-semibold'>Mã</TableHead>
 						<TableHead className='text-center font-semibold'>
-							Tên Voucher
+							Name
 						</TableHead>
 
-						<TableHead className='text-center font-semibold'>Giá trị</TableHead>
-						<TableHead className='text-center font-semibold'>Bắt đầu</TableHead>
+						<TableHead className='text-center font-semibold'>Value</TableHead>
+						<TableHead className='text-center font-semibold'>Start</TableHead>
 						<TableHead className='text-center font-semibold'>
-							Kết thúc
+							End
 						</TableHead>
 						<TableHead className='text-center font-semibold w-[100px]'>
-							Đã dùng
+							Usage
 						</TableHead>
 						<TableHead className='text-center font-semibold w-[150px]'>
-							Hành động
+							Actions
 						</TableHead>
 					</TableRow>
 				</TableHeader>
@@ -167,14 +167,14 @@ export default function Page() {
 											onClick={() => handleChangeStatus(item.$id, true)}
 										>
 											<Badge className='bg-green cursor-pointer mx-auto'>
-												Hoạt động
+												Active
 											</Badge>
 										</DropdownMenuItem>
 										<DropdownMenuItem
 											onClick={() => handleChangeStatus(item.$id, false)}
 										>
 											<Badge className='bg-gray-400 cursor-pointer mx-auto'>
-												Kết thúc
+												Ended
 											</Badge>
 										</DropdownMenuItem>
 									</DropdownMenuContent>

@@ -9,5 +9,5 @@ export default async function Page({ params }: Props) {
 	const id = (await params).id;
 	const pizza = await getPizzaById(id);
 
-	return pizza ? <PizzaDetail pizza={pizza} /> : <div>Not found</div>;
+	return pizza ? <PizzaDetail pizza={pizza} /> : <div>Not found your Pizza</div>;
 }

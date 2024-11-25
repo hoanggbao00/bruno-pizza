@@ -41,7 +41,7 @@ export default function PizzasPage() {
 			setListPizza(res);
 		} catch (error) {
 			console.log(error);
-			toast.error('Có lỗi xảy ra khi lấy dữ liệu Pizza');
+			toast.error('Something went wrong!');
 		}
 	};
 
@@ -52,16 +52,16 @@ export default function PizzasPage() {
 
 	const handleDelete = async (item: IPizza) => {
 		await confirm.danger(
-			`Bạn có chắc chắn muốn xóa ${item.name}?`,
+			`Are you sure to delete ${item.name}?`,
 			async () => {
 				try {
 					await deletePizza(item.$id);
 					setListPizza((prev) => prev.filter((c) => c.$id !== item.$id));
 
-					toast.success(`Đã xóa ${item.name}`);
+					toast.success(`${item.name} deleted`);
 				} catch (error) {
 					console.log(error);
-					toast.error('Có lỗi xảy ra khi xóa!');
+					toast.error('Something went wrong!');
 				}
 			}
 		);
@@ -74,7 +74,7 @@ export default function PizzasPage() {
 		setLoading(true)
 		try {
 			await updatePizza(itemId, { stockStatus: status });
-			toast.success('Cập nhật trạng thái thành công');
+			toast.success('Status Updated');
 			setListPizza((prev) =>
 				prev.map((item) =>
 					item.$id === itemId ? { ...item, stockStatus: status } : item
@@ -82,7 +82,7 @@ export default function PizzasPage() {
 			);
 		} catch (error) {
 			console.log(error);
-			toast.error('Có lỗi xảy ra khi cập nhật trạng thái');
+			toast.error('Something went wrong!');
 		} finally {
 			setLoading(false)
 		}
@@ -110,21 +110,21 @@ export default function PizzasPage() {
 							#
 						</TableHead>
 						<TableHead className='text-center font-semibold w-24'>
-							Ảnh
+							Image
 						</TableHead>
-						<TableHead className='text-center font-semibold'>Tên</TableHead>
+						<TableHead className='text-center font-semibold'>Name</TableHead>
 						<TableHead className='text-center font-semibold'>
-							Danh mục
+							Category
 						</TableHead>
-						<TableHead className='text-center font-semibold'>Đơn giá</TableHead>
+						<TableHead className='text-center font-semibold'>Price</TableHead>
 						<TableHead className='text-center font-semibold w-[150px]'>
 							{loading && (
 								<Loader2 size={16} className='inline-block animate-spin mr-2' />
 							)}
-							Trạng thái
+							Status
 						</TableHead>
 						<TableHead className='text-center font-semibold w-[150px]'>
-							Hành động
+							Action
 						</TableHead>
 					</TableRow>
 				</TableHeader>

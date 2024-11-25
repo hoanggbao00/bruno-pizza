@@ -16,15 +16,14 @@ export default function Page() {
 								<div className='flex flex-col justify-center space-y-6'>
 									<div className='space-y-2'>
 										<h1 className='text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl'>
-											Không chỉ về Pizza
+											it&apos;s not just Food
 											<br />
-											Còn ngon hơn cả {' '}
-											<span className='text-brand'>Pizza</span>
+											It&apos;s an{' '}
+											<span className='text-brand'>Experience</span>
 										</h1>
 										<p className='max-w-[600px] text-gray-500 md:text-xl'>
-											Thưởng thức hương vị, tận hưởng khoảnh khắc và khám phá lý
-											do tại sao pizza của chúng tôi không chỉ là đồ ăn - mà đó
-											còn là một trải nghiệm.
+											Savor the flavor, enjoy the moment, and discover why our
+											pizza is not just food—it&apos;s an experience.
 										</p>
 									</div>
 									<div className='flex flex-col gap-2 min-[400px]:flex-row'>
@@ -32,7 +31,7 @@ export default function Page() {
 											href={'/menu'}
 											className='bg-brand flex gap-2 items-center text-white hover:bg-brand/90 rounded-full text-3xl py-4 px-8 animate-bounce duration-700'
 										>
-											Khám phá ngay
+											Explore Now
 										</Link>
 									</div>
 									<div className='flex gap-4 mt-6'>

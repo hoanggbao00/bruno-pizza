@@ -24,7 +24,7 @@ export default function AdminDashboard() {
 		order: 0,
 		voucher: 0,
 	});
-	const [totalLoading, setTotalLoading] = useState(false);
+	const [totalLoading, setTotalLoading] = useState(true);
 
 	const fetchTotal = async () => {
 		setTotalLoading(true);
@@ -33,7 +33,7 @@ export default function AdminDashboard() {
 			setTotal(_);
 		} catch (error) {
 			console.log(error);
-			toast.error('Có lỗi xảy ra khi lấy dữ liệu!');
+			toast.error('Something went wrong');
 		} finally {
 			setTotalLoading(false);
 		}
@@ -42,28 +42,28 @@ export default function AdminDashboard() {
 	const stats = useMemo(
 		() => [
 			{
-				label: 'Số lượng Pizza',
+				label: 'Pizzas',
 				value: total.pizza,
 				icon: PizzaIcon,
 				path: '/admin/pizzas',
 				color: 'brand hover:bg-brand/80',
 			},
 			{
-				label: 'Danh mục',
+				label: 'Categories',
 				value: total.category,
 				icon: LayersIcon,
 				path: '/admin/categories',
 				color: 'green hover:bg-green/80',
 			},
 			{
-				label: 'Order hôm hay',
+				label: 'Order Today',
 				value: total.order,
 				icon: ShoppingCartIcon,
 				path: '/admin/orders',
 				color: 'yellow-300 hover:bg-yellow-200/80',
 			},
 			{
-				label: 'Voucher hoạt động',
+				label: 'Voucher Active',
 				value: total.voucher,
 				icon: TicketIcon,
 				path: '/admin/vouchers',
@@ -74,8 +74,8 @@ export default function AdminDashboard() {
 	);
 
 	useEffect(() => {
-fetchTotal()
-	}, [])
+		fetchTotal();
+	}, []);
 
 	return (
 		<div className='space-y-6'>
@@ -87,7 +87,7 @@ fetchTotal()
 					) : (
 						<RefreshCcw className='size-4 mr-2' />
 					)}
-					Làm mới
+					Refresh
 				</Button>
 			</div>
 
@@ -102,7 +102,11 @@ fetchTotal()
 							>
 								<div>
 									<p className='text-sm text-black'>{stat.label}</p>
-									<p className='text-3xl font-bold mt-1'>{stat.value}</p>
+									{totalLoading ? (
+										<Loader2 className='animate-spin inline-block size-5' />
+									) : (
+										<p className='text-3xl font-bold mt-1'>{stat.value}</p>
+									)}
 								</div>
 								<Icon className='w-8 h-8 text-blue-500' />
 							</Link>

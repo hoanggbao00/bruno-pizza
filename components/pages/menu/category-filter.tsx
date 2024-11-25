@@ -36,12 +36,12 @@ export default function CategoryFilter({ searchParams, categories }: Props) {
 					variant={categorySelected == 'all' ? 'default' : 'outline'}
 					className={`rounded-full px-6 ${
 						categorySelected == 'all'
-							? 'bg-[#FF7B6B] hover:bg-[#FF7B6B]/90'
+							? 'bg-brand hover:bg-brand/90'
 							: ''
 					}`}
 					onClick={() => setCategorySelected('all')}
 				>
-					Tất cả
+					All
 				</Button>
 			}
 			{categories.map((category) => (
@@ -50,7 +50,7 @@ export default function CategoryFilter({ searchParams, categories }: Props) {
 					variant={categorySelected == category.slug ? 'default' : 'outline'}
 					className={`rounded-full px-6 ${
 						categorySelected == category.slug
-							? 'bg-[#FF7B6B] hover:bg-[#FF7B6B]/90'
+							? 'bg-brand hover:bg-brand/90'
 							: ''
 					}`}
 					onClick={() => setCategorySelected(category.slug)}

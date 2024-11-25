@@ -38,7 +38,7 @@ export default function CategoriesPage() {
 			setCategories(data);
 		} catch (error) {
 			console.log(error);
-			toast.error('Có lỗi xảy ra khi lấy dữ liệu Danh mục!');
+			toast.error('Something went wrong');
 		} finally {
 			setLoading(false);
 		}
@@ -71,12 +71,12 @@ export default function CategoriesPage() {
 			}
 
 			toast.success(
-				`${editingCategory ? 'Cập nhật' : 'Thêm mới'} danh mục thành công!`
+				`${editingCategory ? 'Update' : 'Create'} category successfully!`
 			);
 		} catch (error) {
 			console.log(error);
 			toast.error(
-				`Có lỗi xảy ra khi ${editingCategory ? 'cập nhật' : 'thêm'} danh mục!`
+				`Something went wrong ${editingCategory ? 'update' : 'create'} category!`
 			);
 		}
 
@@ -100,19 +100,19 @@ export default function CategoriesPage() {
 	}, []);
 
 	const handleDelete = async (item: ICategory) => {
-		await confirm.danger('Bạn có xác nhận xóa danh mục này?', async () => {
+		await confirm.danger('Are you sure to delete this category?', async () => {
 			try {
 				const res = await fetch(`/api/category?id=${item.$id}`, {
 					method: 'DELETE',
 				});
 
-				if (res.status !== 200) throw new Error('Có lỗi xảy ra khi xóa!');
+				if (res.status !== 200) throw new Error('Something went wrong!');
 
 				toast.success(`Đã xóa danh mục ${item.name}`);
 				setCategories((prev) => prev.filter((c) => c.$id !== item.$id));
 			} catch (error) {
 				console.log(error);
-				toast.error('Có lỗi xảy ra khi xóa!');
+				toast.error('Something went wrong!');
 			}
 		});
 	};
@@ -124,18 +124,18 @@ export default function CategoriesPage() {
 				<Dialog open={isOpen} onOpenChange={handleClose}>
 					<DialogTrigger asChild>
 						<Button className='bg-green hover:bg-green/60'>
-							<Plus className='mr-2 h-4 w-4' /> Thêm danh mục
+							<Plus className='mr-2 h-4 w-4' /> New Category
 						</Button>
 					</DialogTrigger>
 					<DialogContent>
 						<DialogHeader>
 							<DialogTitle>
-								{editingCategory ? 'Chỉnh sửa danh mục' : 'Thêm mới danh mục'}
+								{editingCategory ? 'Update Category' : 'New Category'}
 							</DialogTitle>
 						</DialogHeader>
 						<form onSubmit={handleSubmit} className='space-y-4'>
 							<div>
-								<Label htmlFor='name'>Tên</Label>
+								<Label htmlFor='name'>Name</Label>
 								<Input
 									id='name'
 									name='name'
@@ -144,7 +144,7 @@ export default function CategoriesPage() {
 								/>
 							</div>
 							<div>
-								<Label htmlFor='slug'>Đường dẫn</Label>
+								<Label htmlFor='slug'>Slug</Label>
 								<Input
 									id='slug'
 									name='slug'
@@ -156,7 +156,7 @@ export default function CategoriesPage() {
 								type='submit'
 								className='w-full bg-green hover:bg-green/60'
 							>
-								{editingCategory ? 'Lưu' : 'Tạo mới'}
+								{editingCategory ? 'Save' : 'Create'}
 							</Button>
 						</form>
 					</DialogContent>

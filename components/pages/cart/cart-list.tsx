@@ -67,15 +67,15 @@ export default function CartList() {
 	}, [items, discount]);
 
 	const handleCheckVoucher = async () => {
-		if(!voucher) {
-			return toast.error('Mã voucher trống')
+		if (!voucher) {
+			return toast.error('Voucher Code not provided');
 		}
 		setLoading({ ...isLoading, checkVoucher: true });
 		try {
 			const res = await getVoucherByCode(voucher);
 			if (!res?.$id) {
 				setDiscount((prev) => ({ ...prev, isValid: false }));
-				return toast.error('Voucher không khả dụng');
+				return toast.error('Voucher is expired or invalid');
 			}
 			setDiscount({
 				isValid: true,
@@ -85,17 +85,17 @@ export default function CartList() {
 			});
 		} catch (error) {
 			console.log(error);
-			toast.error('Có lỗi xảy ra khi kiểm tra voucher');
+			toast.error('Check voucher Error!');
 		} finally {
 			setLoading({ ...isLoading, checkVoucher: false });
 		}
 	};
 
 	const handleProcess = async () => {
-		if (!phoneNumber) return toast.warning('Vui lòng nhập đầy đủ thông tin');
+		if (!phoneNumber) return toast.warning('Please fill your phone number');
 		if (deliveryType === EDeliveryType.SHIP && !deliveryAddress)
-			return toast.warning('Vui lòng nhập điểm giao hàng');
-		if (!user && !name) return toast.warning('Vui lòng nhập tên của bạn');
+			return toast.warning('Please fill your address');
+		if (!user && !name) return toast.warning('Please fill your name');
 
 		setLoading({ ...isLoading, process: true });
 		try {
@@ -164,21 +164,21 @@ export default function CartList() {
 
 			if (paymentMethod === EPaymentMethod.CASH) {
 				toast.success(
-					'Đơn hàng đã được tạo thành công. Vui lòng đợi nhân viên hỗ trợ liên hệ lại bạn nhé!'
+					'Your order has been created! You can check your order history in your profile'
 				);
 			} else {
-				console.log(res.cartItems[0].$id)
+				console.log(res.cartItems[0].$id);
 				setQrCode({
 					cartId: res.cartItems[0].$id,
 					price: prices.finalPrice,
 				});
-				toast.success('Đơn hàng được tạo thành công. Vui lòng thanh toán');
+				toast.success('Order created! Please check you payment');
 			}
 
 			setIds([...ids, res.order.$id]);
 		} catch (error) {
 			console.log(error);
-			toast.error('Có lỗi xảy ra khi xuất hóa đơn hàng');
+			toast.error('Create order Error!');
 		} finally {
 			setLoading({ ...isLoading, process: false });
 		}
@@ -214,13 +214,13 @@ export default function CartList() {
 					onClick={clearCart}
 					type='button'
 				>
-					Xóa tất cả
+					Delete All Items
 				</button>
 			</div>
 
 			<div className='bg-white p-4 rounded-lg shadow space-y-4'>
 				<div className='justify-between flex items-center gap-2'>
-					<span className='font-semibold'>Tên của bạn: </span>
+					<span className='font-semibold'>Name: </span>
 					<Input
 						className='flex-1'
 						value={user?.fullName || name}
@@ -229,25 +229,25 @@ export default function CartList() {
 					/>
 				</div>
 				<div className='flex items-center gap-2'>
-					<span className='font-semibold'>Phương thức đặt hàng: </span>
+					<span className='font-semibold'>Order Method: </span>
 					<Checkbox
 						id='take-away'
 						className='checked:!bg-brand'
 						onCheckedChange={() => setDeliveryType(EDeliveryType.TAKE_AWAY)}
 						checked={deliveryType == EDeliveryType.TAKE_AWAY}
 					/>
-					<label htmlFor='take-away'>Đến lấy</label>
+					<label htmlFor='take-away'>Take Away</label>
 					<Checkbox
 						className='checked:!bg-brand'
 						id='ship'
 						onCheckedChange={() => setDeliveryType(EDeliveryType.SHIP)}
 						checked={deliveryType == EDeliveryType.SHIP}
 					/>
-					<label htmlFor='ship'>Giao hàng</label>
+					<label htmlFor='ship'>Delivery</label>
 				</div>
 				{deliveryType === EDeliveryType.SHIP && (
 					<div className='justify-between flex items-center gap-2'>
-						<span className='font-semibold'>Địa chỉ: </span>
+						<span className='font-semibold'>Address: </span>
 						<Input
 							className='flex-1'
 							value={deliveryAddress}
@@ -256,7 +256,7 @@ export default function CartList() {
 					</div>
 				)}
 				<div className='justify-between flex items-center gap-2'>
-					<span className='font-semibold'>Số điện thoại: </span>
+					<span className='font-semibold'>Phone Number: </span>
 					<Input
 						className='flex-1'
 						value={phoneNumber}
@@ -267,7 +267,6 @@ export default function CartList() {
 					<span className='font-semibold'>Voucher: </span>
 					<Input
 						className='flex-1'
-						placeholder='Nhập mã voucher'
 						value={voucher}
 						onChange={(e) => {
 							setDiscount((prev) => ({ ...prev, isValid: false }));
@@ -285,10 +284,10 @@ export default function CartList() {
 						)}
 						{discount.code === voucher && discount.isValid ? (
 							<>
-								<Check size={16} className='mr-2' /> Hợp lệ
+								<Check size={16} className='mr-2' /> Valid
 							</>
 						) : (
-							'Kiểm tra'
+							'Check'
 						)}
 					</Button>
 				</div>
@@ -296,7 +295,7 @@ export default function CartList() {
 					<div className='flex items-center gap-2 text-green'>
 						<Check size={16} className='mr-2' />
 						<span>
-							Voucher áp dụng được giảm{' '}
+							Voucher discount{' '}
 							{discount.type == EVoucherType.PERCENTAGE
 								? `${discount.value}%`
 								: `${discount.value} ${currency}`}
@@ -305,14 +304,14 @@ export default function CartList() {
 				)}
 				<div className='h-[1px] bg-gray-200 my-4' />
 				<div className='flex justify-between items-center mb-4'>
-					<span className='font-semibold'>Tổng tiền:</span>
+					<span className='font-semibold'>Total:</span>
 					<span className='text-xl font-bold text-brand'>
 						{finalPrice.toLocaleString()} {currency}
 					</span>
 				</div>
 				<div>
 					<div className=''>
-						<p className='font-semibold'>Phương thức thanh toán</p>
+						<p className='font-semibold'>Payment Method</p>
 						<div className='grid grid-cols-2 gap-4'>
 							<div
 								className={cn(
@@ -325,7 +324,7 @@ export default function CartList() {
 								onClick={() => setPaymentMethod(EPaymentMethod.CASH)}
 							>
 								<DollarSign size={40} />
-								<span className='text-sm'>Tiền mặt</span>
+								<span className='text-sm'>Cash</span>
 							</div>
 							<div
 								onClick={() => setPaymentMethod(EPaymentMethod.BANKING)}
@@ -356,10 +355,10 @@ export default function CartList() {
 						<Loader2 size={16} className='animate-spin mr-2 inline-block' />
 					)}
 					{cartStatus === EOrderStatus.DELIVERING
-						? 'Đang giao hàng'
+						? 'Delivering'
 						: cartStatus === EOrderStatus.PENDING
-						? 'Đang đợi duyệt'
-						: 'Đặt hàng'}
+						? 'Pending'
+						: 'Order Now'}
 				</button>
 			</div>
 		</div>

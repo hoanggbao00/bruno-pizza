@@ -18,11 +18,11 @@ export default function AdminAuth({ isAdmin, setAdmin }: Props) {
 
 	useEffect(() => {
 		if (value.length === 6) {
-			if (value === '090909') {
+			if (value === process.env.NEXT_PUBLIC_AMDIN_PASSWORD) {
 				setAdmin(true);
         toast.success('Hello Admin!');
 			} else {
-        toast.error('Fuck you!');
+        toast.error('Wrong Password');
       }
 		}
 	}, [value]);
@@ -30,7 +30,7 @@ export default function AdminAuth({ isAdmin, setAdmin }: Props) {
 	return (
 		<Dialog open={!isAdmin}>
 			<DialogContent>
-				<DialogTitle>Mã ADMIN</DialogTitle>
+				<DialogTitle>ADMIN PASSWORD</DialogTitle>
 				<div>
 					<InputOTP maxLength={6} onChange={(value) => setValue(value)}>
 						<InputOTPGroup>

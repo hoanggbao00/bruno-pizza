@@ -99,19 +99,19 @@ export default function ToppingForm({
 				);
 			} else {
 				if (!files || files.length === 0)
-					return toast.error('Vui lý chọn tải lên ít nhất 1 ảnh');
+					return toast.error('Please select an image.');
 				const img = await uploadImage(files![0]);
 				values.image = img;
 				const res = await createTopping(values);
 				setListTopping((prev) => [...prev, res]);
 			}
 
-			toast.success(`${topping ? 'Cập nhật' : 'Thêm'} Topping thành công!`);
+			toast.success(`${topping ? 'Update' : 'Create'} Topping sucess!`);
 			handleClose(false);
 		} catch (error) {
 			console.error('Form submission error', error);
 			toast.error(
-				`Có lỗi xảy ra khi ${topping ? 'cập nhật' : 'thêm mới'} Topping!`
+				`Something went wrong when ${topping ? 'update' : 'create'} Topping!`
 			);
 		} finally {
 			setLoading(false);
@@ -135,7 +135,7 @@ export default function ToppingForm({
 					name='image'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Ảnh</FormLabel>
+							<FormLabel>Image</FormLabel>
 							<FormControl>
 								<FileUploader
 									value={files}
@@ -185,7 +185,7 @@ export default function ToppingForm({
 									</FileUploaderContent>
 								</FileUploader>
 							</FormControl>
-							<FormDescription>Tải ảnh lên</FormDescription>
+							<FormDescription>Upload</FormDescription>
 							<FormMessage />
 						</FormItem>
 					)}
@@ -196,15 +196,15 @@ export default function ToppingForm({
 					name='type'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Danh mục Topping</FormLabel>
+							<FormLabel>Topping Category</FormLabel>
 							<Select onValueChange={field.onChange} defaultValue={field.value}>
 								<FormControl>
 									<SelectTrigger>
-										<SelectValue placeholder='Nhấn để chọn' />
+										<SelectValue placeholder='Pick one' />
 									</SelectTrigger>
 								</FormControl>
 								<SelectContent>
-									<SelectItem value={EToppingType.NORMAL}>Mặc định</SelectItem>
+									<SelectItem value={EToppingType.NORMAL}>Default</SelectItem>
 									<SelectItem value={EToppingType.CUSTOM}>
 										Pizza Custom
 									</SelectItem>
@@ -221,9 +221,9 @@ export default function ToppingForm({
 					name='name'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Tên Topping</FormLabel>
+							<FormLabel>Name</FormLabel>
 							<FormControl>
-								<Input placeholder='Nhập tên Topping' type='text' {...field} />
+								<Input placeholder='Enter name' type='text' {...field} />
 							</FormControl>
 
 							<FormMessage />
@@ -236,12 +236,12 @@ export default function ToppingForm({
 					name='description'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Thông tin thêm</FormLabel>
+							<FormLabel>Description</FormLabel>
 							<FormControl>
 								<Textarea placeholder='' className='resize-none' {...field} />
 							</FormControl>
 							<FormDescription>
-								Bạn có thể viết thông tin thêm về Topping này hoặc bỏ qua nó
+								You can add description here, or skip this step
 							</FormDescription>
 							<FormMessage />
 						</FormItem>
@@ -253,10 +253,10 @@ export default function ToppingForm({
 					name='price'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Đơn giá</FormLabel>
+							<FormLabel>Price</FormLabel>
 							<FormControl>
 								<Input
-									placeholder='Nhập giá'
+									placeholder='Enter price'
 									type='number'
 									{...field}
 									onChange={(e) => field.onChange(Number(e.target.value))}
@@ -269,7 +269,7 @@ export default function ToppingForm({
 				/>
 				<Button type='submit' disabled={loading}>
 					{loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-					{topping ? 'Cập nhật' : 'Thêm'} Topping
+					{topping ? 'Update' : 'Create'}
 				</Button>
 			</form>
 		</Form>

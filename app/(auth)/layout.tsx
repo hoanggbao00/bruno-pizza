@@ -38,7 +38,7 @@ export default function AuthLayout({
 					className='absolute top-5 left-5 z-10 group flex gap-2 items-center bg-gray-500/10 p-1 rounded-md hover:bg-brand-100/20 transition-colors'
 				>
 					<ChevronLeft size={24} />
-					<p className='hidden group-hover:block'>Quay lại</p>
+					<p className='hidden group-hover:block'>Back to home</p>
 				</Link>
 
 				{children}

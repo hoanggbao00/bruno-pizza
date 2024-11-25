@@ -60,7 +60,7 @@ export default function Header() {
 					<UserDropdown />
 					<Link href={`tel:${PHONE_CONTACT}`}>
 						<Button className='hidden md:inline-flex bg-brand text-white hover:bg-brand/90 rounded-full px-6'>
-							<PhoneCall /> Liên hệ
+							<PhoneCall /> Contact
 						</Button>
 					</Link>
 					<Sheet open={isOpen} onOpenChange={setIsOpen}>

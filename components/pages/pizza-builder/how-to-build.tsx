@@ -16,12 +16,14 @@ export default function HowToBuild() {
 			<DialogTrigger asChild>
 				<Button variant='outline' className='rounded-full gap-2'>
 					<Play className='h-4 w-4' />
-					Hướng dẫn
+					How to Build
 				</Button>
 			</DialogTrigger>
 			<DialogContent className='md:min-w-[80vw]'>
-				<DialogTitle>Làm sao để thực hiện hóa ý tưởng của bạn?</DialogTitle>
-				<DialogDescription>Xem hướng dẫn qua video dưới đây</DialogDescription>
+				<DialogTitle>How to Build a Pizza</DialogTitle>
+				<DialogDescription>
+					Check out this video to learn how to build a pizza
+				</DialogDescription>
 				<div className='w-full'>
 					<iframe
 						width='100%'
@@ -31,7 +33,7 @@ export default function HowToBuild() {
 						allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
 						referrerPolicy='strict-origin-when-cross-origin'
 						allowFullScreen
-            className='aspect-video rounded-md'
+						className='aspect-video rounded-md'
 					></iframe>
 				</div>
 			</DialogContent>

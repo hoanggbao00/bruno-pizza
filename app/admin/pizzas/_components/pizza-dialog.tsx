@@ -26,12 +26,12 @@ export default function PizzaDialog({ pizza, isOpen, handleClose, setList }: Pro
 		<Dialog open={isOpen || !!pizza} onOpenChange={handleClose}>
 			<DialogTrigger asChild>
 				<Button className='bg-green hover:bg-green/60'>
-					<Plus className='mr-2 h-4 w-4' /> Thêm Pizza
+					<Plus className='mr-2 h-4 w-4' /> Add Pizza
 				</Button>
 			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>{pizza ? 'Chỉnh sửa' : 'Thêm mới Pizza'}</DialogTitle>
+					<DialogTitle>{pizza ? 'Update Pizza' : 'Add Pizza'}</DialogTitle>
 				</DialogHeader>
 				<div>
 					<PizzaForm pizza={pizza} handleClose={handleClose} setList={setList}/>

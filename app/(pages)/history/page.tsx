@@ -27,10 +27,10 @@ export default function Page() {
 		try {
 			const res = await getOrderByListId(ids);
 			setListOrder(res);
-			toast.success('Đã làm mới');
+			toast.success('Refreshed');
 		} catch (error) {
 			console.log(error);
-			toast.error('Có lỗi xảy ra khi lấy dữ liệu');
+			toast.error('Something went wrong');
 		} finally {
 			setLoading(false);
 		}
@@ -43,23 +43,23 @@ export default function Page() {
 	return (
 		<main className='max-w-2xl mx-auto px-4 py-8'>
 			<div className='flex items-center justify-between'>
-				<h1 className='text-3xl font-bold mb-8'>Lịch sử đặt hàng</h1>
+				<h1 className='text-3xl font-bold mb-8'>Order History</h1>
 				<Button disabled={loading} variant='outline' onClick={fetchOrders}>
 					{loading ? (
 						<Loader2 className='w-4 h-4 mr-2 animate-spin' />
 					) : (
 						<RefreshCcw className='size-4' />
 					)}
-					Làm mới
+					Refresh
 				</Button>
 			</div>
 			<div className='flex flex-col gap-2'>
 				{!loading && listOrder.length === 0 && (
 					<div className='flex flex-col items-center justify-center'>
-						<p className='font-semibold text-2xl'>Bạn chưa đặt đơn hàng nào</p>
+						<p className='font-semibold text-2xl'>No order found</p>
 						<Link href='/menu'>
 							<Button className='mt-4 bg-brand hover:bg-brand/80'>
-								Đặt hàng ngay
+								Order Now
 							</Button>
 						</Link>
 					</div>

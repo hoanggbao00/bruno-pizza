@@ -29,7 +29,7 @@ export default function Page() {
 			setListSize(res);
 		} catch (error) {
 			console.log(error);
-			toast.error('Có lỗi xảy ra khi lấy dữ liệu kích thước!');
+			toast.error('Something went wrong!');
 		}
 	};
 
@@ -40,16 +40,16 @@ export default function Page() {
 
 	const handleDelete = async (item: IPizzaSize) => {
 		await confirm.danger(
-			`Bạn có chắc chắn muốn xóa kích thước ${item.name}?`,
+			`Are you sure to delete ${item.name}?`,
 			async () => {
 				try {
 					await deletePizzaSize(item.$id);
 
-					toast.success(`Đã xóa ${item.name}`);
+					toast.success(`${item.name} deleted successfully`);
 					setListSize((prev) => prev.filter((c) => c.$id !== item.$id));
 				} catch (error) {
 					console.log(error);
-					toast.error('Có lỗi xảy ra khi xóa!');
+					toast.error('Something went wrong!');
 				}
 			}
 		);
@@ -71,10 +71,10 @@ export default function Page() {
 						<TableHead className='text-center font-semibold w-[50px]'>
 							#
 						</TableHead>
-						<TableHead className='text-center font-semibold'>Kích thước</TableHead>
-						<TableHead className='text-center font-semibold'>Giá</TableHead>
+						<TableHead className='text-center font-semibold'>Size</TableHead>
+						<TableHead className='text-center font-semibold'>Price</TableHead>
 						<TableHead className='text-center font-semibold w-[150px]'>
-							Hành động
+							Action
 						</TableHead>
 					</TableRow>
 				</TableHeader>

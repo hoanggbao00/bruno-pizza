@@ -21,7 +21,7 @@ import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 
 const formSchema = z.object({
-	name: z.string().min(1, 'Vui lòng nhập tên kích thước'),
+	name: z.string().min(1, 'Please fill this field'),
 	price: z.number(),
 });
 
@@ -57,11 +57,11 @@ export default function SizeForm({ size, setList, handleClose }: Props) {
 				setList((prev) => [...prev, { $id: res.$id, ...values }]);
 				handleClose(false);
 			}
-			toast.success(`${size ? 'Cập nhật' : 'Thêm'} ${values.name} thành công!`);
+			toast.success(`${size ? 'Updaet' : 'Create'} ${values.name} success!`);
 		} catch (error) {
 			console.error('Form submission error', error);
 			toast.error(
-				`Có lỗi xảy ra khi ${size ? 'cập nhật' : 'thêm mới'} kích thước!`
+				`Something went wrong when ${size ? 'update' : 'create'}!`
 			);
 		} finally {
 			setLoading(false);
@@ -79,10 +79,10 @@ export default function SizeForm({ size, setList, handleClose }: Props) {
 					name='name'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Tên kích thước</FormLabel>
+							<FormLabel>Name</FormLabel>
 							<FormControl>
 								<Input
-									placeholder='Nhập tên kích thước'
+									placeholder='Enter size name'
 									type='text'
 									{...field}
 								/>
@@ -98,10 +98,10 @@ export default function SizeForm({ size, setList, handleClose }: Props) {
 					name='price'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Đơn giá</FormLabel>
+							<FormLabel>Price</FormLabel>
 							<FormControl>
 								<Input
-									placeholder='Nhập giá'
+									placeholder='Enter price'
 									type='number'
 									{...field}
 									onChange={(e) => field.onChange(Number(e.target.value))}
@@ -114,7 +114,7 @@ export default function SizeForm({ size, setList, handleClose }: Props) {
 				/>
 				<Button type='submit' disabled={loading}>
 					{loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-					{size ? 'Cập nhật' : 'Thêm'}
+					{size ? 'Save' : 'Create'}
 				</Button>
 			</form>
 		</Form>

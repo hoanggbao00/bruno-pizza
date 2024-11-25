@@ -31,13 +31,13 @@ export default function ToppingDialog({
 		<Dialog open={isOpen || !!topping} onOpenChange={handleClose}>
 			<DialogTrigger asChild>
 				<Button className='bg-green hover:bg-green/60'>
-					<Plus className='mr-2 h-4 w-4' /> Thêm Topping
+					<Plus className='mr-2 h-4 w-4' /> Add Topping
 				</Button>
 			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>
-						{topping ? 'Chỉnh sửa' : 'Thêm mới Topping'}
+						{topping ? 'Update Topping' : 'Add Topping'}
 					</DialogTitle>
 				</DialogHeader>
 				<div>

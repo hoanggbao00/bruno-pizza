@@ -26,13 +26,13 @@ export default function StockRender({ stock }: Props) {
   
     switch (stock) {
       case EPizzaStockStatus.IN_STOCK:
-        return 'CÒN HÀNG';
+        return 'IN STOCK';
       case EPizzaStockStatus.LOW_STOCK:
-        return 'SỐ LƯỢNG ÍT';
+        return 'LOW STOCK';
       case EPizzaStockStatus.OUT_OF_STOCK:
-        return 'HẾT HÀNG';
+        return 'OUT OF STOCK';
       case EPizzaStockStatus.DISCONTINUED:
-        return 'DỪNG KINH DOANH';
+        return 'DISCONTINUED';
     }
   }, [stock])
 

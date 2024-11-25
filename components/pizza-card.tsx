@@ -47,9 +47,9 @@ export default function PizzaCard({ pizza }: Props) {
 		};
 
 		addItem(finalPizza);
-		toast.success('Đã thêm vào giỏ hàng', {
+		toast.success('Added to cart', {
 			action: {
-				label: 'Đến giỏ hàng',
+				label: 'Jump to cart',
 				onClick: () => router.push('/cart'),
 			},
 			actionButtonStyle: {
@@ -105,7 +105,7 @@ export default function PizzaCard({ pizza }: Props) {
 					onChange={setSelectedSize}
 					selectedValue={selectedSize}
 				/>
-				<p className='font-semibold text-sm mb-0.5'>Loại đế</p>
+				<p className='font-semibold text-sm mb-0.5'>Base</p>
 
 				<SelectTopping
 					toppings={pizza.toppings}
@@ -122,14 +122,14 @@ export default function PizzaCard({ pizza }: Props) {
 					className='rounded-full bg-gray-300 hover:bg-gray-700/70 size-10 flex-center text-white'
 				>
 					<ArrowRight className='h-5 w-5' />
-					<span className='sr-only'>Chi tiết</span>
+					<span className='sr-only'>Detail</span>
 				</Link>
 				<Button
 					className='size-10 rounded-full bg-brand hover:bg-brand/90 flex-1'
 					onClick={handleAddToCart}
 				>
-					<ShoppingCartIcon className='size-5' strokeWidth={3} /> Thêm vào giỏ
-					<span className='sr-only'>Thêm vào giỏ hàng</span>
+					<ShoppingCartIcon className='size-5' strokeWidth={3} /> Add to cart
+					<span className='sr-only'>Add to cart</span>
 				</Button>
 			</CardFooter>
 		</Card>

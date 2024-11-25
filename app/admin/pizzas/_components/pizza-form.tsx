@@ -52,11 +52,11 @@ import { createPizza, updatePizza } from '@/lib/actions/pizza.action';
 const formSchema = z.object({
 	images: z.string(),
 	name: z.string(),
-	category: z.string().min(1, 'Vui lòng chọn danh mục'),
+	category: z.string().min(1, 'Please fill this field'),
 	description: z.string().optional(),
 	price: z.number(),
-	sizes: z.array(z.string()).nonempty('Vui lòng chọn ít nhất 1 item'),
-	toppings: z.array(z.string()).nonempty('Vui lòng chọn ít nhất 1 item'),
+	sizes: z.array(z.string()).nonempty('Please pick at least 1 item'),
+	toppings: z.array(z.string()).nonempty('Please pick at least 1 item'),
 });
 
 interface PizzaFormProps {
@@ -89,7 +89,7 @@ export default function PizzaForm({
 			setCategories(categoryData);
 		} catch (error) {
 			console.log(error);
-			toast.error('Có lỗi xảy ra khi lấy dữ liệu Form!');
+			toast.error('Something went wrong!');
 		}
 	};
 
@@ -161,7 +161,7 @@ export default function PizzaForm({
 				);
 			} else {
 				if (!files || files.length === 0)
-					return toast.error('Vui lý chọn tải lên ít nhất 1 ảnh');
+					return toast.error('Upload an image');
 				
 				const imageUrl = await uploadImage(files![0]);
 				//@ts-expect-error refactor
@@ -195,12 +195,12 @@ export default function PizzaForm({
 				const res = await createPizza(values);
 				setList((prev) => [...prev, res]);
 			}
-			toast.success(`${pizza ? 'Cập nhật' : 'Thêm mới'} thành công!`);
+			toast.success(`${pizza ? 'Update' : 'Create'} pizza successfully!`);
 			handleClose(false);
 		} catch (error) {
 			console.error('Form submission error', error);
 			toast.error(
-				`Có lỗi xảy ra khi ${pizza ? 'cập nhật' : 'thêm mới'} pizza!`
+				`Something went wrong when ${pizza ? 'update' : 'create'} pizza!`
 			);
 		} finally {
 			setIsLoading(false);
@@ -226,7 +226,7 @@ export default function PizzaForm({
 					name='images'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Ảnh</FormLabel>
+							<FormLabel>Image</FormLabel>
 							<FormControl>
 								<FileUploader
 									value={files}
@@ -276,7 +276,7 @@ export default function PizzaForm({
 									</FileUploaderContent>
 								</FileUploader>
 							</FormControl>
-							<FormDescription>Tải ảnh lên</FormDescription>
+							<FormDescription>Upload</FormDescription>
 							<FormMessage />
 						</FormItem>
 					)}
@@ -287,9 +287,9 @@ export default function PizzaForm({
 					name='name'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Tên Pizza</FormLabel>
+							<FormLabel>Name</FormLabel>
 							<FormControl>
-								<Input placeholder='Nhập tên pizza' type='text' {...field} />
+								<Input placeholder='Enter pizza name' type='text' {...field} />
 							</FormControl>
 
 							<FormMessage />
@@ -302,11 +302,11 @@ export default function PizzaForm({
 					name='category'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Danh mục</FormLabel>
+							<FormLabel>Category</FormLabel>
 							<Select onValueChange={field.onChange} defaultValue={field.value}>
 								<FormControl>
 									<SelectTrigger>
-										<SelectValue placeholder='Nhấn để chọn' />
+										<SelectValue placeholder='Pick one' />
 									</SelectTrigger>
 								</FormControl>
 								<SelectContent>
@@ -328,12 +328,12 @@ export default function PizzaForm({
 					name='description'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Thông tin thêm</FormLabel>
+							<FormLabel>Description</FormLabel>
 							<FormControl>
 								<Textarea placeholder='' className='resize-none' {...field} />
 							</FormControl>
 							<FormDescription>
-								Bạn có thể viết thông tin thêm về pizza này hoặc bỏ qua nó
+								You can skip this field if you don&apos;t want
 							</FormDescription>
 							<FormMessage />
 						</FormItem>
@@ -345,10 +345,10 @@ export default function PizzaForm({
 					name='price'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Đơn giá</FormLabel>
+							<FormLabel>Price</FormLabel>
 							<FormControl>
 								<Input
-									placeholder='Nhập giá'
+									placeholder='Enter price'
 									type='number'
 									{...field}
 									onChange={(e) => field.onChange(Number(e.target.value))}
@@ -365,7 +365,7 @@ export default function PizzaForm({
 					name='sizes'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Kích thước</FormLabel>
+							<FormLabel>Size</FormLabel>
 							<FormControl>
 								<MultiSelector
 									values={field.value}
@@ -378,7 +378,7 @@ export default function PizzaForm({
 											label: size.name,
 										}))}
 									>
-										<MultiSelectorInput placeholder='Nhấn để chọn' />
+										<MultiSelectorInput placeholder='Pick many' />
 									</MultiSelectorTrigger>
 									<MultiSelectorContent>
 										<MultiSelectorList>
@@ -392,7 +392,7 @@ export default function PizzaForm({
 								</MultiSelector>
 							</FormControl>
 							<FormDescription>
-								Chọn các kích thước của Pizza. (Tối da 3)
+								Pick size of Pizza (max: 3)
 							</FormDescription>
 							<FormMessage />
 						</FormItem>
@@ -404,7 +404,7 @@ export default function PizzaForm({
 					name='toppings'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Dạng đế</FormLabel>
+							<FormLabel>Pizza Base</FormLabel>
 							<FormControl>
 								<MultiSelector
 									values={field.value}
@@ -417,7 +417,7 @@ export default function PizzaForm({
 											label: topping.name,
 										}))}
 									>
-										<MultiSelectorInput placeholder='Nhấn để chọn' />
+										<MultiSelectorInput placeholder='Pick one or many' />
 									</MultiSelectorTrigger>
 									<MultiSelectorContent>
 										<MultiSelectorList>
@@ -433,7 +433,7 @@ export default function PizzaForm({
 									</MultiSelectorContent>
 								</MultiSelector>
 							</FormControl>
-							<FormDescription>Chọn các loại đế của Pizza</FormDescription>
+							<FormDescription>Pick some pizza base</FormDescription>
 							<FormMessage />
 						</FormItem>
 					)}
@@ -441,7 +441,7 @@ export default function PizzaForm({
 				<div className='flex justify-end'>
 					<Button type='submit' disabled={isLoading}>
 						{isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-						{pizza ? 'Lưu' : 'Thêm mới'}
+						{pizza ? 'Save' : 'Create'}
 					</Button>
 				</div>
 			</form>
