@@ -41,7 +41,7 @@ export default function HistoryCard({ order, setOrder, setQrCode }: Props) {
 			<p>
 				Customer:{' '}
 				<span className='font-semibold'>
-					{order.user?.fullName ?? order.name}
+					{order.users?.fullName ?? order.name}
 				</span>
 			</p>
 			<p>

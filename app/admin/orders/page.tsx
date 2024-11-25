@@ -215,7 +215,7 @@ export default function Page() {
 								</DropdownMenu>
 							</TableCell>
 							<TableCell className='text-center'>
-								{item.user?.fullName ?? item.name}
+								{item.users?.fullName ?? item.name}
 							</TableCell>
 							<TableCell className='text-center'>
 								{item.finalPrice.toLocaleString()} {currency}
