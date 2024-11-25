@@ -27,6 +27,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Badge } from '@/components/ui/badge';
 
 export default function PizzasPage() {
 	const [pizza, setPizza] = useState<IPizza | null>(null);
@@ -51,27 +52,24 @@ export default function PizzasPage() {
 	};
 
 	const handleDelete = async (item: IPizza) => {
-		await confirm.danger(
-			`Are you sure to delete ${item.name}?`,
-			async () => {
-				try {
-					await deletePizza(item.$id);
-					setListPizza((prev) => prev.filter((c) => c.$id !== item.$id));
+		await confirm.danger(`Are you sure to delete ${item.name}?`, async () => {
+			try {
+				await deletePizza(item.$id);
+				setListPizza((prev) => prev.filter((c) => c.$id !== item.$id));
 
-					toast.success(`${item.name} deleted`);
-				} catch (error) {
-					console.log(error);
-					toast.error('Something went wrong!');
-				}
+				toast.success(`${item.name} deleted`);
+			} catch (error) {
+				console.log(error);
+				toast.error('Something went wrong!');
 			}
-		);
+		});
 	};
 
 	const handleUpdateStatus = async (
 		itemId: string,
 		status: EPizzaStockStatus
 	) => {
-		setLoading(true)
+		setLoading(true);
 		try {
 			await updatePizza(itemId, { stockStatus: status });
 			toast.success('Status Updated');
@@ -84,7 +82,25 @@ export default function PizzasPage() {
 			console.log(error);
 			toast.error('Something went wrong!');
 		} finally {
-			setLoading(false)
+			setLoading(false);
+		}
+	};
+
+	const handleUpdateBestSeller = async (
+		itemId: string,
+		isBestSeller: boolean
+	) => {
+		try {
+			await updatePizza(itemId, { isBestSeller });
+			toast.success('Best Seller Updated');
+			setListPizza((prev) =>
+				prev.map((item) =>
+					item.$id === itemId ? { ...item, isBestSeller } : item
+				)
+			);
+		} catch (error) {
+			console.log(error);
+			toast.error('Something went wrong!');
 		}
 	};
 
@@ -116,6 +132,9 @@ export default function PizzasPage() {
 						<TableHead className='text-center font-semibold'>
 							Category
 						</TableHead>
+						<TableHead className='text-center font-semibold'>
+							Best Seller
+						</TableHead>
 						<TableHead className='text-center font-semibold'>Price</TableHead>
 						<TableHead className='text-center font-semibold w-[150px]'>
 							{loading && (
@@ -144,6 +163,33 @@ export default function PizzasPage() {
 							<TableCell className='text-center'>{pizza.name}</TableCell>
 							<TableCell className='text-center'>
 								{pizza.category?.name}
+							</TableCell>
+							<TableCell className='text-center'>
+								<DropdownMenu>
+									<DropdownMenuTrigger>
+										<Badge
+											className={
+												pizza.isBestSeller ? '!bg-brand hover:!bg-brand/80' : ''
+											}
+										>
+											{pizza.isBestSeller ? 'Yes' : 'No'}
+										</Badge>
+									</DropdownMenuTrigger>
+									<DropdownMenuContent>
+										<DropdownMenuItem
+											onClick={() => handleUpdateBestSeller(pizza.$id, true)}
+										>
+											<Badge className='!bg-brand hover:!bg-brand/80'>
+												Yes
+											</Badge>
+										</DropdownMenuItem>
+										<DropdownMenuItem
+											onClick={() => handleUpdateBestSeller(pizza.$id, false)}
+										>
+											<Badge>No</Badge>
+										</DropdownMenuItem>
+									</DropdownMenuContent>
+								</DropdownMenu>
 							</TableCell>
 							<TableCell className='text-right'>
 								{pizza.price.toLocaleString()} {currency}

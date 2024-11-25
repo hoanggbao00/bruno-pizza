@@ -1,6 +1,6 @@
 'use client';
 
-import { getOrderByListId } from '@/lib/actions/order.action';
+import { getOrderByListId, getOrderByUserId } from '@/lib/actions/order.action';
 import { useHistoryOrder } from '@/lib/stores/use-history-order';
 import { IOrder } from '@/types/order';
 import { useEffect, useState } from 'react';
@@ -11,11 +11,13 @@ import { Button } from '@/components/ui/button';
 import { Loader2, RefreshCcw } from 'lucide-react';
 import Link from 'next/link';
 import QRDialog from '@/components/pages/cart/qr-dialog';
+import { useAuthStore } from '@/lib/stores/use-auth-store';
 
 export default function Page() {
 	const [listOrder, setListOrder] = useState<IOrder[]>([]);
 	const [order, setOrder] = useState<IOrder | null>(null);
 	const { ids } = useHistoryOrder();
+	const { user } = useAuthStore();
 	const [loading, setLoading] = useState(true);
 	const [qrCode, setQrCode] = useState({
 		cartId: '',
@@ -25,7 +27,9 @@ export default function Page() {
 	const fetchOrders = async () => {
 		setLoading(true);
 		try {
-			const res = await getOrderByListId(ids);
+			const res = user
+				? await getOrderByUserId(user.$id)
+				: await getOrderByListId(ids);
 			setListOrder(res);
 			toast.success('Refreshed');
 		} catch (error) {
@@ -37,8 +41,8 @@ export default function Page() {
 	};
 
 	useEffect(() => {
-		if (ids.length > 0) fetchOrders();
-	}, [ids]);
+		if (ids.length > 0 || user) fetchOrders();
+	}, [ids, user]);
 
 	return (
 		<main className='max-w-2xl mx-auto px-4 py-8'>

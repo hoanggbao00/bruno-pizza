@@ -8,7 +8,8 @@ import { ICartItem } from '@/types/cart-item';
 
 export const createOrderWithCartItems = async (
 	cartItems: Omit<ICartItem, '$id' | '$createdAt' | '$updatedAt'>[],
-	orderData: Omit<IOrder, '$id' | '$createdAt' | '$updatedAt' | 'items'>
+	orderData: Omit<IOrder, '$id' | '$createdAt' | '$updatedAt' | 'items'>,
+	userId?: string
 ) => {
 	try {
 		const { databases } = await createAdminClient();
@@ -25,6 +26,11 @@ export const createOrderWithCartItems = async (
 				return createdCartItem;
 			})
 		);
+
+		if (userId) {
+			// @ts-expect-error refactor
+			orderData.users = userId;
+		}
 
 		// Then create order with references to cart items
 		const newOrder = await databases.createDocument(
@@ -71,7 +77,8 @@ export const getOrders = async (): Promise<IOrder[]> => {
 
 		const order = await databases.listDocuments(
 			appwriteConfig.databaseId,
-			appwriteConfig.ordersCollectionId
+			appwriteConfig.ordersCollectionId,
+			[Query.orderDesc('$createdAt')]
 		);
 
 		return order.documents.map((order) => ({
@@ -125,6 +132,43 @@ export const getOrderByListId = async (listId: string[]): Promise<IOrder[]> => {
 		);
 
 		return order.documents.map((order) => ({
+			$id: order.$id,
+			status: order.status,
+			paymentStatus: order.paymentStatus,
+			items: order.items,
+			totalPrice: order.totalPrice,
+			discountPrice: order.discountPrice,
+			finalPrice: order.finalPrice,
+			appliedVoucher: order.appliedVoucher,
+			phoneNumber: order.phoneNumber,
+			deliveryType: order.deliveryType,
+			deliveryAddress: order.deliveryAddress,
+			paymentMethod: order.paymentMethod,
+			$createdAt: order.$createdAt,
+			$updatedAt: order.$updatedAt,
+			name: order.name,
+		}));
+	} catch (error) {
+		console.error('Error getting order:', error);
+		throw error;
+	}
+};
+
+export const getOrderByUserId = async (userId: string): Promise<IOrder[]> => {
+	try {
+		const { databases } = await createAdminClient();
+
+		const order = await databases.listDocuments(
+			appwriteConfig.databaseId,
+			appwriteConfig.ordersCollectionId,
+			[Query.orderDesc('$createdAt')]
+		);
+
+		const filteredOrder = order.documents.filter(
+			(order) => order.users?.$id === userId
+		);
+
+		return filteredOrder.map((order) => ({
 			$id: order.$id,
 			status: order.status,
 			paymentStatus: order.paymentStatus,

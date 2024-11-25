@@ -34,7 +34,7 @@ export const createPizza = async (
 		};
 
 		const id = ID.unique();
-		console.log(id, values)
+		console.log(id, values);
 
 		const newPizza = await databases.createDocument(
 			appwriteConfig.databaseId,
@@ -125,7 +125,7 @@ export const getPizzaById = async (pizzaId: string): Promise<IPizza | null> => {
 		};
 	} catch (error) {
 		console.error('Error fetching pizza:', error);
-		return null
+		return null;
 	}
 };
 
@@ -136,13 +136,17 @@ export const updatePizza = async (
 	try {
 		const { databases } = await createAdminClient();
 
+		if (updatedPizza.images) {
+			// @ts-expect-error refac
+			updatedPizza.images = [updatedPizza.images];
+		}
+		
 		const updatedDocument = await databases.updateDocument(
 			appwriteConfig.databaseId,
 			appwriteConfig.pizzasCollectionId,
 			pizzaId,
 			{
 				...updatedPizza,
-				images: [updatedPizza.images],
 			}
 		);
 

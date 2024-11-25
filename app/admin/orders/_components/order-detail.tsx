@@ -53,7 +53,7 @@ export default function OrderDetail({ order, setOrder }: Props) {
 					<p>
 						Customer:{' '}
 						<span className='font-semibold'>
-							{order?.user?.fullName ?? order?.name}
+							{order?.users?.fullName ?? order?.name}
 						</span>
 					</p>
 					<p>
@@ -61,7 +61,7 @@ export default function OrderDetail({ order, setOrder }: Props) {
 						<span className='font-semibold'>{order?.phoneNumber}</span>
 					</p>
 					<p>
-						Địa chỉ giao hàng:{' '}
+						Address:{' '}
 						<span className='font-semibold'>
 							{order?.deliveryAddress ?? 'None'}
 						</span>

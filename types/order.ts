@@ -32,7 +32,7 @@ export enum EDeliveryType {
 export interface IOrder  {
   $id: string;
   name?: string | null
-  user?: IUser | null;
+  users?: IUser | null;
   items: ICartItem[];
   totalPrice: number;
   discountPrice?: number | null;

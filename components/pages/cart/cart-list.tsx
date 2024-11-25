@@ -153,7 +153,7 @@ export default function CartList() {
 				paymentStatus: EPaymentStatus.UNPAID,
 			};
 
-			const res = await createOrderWithCartItems(cartItems, orderData);
+			const res = await createOrderWithCartItems(cartItems, orderData, user?.$id);
 
 			if (paymentMethod === EPaymentMethod.BANKING) {
 				setQrCode({
