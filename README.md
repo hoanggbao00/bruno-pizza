@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pizza Store & Craft 
 
-## Getting Started
+This is a **Pizza Store & Craft** built with **Next.js** and deployed on **Vercel**. The app is designed for customers who want to buy Pizza or craft own Pizzas
 
-First, run the development server:
+**Live Demo:** [bruno-pizza-six.vercel.app](https://bruno-pizza-six.vercel.app/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## Features  
+
+### General:  
+- **Sign Up / Sign In** for customer
+- Role-based functionality:  
+  - **Customer**: Order & Craft Pizzas and view order history.  
+  - **Admin**: Manage all the items listings and handle order requests.  
+- Add to cart and view history.  
+
+### Customer-Specific:  
+- Search and filter pizzas in a list view.  
+- Add item to cart
+- Craft Own Pizza with selectable toppings (max 5)  
+- Send order requests to admin.
+- View orders request history.  
+
+### Admin-Specific:  
+- Manage **Pizzas, Sizes, Toppings, Categories, Vouchers, Orders** with full **CRUD (Create, Read, Update, Delete)** capabilities.  
+- Respond to customer orders requests.  
+
+---
+
+## Routes
+```
+├── (auth)
+│   ├──login            # Login page
+│   ├──sign-up           # Register Page
+├── (main)
+│   ├── /               # Landing Page
+│   ├── /about          # About Page
+│   ├── /menu           # List Product
+│   ├── /pizza-builder  # Build own Pizza
+│   ├── /cart           # Cart system
+│   ├── /pizza/[id]     # Product Detail
+└── admin
+    ├── /               # Admin Dashboard           
+    ├── /categories     # Category Management
+    ├── /toppings       # Toppings Management
+    ├── /sizes          # Size Management
+    ├── /pizzas         # Pizzas Management
+    ├── /vouchers       # Vouchers Management
+    └── /orders         # Order Request Management
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Contributing  
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Contributions are welcome! If you encounter bugs or have feature suggestions, please open an issue or submit a pull request.  
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Thank you for exploring the **Pizza Store & Craft**! Check it out live at [bruno-pizza-six.vercel.app](https://bruno-pizza-six.vercel.app/).  
